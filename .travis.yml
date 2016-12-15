@@ -60,7 +60,7 @@ deploy:                             # 部署到GitHub Release
     secure: $GITHUB_TOKENS
   file:
 #     - app/build/outputs/apk/app-pad-devrelease.apk   # 部署文件路径
-     - app/build/outputs/apk/app-pad-prdrelease     # 部署文件路径
+     - app/build/outputs/apk/app-pad-prdrelease.apk     # 部署文件路径
 #     - app/build/outputs/apk/app-pad-stagerelease.apk # 部署文件路径
   skip_cleanup: true                # 设置为true以跳过清理,不然apk文件就会被清理
   on:                               # 发布时机
