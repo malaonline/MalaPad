@@ -1,4 +1,4 @@
-package com.malalaoshi.android.malapad.usercenter;
+package com.malalaoshi.android.malapad.usercenter.Login;
 
 import android.support.annotation.NonNull;
 
@@ -15,6 +15,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     public LoginPresenter(@NonNull LoginContract.View loginView){
         this.mLoginView = loginView;
+        mLoginView.setPresenter(this);
     }
 
     @Override

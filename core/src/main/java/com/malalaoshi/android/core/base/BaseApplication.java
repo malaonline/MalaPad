@@ -2,6 +2,7 @@ package com.malalaoshi.android.core.base;
 
 import android.app.Application;
 
+import com.malalaoshi.android.core.AppContext;
 import com.squareup.leakcanary.LeakCanary;
 
 /**
@@ -19,5 +20,6 @@ public class BaseApplication extends Application {
             return;
         }
         LeakCanary.install(this);
+        AppContext.init(this);
     }
 }

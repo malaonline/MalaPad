@@ -1,4 +1,4 @@
-package com.malalaoshi.android.malapad.usercenter;
+package com.malalaoshi.android.malapad.usercenter.Login;
 
 import com.malalaoshi.android.core.base.BasePresenter;
 import com.malalaoshi.android.core.base.BaseView;
