@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">core</string>
+    <string name="api_host"/>
+    <string name="build_type">debug</string>
 </resources>
