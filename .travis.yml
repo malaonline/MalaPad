@@ -49,7 +49,7 @@ before_deploy:       # 部署之前
   # 使用 mv 命令进行修改apk文件的名字
   - mv app/build/outputs/apk/app-dev-release.apk app/build/outputs/apk/app-pad-devrelease.apk
   - mv app/build/outputs/apk/app-prd-release.apk app/build/outputs/apk/app-pad-prdrelease.apk
-  - mv app/build/outputs/apk/app-stage-release.apk.apk app/build/outputs/apk/app-pad-stagerelease.apk
+  - mv app/build/outputs/apk/app-stage-release.apk app/build/outputs/apk/app-pad-stagerelease.apk
 
 
 deploy:                             # 部署到GitHub Release
