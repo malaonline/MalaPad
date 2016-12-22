@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">MalaPad</string>
 
+    <!--login-->
     <string name="signin">登录</string>
     <string name="signout">退出账号</string>
     <string name="login_phone_no">手机号</string>
