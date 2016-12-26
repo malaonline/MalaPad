@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.malalaoshi.android.core.AppContext;
-import com.malalaoshi.android.malapad.usercenter.Login.LoginActivity;
+import com.malalaoshi.android.malapad.usercenter.login.LoginActivity;
 
 /**
  * Created by kang on 16/12/21.

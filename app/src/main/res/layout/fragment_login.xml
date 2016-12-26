@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/ic_bg_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -18,7 +19,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/login_logo_margin_bottom"
             android:layout_marginTop="@dimen/login_logo_margin_top"
-            android:src="@drawable/ic_logo_login" />
+            android:src="@drawable/anim_login_loading" />
 
         <EditText
             android:id="@+id/edit_phone"
@@ -46,7 +47,7 @@
             android:background="@drawable/bg_yellow_angle"
             android:gravity="center"
             android:text="@string/signin"
-            android:textColor="@color/sepia"
+            android:textColor="@color/sepia_alpha"
             android:textSize="@dimen/tablet_text_size_large" />
     </RelativeLayout>
 </FrameLayout>

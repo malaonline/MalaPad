@@ -1,5 +1,8 @@
-package com.malalaoshi.android.malapad.usercenter.Login;
+package com.malalaoshi.android.malapad.usercenter.login;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -14,10 +17,14 @@ import com.malalaoshi.android.malapad.R;
 
 public class LoginActivity extends BaseActivity {
 
+    public static void launch(Context context) {
+        Intent intent = new Intent(context,LoginActivity.class);
+        context.startActivity(intent);
+    }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_common_frame);
         LoginFragment loginFragment = (LoginFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.container);
 
@@ -37,4 +44,6 @@ public class LoginActivity extends BaseActivity {
         onBackPressed();
         return true;
     }
+
+
 }
