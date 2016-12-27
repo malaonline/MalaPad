@@ -7,4 +7,6 @@
     <string name="login_phone_no">手机号</string>
     <string name="input_hint_phone_no">请输入手机号登录</string>
 
+    <string name="empty_questions">老师还未开始出题，请稍后哦~</string>
+
 </resources>

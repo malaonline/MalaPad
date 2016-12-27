@@ -21,6 +21,7 @@ import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.utils.MiscUtil;
 import com.malalaoshi.android.malapad.R;
 import com.malalaoshi.android.malapad.classexercises.ExercisesActivity;
+import com.malalaoshi.android.malapad.data.api.LoginApi;
 
 import butterknife.BindColor;
 import butterknife.BindDrawable;
@@ -51,10 +52,16 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
     TextView tvLoginTip;
 
     @BindColor(R.color.sepia_alpha)
-    int mSepiaAlpha;
+    int colorSepiaAlpha;
 
     @BindColor(R.color.sepia)
-    int mSepia;
+    int colorSepia;
+
+    @BindColor(R.color.red)
+    int colorRed;
+
+    @BindColor(R.color.white)
+    int colorWhite;
 
     @BindDrawable(R.drawable.ic_login_tip)
     Drawable drawableLoginTip;
@@ -62,7 +69,7 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
     @BindDrawable(R.drawable.ic_login_logo)
     Drawable drawableNormalLogin;
 
-    @BindDrawable(R.drawable.ic_login_logo)
+    @BindDrawable(R.drawable.ic_login_failed)
     Drawable drawableFailedLogin;
 
     private AnimationDrawable mAnimationDrawable;
@@ -117,9 +124,9 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
     private void setLoginEnabled(boolean enabled){
         tvLogin.setEnabled(enabled);
         if (enabled){
-            tvLogin.setTextColor(mSepia);
+            tvLogin.setTextColor(colorSepia);
         }else{
-            tvLogin.setTextColor(mSepiaAlpha);
+            tvLogin.setTextColor(colorSepiaAlpha);
         }
     }
 
@@ -177,30 +184,41 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
 
     @Override
     public void onStartedLogin() {
-        mAnimationDrawable.start();
         setLoginEnabled(false);
         editPhone.setEnabled(false);
+
+        ivLoginLogo.setImageDrawable(mAnimationDrawable);
+        mAnimationDrawable.start();
         tvLoginTip.setBackground(null);
+        tvLoginTip.setTextColor(colorWhite);
         tvLoginTip.setText("登录中...");
     }
 
     @Override
-    public void onFailureLogin() {
-        Log.e("LoginFragment","非法手机号码");
-        MiscUtil.toast("非法手机号码");
+    public void onFailureLogin(int code , String msg) {
+        mAnimationDrawable.stop();
+        ivLoginLogo.setImageDrawable(drawableFailedLogin);
+
+        tvLoginTip.setBackground(null);
+        tvLoginTip.setTextColor(colorRed);
+        tvLoginTip.setText(msg);
+        Log.e("LoginFragment",msg);
+        MiscUtil.toast(msg);
     }
 
     @Override
     public void onSuccessLogin() {
+        mAnimationDrawable.stop();
+        ivLoginLogo.setImageDrawable(drawableNormalLogin);
+
+        tvLoginTip.setBackground(drawableLoginTip);
+        tvLoginTip.setText("");
         ExercisesActivity.launch(getContext());
     }
 
     @Override
     public void onFinishedLogin() {
-        mAnimationDrawable.stop();
         setLoginEnabled(true);
         editPhone.setEnabled(true);
-        tvLoginTip.setBackground(drawableLoginTip);
-        tvLoginTip.setText("登录中...");
     }
 }

@@ -42,6 +42,6 @@ public class AppContext {
     }
 
     public static boolean isDebug() {
-        return true;//"debug".equals(context.getResources().getString(R.string.build_type));
+        return "debug".equals(context.getResources().getString(R.string.build_type));
     }
 }

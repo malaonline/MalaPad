@@ -1,11 +1,18 @@
 package com.malalaoshi.android.malapad.usercenter.login;
 
 import android.support.annotation.NonNull;
+import android.text.AndroidCharacter;
 
+import com.malalaoshi.android.core.entity.User;
 import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.utils.MiscUtil;
 import com.malalaoshi.android.malapad.data.TasksRepository;
+import com.malalaoshi.android.malapad.data.api.LoginApi;
+import com.malalaoshi.android.malapad.data.api.param.LoginParam;
 
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -43,13 +50,34 @@ public class LoginPresenter implements LoginContract.Presenter {
     @Override
     public void loginTask(String phone) {
         if (EmptyUtils.isEmpty(phone)||!MiscUtil.isMobilePhone(phone)) {
-            mLoginView.onFailureLogin();
+            mLoginView.onFailureLogin(LoginApi.ErrorCode.ERROR_CODE_ILLEGAL_PHONE,"手机号有误，请重新输入");
             mLoginView.onFinishedLogin();
             return;
         }
-        mLoginView.onStartedLogin();
-        /*mLoginView.showLogining();
-        mSubscriptions.add(mTasksRepository
+        mSubscriptions.add(LoginApi.login(new LoginParam("send",phone))
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(
+                        ()->{
+                            mLoginView.onStartedLogin();
+                        }
+                )
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        user -> {
+                            mLoginView.onSuccessLogin();
+                        },
+                        throwable -> {
+                            mLoginView.onFailureLogin(LoginApi.ErrorCode.ERROR_CODE_BAD_NET,"网络请求失败");
+                            mLoginView.onFinishedLogin();
+                        }
+                        ,
+                        () -> {
+                            mLoginView.onFinishedLogin();
+                        }
+                ));
+
+        /*mSubscriptions.add(mTasksRepository
                 .getTask(mTaskId)
                 .subscribeOn(mSchedulerProvider.computation())
                 .observeOn(mSchedulerProvider.ui())

@@ -22,7 +22,7 @@
         <TextView
             android:id="@+id/tv_login_tip"
             android:textColor="@color/white"
-            android:textSize="@dimen/tablet_text_size_large_high"
+            android:textSize="@dimen/tablet_text_size_large"
             android:gravity="center"
             android:background="@drawable/ic_login_tip"
             android:layout_centerHorizontal="true"
@@ -46,7 +46,7 @@
             android:paddingRight="@dimen/login_phone_padding_right"
             android:textColor="@color/grey_black_deep"
             android:textColorHint="@color/gray"
-            android:textSize="@dimen/tablet_text_size_large" />
+            android:textSize="@dimen/tablet_text_size_large_heigh" />
 
         <TextView
             android:id="@+id/tv_login"
@@ -58,6 +58,6 @@
             android:gravity="center"
             android:text="@string/signin"
             android:textColor="@color/sepia_alpha"
-            android:textSize="@dimen/tablet_text_size_large" />
+            android:textSize="@dimen/tablet_text_size_large_heigh" />
     </RelativeLayout>
 </FrameLayout>
