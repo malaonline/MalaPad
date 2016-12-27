@@ -1,4 +1,4 @@
-package com.malalaoshi.android.malapad.usercenter.Login;
+package com.malalaoshi.android.malapad.usercenter.login;
 
 import com.malalaoshi.android.core.base.BasePresenter;
 import com.malalaoshi.android.core.base.BaseView;
@@ -9,9 +9,10 @@ import com.malalaoshi.android.core.base.BaseView;
 
 public class LoginContract {
     interface View extends BaseView<Presenter> {
-        void showErrorNumbleView();
-        void showLoginingView();
-        void showLoginComplView();
+        void onStartedLogin();
+        void onFailureLogin();
+        void onSuccessLogin();
+        void onFinishedLogin();
     }
 
     interface Presenter extends BasePresenter {

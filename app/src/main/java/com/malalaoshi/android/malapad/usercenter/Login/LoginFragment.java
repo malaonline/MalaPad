@@ -1,6 +1,8 @@
-package com.malalaoshi.android.malapad.usercenter.Login;
+package com.malalaoshi.android.malapad.usercenter.login;
 
 import android.graphics.Rect;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -11,13 +13,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.utils.MiscUtil;
 import com.malalaoshi.android.malapad.R;
+import com.malalaoshi.android.malapad.classexercises.ExercisesActivity;
 
+import butterknife.BindColor;
+import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -38,11 +44,33 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
     @BindView(R.id.rl_login_card)
     RelativeLayout rlLoginCard;
 
+    @BindView(R.id.iv_login_logo)
+    ImageView ivLoginLogo;
+
+    @BindView(R.id.tv_login_tip)
+    TextView tvLoginTip;
+
+    @BindColor(R.color.sepia_alpha)
+    int mSepiaAlpha;
+
+    @BindColor(R.color.sepia)
+    int mSepia;
+
+    @BindDrawable(R.drawable.ic_login_tip)
+    Drawable drawableLoginTip;
+
+    @BindDrawable(R.drawable.ic_login_logo)
+    Drawable drawableNormalLogin;
+
+    @BindDrawable(R.drawable.ic_login_logo)
+    Drawable drawableFailedLogin;
+
+    private AnimationDrawable mAnimationDrawable;
+
     private LoginContract.Presenter mPresenter;
 
     public static LoginFragment newInstance() {
-        LoginFragment loginFragment = new LoginFragment();
-        return loginFragment;
+        return new LoginFragment();
     }
 
     @Nullable
@@ -51,13 +79,19 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
         View root = inflater.inflate(R.layout.fragment_login, container, false);
         ButterKnife.bind(this,root);
         init();
+        initViews();
         setEvent();
         controlKeyboardLayout(root,rlLoginCard);
         return root;
     }
 
+    private void initViews() {
+        mAnimationDrawable = (AnimationDrawable) ivLoginLogo.getDrawable();
+    }
+
     private void setEvent() {
-        tvLogin.setEnabled(false);
+        setLoginEnabled(false);
+
         editPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -67,9 +101,9 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length()==11){
-                    tvLogin.setEnabled(true);
+                    setLoginEnabled(true);
                 }else{
-                    tvLogin.setEnabled(false);
+                    setLoginEnabled(false);
                 }
             }
 
@@ -78,6 +112,15 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
 
             }
         });
+    }
+
+    private void setLoginEnabled(boolean enabled){
+        tvLogin.setEnabled(enabled);
+        if (enabled){
+            tvLogin.setTextColor(mSepia);
+        }else{
+            tvLogin.setTextColor(mSepiaAlpha);
+        }
     }
 
     /**
@@ -131,20 +174,33 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
         mPresenter.loginTask(phone);
     }
 
+
     @Override
-    public void showErrorNumbleView() {
+    public void onStartedLogin() {
+        mAnimationDrawable.start();
+        setLoginEnabled(false);
+        editPhone.setEnabled(false);
+        tvLoginTip.setBackground(null);
+        tvLoginTip.setText("登录中...");
+    }
+
+    @Override
+    public void onFailureLogin() {
         Log.e("LoginFragment","非法手机号码");
         MiscUtil.toast("非法手机号码");
     }
 
     @Override
-    public void showLoginingView() {
-
-
+    public void onSuccessLogin() {
+        ExercisesActivity.launch(getContext());
     }
 
     @Override
-    public void showLoginComplView() {
-
+    public void onFinishedLogin() {
+        mAnimationDrawable.stop();
+        setLoginEnabled(true);
+        editPhone.setEnabled(true);
+        tvLoginTip.setBackground(drawableLoginTip);
+        tvLoginTip.setText("登录中...");
     }
 }

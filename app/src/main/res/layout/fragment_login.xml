@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/ic_login_bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -9,23 +10,33 @@
         android:layout_width="@dimen/login_card_width"
         android:layout_height="@dimen/login_card_height"
         android:layout_gravity="center"
-        android:background="@drawable/ic_bg_login_card"
+        android:background="@drawable/ic_login_card_bg"
         >
         <ImageView
             android:id="@+id/iv_login_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/login_logo_margin_bottom"
             android:layout_marginTop="@dimen/login_logo_margin_top"
-            android:src="@drawable/ic_logo_login" />
+            android:src="@drawable/anim_login_loading" />
+        <TextView
+            android:id="@+id/tv_login_tip"
+            android:textColor="@color/white"
+            android:textSize="@dimen/tablet_text_size_large_high"
+            android:gravity="center"
+            android:background="@drawable/ic_login_tip"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/iv_login_logo"
+            android:layout_marginBottom="@dimen/login_tip_margin_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/login_tip_height" />
 
         <EditText
             android:id="@+id/edit_phone"
             android:layout_width="@dimen/login_phone_width"
             android:layout_height="@dimen/login_phone_height"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/iv_login_logo"
+            android:layout_below="@+id/tv_login_tip"
             android:background="@drawable/bg_white_angle_normal"
             android:drawablePadding="1dp"
             android:gravity="center_vertical"
@@ -42,11 +53,11 @@
             android:layout_width="@dimen/login_btn_width"
             android:layout_height="@dimen/login_btn_height"
             android:layout_alignRight="@+id/edit_phone"
-            android:layout_below="@+id/iv_login_logo"
+            android:layout_below="@+id/tv_login_tip"
             android:background="@drawable/bg_yellow_angle"
             android:gravity="center"
             android:text="@string/signin"
-            android:textColor="@color/sepia"
+            android:textColor="@color/sepia_alpha"
             android:textSize="@dimen/tablet_text_size_large" />
     </RelativeLayout>
 </FrameLayout>

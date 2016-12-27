@@ -8,6 +8,7 @@
     <color name="yellow">#f8e81c</color>
     <color name="yellow_deep">#f8d11c</color>
     <color name="sepia">#8b572a</color>
+    <color name="sepia_alpha">#4c8b572a</color>
     <color name="gray">#b9c1c7</color>
     <color name="grey_black_deep">#333333</color>
     <color name="grey_black">#636363</color>
