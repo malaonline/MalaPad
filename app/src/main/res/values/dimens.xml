@@ -28,7 +28,7 @@
     <dimen name="tablet_text_size_normal">14sp</dimen>
     <dimen name="tablet_text_size_normal_high">15sp</dimen>
     <dimen name="tablet_text_size_large">28sp</dimen>
-    <dimen name="tablet_text_size_large_high">17sp</dimen>
+    <dimen name="tablet_text_size_large_high">30sp</dimen>
     <dimen name="tablet_text_size_xlarge">18sp</dimen>
 
     <!--标准间距 spacing-->
@@ -41,8 +41,9 @@
     <!--login-->
     <dimen name="login_card_width">600dp</dimen>
     <dimen name="login_card_height">450dp</dimen>
-    <dimen name="login_logo_margin_bottom">35dp</dimen>
     <dimen name="login_logo_margin_top">65dp</dimen>
+    <dimen name="login_tip_height">56dp</dimen>
+    <dimen name="login_tip_margin_bottom">30dp</dimen>
     <dimen name="login_phone_width">450dp</dimen>
     <dimen name="login_phone_height">60dp</dimen>
     <dimen name="login_phone_padding">1dp</dimen>

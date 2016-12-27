@@ -2,6 +2,7 @@ package com.malalaoshi.android.malapad.usercenter.login;
 
 import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -19,8 +20,10 @@ import android.widget.TextView;
 import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.utils.MiscUtil;
 import com.malalaoshi.android.malapad.R;
+import com.malalaoshi.android.malapad.classexercises.ExercisesActivity;
 
 import butterknife.BindColor;
+import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -44,11 +47,23 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
     @BindView(R.id.iv_login_logo)
     ImageView ivLoginLogo;
 
+    @BindView(R.id.tv_login_tip)
+    TextView tvLoginTip;
+
     @BindColor(R.color.sepia_alpha)
     int mSepiaAlpha;
 
     @BindColor(R.color.sepia)
     int mSepia;
+
+    @BindDrawable(R.drawable.ic_login_tip)
+    Drawable drawableLoginTip;
+
+    @BindDrawable(R.drawable.ic_login_logo)
+    Drawable drawableNormalLogin;
+
+    @BindDrawable(R.drawable.ic_login_logo)
+    Drawable drawableFailedLogin;
 
     private AnimationDrawable mAnimationDrawable;
 
@@ -164,6 +179,9 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
     public void onStartedLogin() {
         mAnimationDrawable.start();
         setLoginEnabled(false);
+        editPhone.setEnabled(false);
+        tvLoginTip.setBackground(null);
+        tvLoginTip.setText("登录中...");
     }
 
     @Override
@@ -174,12 +192,15 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
 
     @Override
     public void onSuccessLogin() {
-
+        ExercisesActivity.launch(getContext());
     }
 
     @Override
     public void onFinishedLogin() {
         mAnimationDrawable.stop();
         setLoginEnabled(true);
+        editPhone.setEnabled(true);
+        tvLoginTip.setBackground(drawableLoginTip);
+        tvLoginTip.setText("登录中...");
     }
 }

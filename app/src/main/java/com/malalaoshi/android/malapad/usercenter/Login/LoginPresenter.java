@@ -23,8 +23,8 @@ public class LoginPresenter implements LoginContract.Presenter {
     @NonNull
     private CompositeSubscription mSubscriptions;
 
-    public LoginPresenter(@NonNull TasksRepository tasksRepository, @NonNull LoginContract.View loginView){
-        this.mTasksRepository = tasksRepository;
+    public LoginPresenter( @NonNull LoginContract.View loginView){
+        this.mTasksRepository = new TasksRepository();//tasksRepository;  @NonNull TasksRepository tasksRepository,
         this.mLoginView = loginView;
         mLoginView.setPresenter(this);
         mSubscriptions = new CompositeSubscription();

@@ -21,7 +21,7 @@ public class WelcomeActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-        mHandler.postDelayed(new MyRunnable(this),1500);
+        mHandler.postDelayed(new MyRunnable(this),1800);
     }
 
     static class MyRunnable implements Runnable{
