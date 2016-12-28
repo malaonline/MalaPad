@@ -1,5 +1,9 @@
 package com.malalaoshi.android.malapad.classexercises;
 
+import com.malalaoshi.android.malapad.data.entity.Question;
+
+import java.util.List;
+
 /**
  * Created by kang on 16/12/26.
  */
@@ -12,7 +16,12 @@ public class ExercisesPresenter implements ExercisesContract.Presenter {
     }
 
     @Override
-    public void openTask(String questionsId) {
+    public void loadQuestionsTask(String questionsId) {
+
+    }
+
+    @Override
+    public void submitAnswerTask(List<Question> questionList) {
 
     }
 

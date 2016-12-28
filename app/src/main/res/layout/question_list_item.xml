@@ -21,8 +21,8 @@
         android:layout_height="wrap_content" />
     <LinearLayout
         android:layout_below="@+id/tv_question"
-        android:layout_marginTop="@dimen/layout_spacing_small"
-        android:layout_marginBottom="@dimen/layout_spacing_xlarge_high"
+        android:paddingTop="@dimen/layout_spacing_small"
+        android:paddingBottom="@dimen/layout_spacing_xlarge_high"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

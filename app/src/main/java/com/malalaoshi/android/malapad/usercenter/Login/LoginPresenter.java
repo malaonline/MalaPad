@@ -1,16 +1,15 @@
 package com.malalaoshi.android.malapad.usercenter.login;
 
 import android.support.annotation.NonNull;
-import android.text.AndroidCharacter;
 
-import com.malalaoshi.android.core.entity.User;
 import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.utils.MiscUtil;
 import com.malalaoshi.android.malapad.data.TasksRepository;
 import com.malalaoshi.android.malapad.data.api.LoginApi;
 import com.malalaoshi.android.malapad.data.api.param.LoginParam;
+import com.malalaoshi.android.malapad.data.entity.User;
+import com.malalaoshi.android.malapad.usercenter.UserManager;
 
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
@@ -65,6 +64,15 @@ public class LoginPresenter implements LoginContract.Presenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         user -> {
+                            user.setToken("token");
+                            user.setUserId("u007");
+                            user.setSchool("清华大学");
+                            user.setRole("stuRole");
+                            user.setName("张小龙");
+                            user.setPhone("110");
+                            user.setSchoolId("qhdx");
+                            UserManager userManager = UserManager.getInstance();
+                            userManager.login(user);
                             mLoginView.onSuccessLogin();
                         },
                         throwable -> {
@@ -76,18 +84,5 @@ public class LoginPresenter implements LoginContract.Presenter {
                             mLoginView.onFinishedLogin();
                         }
                 ));
-
-        /*mSubscriptions.add(mTasksRepository
-                .getTask(mTaskId)
-                .subscribeOn(mSchedulerProvider.computation())
-                .observeOn(mSchedulerProvider.ui())
-                .subscribe(
-                        // onNext
-                        this::showTask,
-                        // onError
-                        throwable -> {
-                        },
-                        // onCompleted
-                        () -> mTaskDetailView.setLoadingIndicator(false)));*/
     }
 }

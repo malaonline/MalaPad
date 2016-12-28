@@ -1,8 +1,9 @@
 package com.malalaoshi.android.malapad.data.api;
 
-import com.malalaoshi.android.core.entity.User;
+import com.malalaoshi.android.core.entity.AuthUser;
 import com.malalaoshi.android.core.network.NetworkClient;
 import com.malalaoshi.android.malapad.data.api.param.LoginParam;
+import com.malalaoshi.android.malapad.data.entity.User;
 
 import retrofit2.http.Body;
 import retrofit2.http.POST;

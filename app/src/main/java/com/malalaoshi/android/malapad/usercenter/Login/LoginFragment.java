@@ -214,6 +214,7 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
         tvLoginTip.setBackground(drawableLoginTip);
         tvLoginTip.setText("");
         ExercisesActivity.launch(getContext());
+        getActivity().finish();
     }
 
     @Override

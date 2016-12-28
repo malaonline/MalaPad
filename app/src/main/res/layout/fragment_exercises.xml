@@ -7,10 +7,11 @@
     android:layout_height="match_parent">
 
     <include layout="@layout/sub_status_view"
-        android:visibility="gone"
         android:id="@+id/sub_status_view" />
 
     <RelativeLayout
+        android:id="@+id/rl_questions"
+        android:visibility="gone"
         android:layout_marginLeft="@dimen/layout_spacing_large_high"
         android:layout_marginRight="@dimen/layout_spacing_large_high"
         android:layout_marginTop="@dimen/exercises_questions_margin_top"
@@ -30,7 +31,6 @@
             android:layout_height="@dimen/exercises_submit_size" />
     </RelativeLayout>
     <LinearLayout
-        android:id="@+id/ll_user_info"
         android:paddingLeft="@dimen/layout_spacing_large_high"
         android:paddingRight="@dimen/layout_spacing_normal"
         android:background="@color/white_alpha"
@@ -40,8 +40,8 @@
         <TextView
             tools:text="@string/user_info"
             android:id="@+id/tv_user_info"
-            android:textColor="@color/grey_black_deep"
-            android:textSize="@dimen/tablet_text_size_large"
+            android:textColor="@color/grey_black_light"
+            android:textSize="@dimen/tablet_text_size_normal_x"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />

@@ -2,6 +2,9 @@ package com.malalaoshi.android.malapad.classexercises;
 
 import com.malalaoshi.android.core.base.BasePresenter;
 import com.malalaoshi.android.core.base.BaseView;
+import com.malalaoshi.android.malapad.data.entity.Question;
+
+import java.util.List;
 
 /**
  * Created by kang on 16/12/26.
@@ -16,6 +19,8 @@ public class ExercisesContract {
     }
 
     interface Presenter extends BasePresenter {
-        void openTask(String questionsId);
+        void loadQuestionsTask(String questionsId);
+
+        void submitAnswerTask(List<Question> questionList);
     }
 }

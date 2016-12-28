@@ -17,10 +17,13 @@
             android:padding="@dimen/layout_spacing_xxlarge_high"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <ListView
+        <com.malalaoshi.comm.views.ScrollListView
             android:id="@+id/listview_questions"
+            android:divider="#00000000"
+            android:dividerHeight="0dp"
+            android:listSelector="#00000000"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        </ListView>
+        </com.malalaoshi.comm.views.ScrollListView>
     </LinearLayout>
 </ScrollView>
