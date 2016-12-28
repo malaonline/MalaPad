@@ -38,7 +38,10 @@
     <dimen name="layout_spacing_normal">12dp</dimen>
     <dimen name="layout_spacing_large">18dp</dimen>
     <dimen name="layout_spacing_large_high">24dp</dimen>
-
+    <dimen name="layout_spacing_xlarge">30dp</dimen>
+    <dimen name="layout_spacing_xlarge_high">36dp</dimen>
+    <dimen name="layout_spacing_xxlarge">42dp</dimen>
+    <dimen name="layout_spacing_xxlarge_high">48dp</dimen>
 
     <!--login-->
     <dimen name="login_card_width">600dp</dimen>
@@ -56,6 +59,9 @@
 
     <!--过渡页,答题页-->
     <dimen name="tip_margin_top">50dp</dimen>
-    <dimen name="question_title_height">50dp</dimen>
-
+    <dimen name="exercises_title_height">50dp</dimen>
+    <dimen name="exercises_questions_margin_top">74dp</dimen>
+    <dimen name="exercises_submit_margin_right">60dp</dimen>
+    <dimen name="exercises_submit_size">120dp</dimen>
+    <dimen name="exercises_item_margin">56dp</dimen>
 </resources>

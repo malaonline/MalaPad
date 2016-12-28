@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        tools:text="1"
+        android:id="@+id/tv_question_number"
+        style="@style/QuestionTextStyle"
+        android:gravity="center"
+        android:layout_width="@dimen/exercises_item_margin"
+        android:layout_height="wrap_content" />
+    <TextView
+        tools:text="这是一个题目这是一个题目这是一个题目这是一个题目这是一个题目这是一个题目这是一个题目这是一个题目这是一个题目这是一个题目这是一个题目"
+        android:id="@+id/tv_question"
+        style="@style/QuestionTextStyle"
+        android:layout_marginRight="@dimen/exercises_item_margin"
+        android:layout_toRightOf="@+id/tv_question_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_below="@+id/tv_question"
+        android:layout_marginTop="@dimen/layout_spacing_small"
+        android:layout_marginBottom="@dimen/layout_spacing_xlarge_high"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            tools:text="答案a"
+            android:id="@+id/tv_answer_a"
+            style="@style/CheckTextStyle"
+            android:layout_marginTop="@dimen/layout_spacing_large"
+            android:layout_marginRight="@dimen/exercises_item_margin"
+            android:layout_marginLeft="@dimen/exercises_item_margin"
+            android:drawableLeft="@drawable/bg_answer_a_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+             />
+
+        <TextView
+            tools:text="答案a"
+            android:id="@+id/tv_answer_b"
+            style="@style/CheckTextStyle"
+            android:layout_marginTop="@dimen/layout_spacing_large"
+            android:layout_marginRight="@dimen/exercises_item_margin"
+            android:layout_marginLeft="@dimen/exercises_item_margin"
+            android:drawableLeft="@drawable/bg_answer_b_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+             />
+        <TextView
+            tools:text="答案a"
+            android:id="@+id/tv_answer_c"
+            style="@style/CheckTextStyle"
+            android:layout_marginTop="@dimen/layout_spacing_large"
+            android:layout_marginRight="@dimen/exercises_item_margin"
+            android:layout_marginLeft="@dimen/exercises_item_margin"
+            android:drawableLeft="@drawable/bg_answer_c_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+             />
+        <TextView
+            tools:text="答案a"
+            android:id="@+id/tv_answer_d"
+            style="@style/CheckTextStyle"
+            android:layout_marginTop="@dimen/layout_spacing_large"
+            android:layout_marginRight="@dimen/exercises_item_margin"
+            android:layout_marginLeft="@dimen/exercises_item_margin"
+            android:drawableLeft="@drawable/bg_answer_d_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+             />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.malapad.R;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -27,14 +29,17 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
     @BindView(R.id.tv_user_info)
     TextView tvUserInfo;
 
-    @BindView(R.id.tv_logout)
-    TextView tvLogout;
+    @BindView(R.id.iv_logout)
+    ImageView ivLogout;
 
     @BindView(R.id.listview_questions)
     ListView listViewQuestions;
 
     @BindView(R.id.tv_submit)
     TextView tvSubmit;
+
+    @BindString(R.string.user_info)
+    String strUserInfo;
 
     private ExercisesContract.Presenter mPresenter;
 
@@ -61,11 +66,11 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
     }
 
     private void initDate() {
-
+        tvUserInfo.setText(String.format(strUserInfo,"正通创意中心","马斯克"));
     }
 
     private void setEvent() {
-        tvLogout.setOnClickListener(this);
+        ivLogout.setOnClickListener(this);
     }
 
 
