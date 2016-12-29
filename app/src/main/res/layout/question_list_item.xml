@@ -16,7 +16,7 @@
         android:id="@+id/tv_question"
         style="@style/QuestionTextStyle"
         android:layout_marginRight="@dimen/exercises_item_margin"
-        android:layout_toRightOf="@+id/tv_question_number"
+        android:layout_toRightOf="@id/tv_question_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <LinearLayout
@@ -29,7 +29,7 @@
 
         <TextView
             tools:text="答案a"
-            android:id="@+id/tv_answer_a"
+            android:id="@+id/tv_option_a"
             style="@style/CheckTextStyle"
             android:layout_marginTop="@dimen/layout_spacing_large"
             android:layout_marginRight="@dimen/exercises_item_margin"
@@ -41,7 +41,7 @@
 
         <TextView
             tools:text="答案a"
-            android:id="@+id/tv_answer_b"
+            android:id="@+id/tv_option_b"
             style="@style/CheckTextStyle"
             android:layout_marginTop="@dimen/layout_spacing_large"
             android:layout_marginRight="@dimen/exercises_item_margin"
@@ -52,7 +52,7 @@
              />
         <TextView
             tools:text="答案a"
-            android:id="@+id/tv_answer_c"
+            android:id="@+id/tv_option_c"
             style="@style/CheckTextStyle"
             android:layout_marginTop="@dimen/layout_spacing_large"
             android:layout_marginRight="@dimen/exercises_item_margin"
@@ -63,7 +63,7 @@
              />
         <TextView
             tools:text="答案a"
-            android:id="@+id/tv_answer_d"
+            android:id="@+id/tv_option_d"
             style="@style/CheckTextStyle"
             android:layout_marginTop="@dimen/layout_spacing_large"
             android:layout_marginRight="@dimen/exercises_item_margin"

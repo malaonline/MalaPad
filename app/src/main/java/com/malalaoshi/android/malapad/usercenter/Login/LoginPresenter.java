@@ -70,7 +70,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                             user.setRole("stuRole");
                             user.setName("张小龙");
                             user.setPhone("110");
-                            user.setSchoolId("qhdx");
+                            user.setSchoolId(001L);
                             UserManager userManager = UserManager.getInstance();
                             userManager.login(user);
                             mLoginView.onSuccessLogin();

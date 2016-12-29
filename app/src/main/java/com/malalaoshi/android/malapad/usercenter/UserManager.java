@@ -32,6 +32,7 @@ public class UserManager {
     private String name;
     private String school;
     private String schoolId;
+    private String lessonId;
 
     private UserManager() {
         SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
@@ -40,9 +41,10 @@ public class UserManager {
         phoneNo = userInfo.getString("phoneNo", "");
         role = userInfo.getString("role", "");
 
-        name = userInfo.getString("studname", "");
+        name = userInfo.getString("name", "");
         school = userInfo.getString("school", "");
         schoolId = userInfo.getString("schoolId", "");
+        lessonId = userInfo.getString("lessonId", "");
     }
 
     public static UserManager getInstance() {
@@ -99,7 +101,7 @@ public class UserManager {
 
     public void setName(String name) {
         SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
-        userInfo.edit().putString("studname", name).apply();
+        userInfo.edit().putString("name", name).apply();
         this.name = name;
     }
 
@@ -123,6 +125,16 @@ public class UserManager {
         this.schoolId = schoolId;
     }
 
+    public String getLessonId() {
+        return lessonId;
+    }
+
+    public void setLessonId(String lessonId) {
+        SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
+        userInfo.edit().putString("lessonId", lessonId).apply();
+        this.lessonId = lessonId;
+    }
+
     public void logout() {
         SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
         token = "";
@@ -139,6 +151,8 @@ public class UserManager {
         userInfo.edit().putString("school", school).apply();
         schoolId = "";
         userInfo.edit().putString("schoolId", schoolId).apply();
+        lessonId = "";
+        userInfo.edit().putString("lessonId", lessonId).apply();
         //Login success broadcast
         Intent intent = new Intent(ACTION_LOGOUT);
         AppContext.getLocalBroadcastManager().sendBroadcast(intent);
@@ -153,12 +167,13 @@ public class UserManager {
      */
     public void login(User user) {
         setToken(user.getToken());
-        setUserId(user.getUserId());
+        setUserId(user.getUserId()+"");
         setName(user.getName());
         setPhoneNo(user.getPhone());
         setRole(user.getRole());
         setSchool(user.getSchool());
-        setSchoolId(user.getSchoolId());
+        setSchoolId(user.getSchoolId()+"");
+        setLessonId(user.getLessonId()+"");
         //Login success broadcast
         Intent intent = new Intent(ACTION_LOGINED);
         AppContext.getLocalBroadcastManager().sendBroadcast(intent);

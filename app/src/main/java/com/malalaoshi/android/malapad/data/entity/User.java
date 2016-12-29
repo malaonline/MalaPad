@@ -8,15 +8,16 @@ import com.malalaoshi.android.core.entity.AuthUser;
 
 public class User extends AuthUser {
     private String school;
-    private String schoolId;
-
+    private Long schoolId;
+    private Long lessonId;
     public User() {
     }
 
-    public User(String token, String phone, String name, String userId, String role, String school, String schoolId) {
+    public User(String token, String phone, String name, String userId, String role, String school, Long schoolId, Long lessonId) {
         super(token, phone, name, userId, role);
         this.school = school;
         this.schoolId = schoolId;
+        this.lessonId = lessonId;
     }
 
     public String getSchool() {
@@ -27,11 +28,19 @@ public class User extends AuthUser {
         this.school = school;
     }
 
-    public String getSchoolId() {
+    public Long getSchoolId() {
         return schoolId;
     }
 
-    public void setSchoolId(String schoolId) {
+    public void setSchoolId(Long schoolId) {
         this.schoolId = schoolId;
+    }
+
+    public Long getLessonId() {
+        return lessonId;
+    }
+
+    public void setLessonId(Long lessonId) {
+        this.lessonId = lessonId;
     }
 }

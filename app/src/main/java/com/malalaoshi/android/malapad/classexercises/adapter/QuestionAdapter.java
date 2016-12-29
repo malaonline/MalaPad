@@ -7,35 +7,42 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.malalaoshi.android.core.utils.MiscUtil;
 import com.malalaoshi.android.malapad.R;
-import com.malalaoshi.android.malapad.data.entity.Answer;
-import com.malalaoshi.android.malapad.data.entity.Question;
+import com.malalaoshi.android.malapad.data.entity.Option;
+import com.malalaoshi.android.malapad.data.entity.ChoiceQuestion;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.ButterKnife;
 
 /**
  * Created by kang on 16/12/28.
  */
 
-public class QuestionAdapter extends BaseAdapter {
-    List<Question> questionList;
+public class QuestionAdapter extends BaseAdapter implements ViewHolder.OnOptionSelectedListener {
+    private List<ChoiceQuestion> choiceQuestionList;
+    private Map<String, Option> selectedOptionMap;
     private LayoutInflater layoutInflater;
-    public QuestionAdapter(Context context, List<Question> list){
+
+    public QuestionAdapter(Context context, List<ChoiceQuestion> list){
         layoutInflater = LayoutInflater.from(context);
-        this.questionList = list;
+        this.choiceQuestionList = list;
+        selectedOptionMap = new HashMap<>();
     }
 
     @Override
     public int getCount() {
-        return questionList.size();
+        return choiceQuestionList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return questionList.get(position);
+        return choiceQuestionList.get(position);
     }
 
     @Override
@@ -55,46 +62,95 @@ public class QuestionAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Question question = questionList.get(position);
-        viewHolder.updateData(question,position);
+        ChoiceQuestion choiceQuestion = choiceQuestionList.get(position);
+        viewHolder.updateData(choiceQuestion,position, this);
         return convertView;
     }
 
-    public List<Question> getSelectedItems()
+    public Map<String, Option> getSelectedOptions()
     {
-        return null;
+        return selectedOptionMap;
     }
 
-    static class ViewHolder{
-        @BindView(R.id.tv_question_number)
-        TextView tvQuestionNumber;
-        @BindView(R.id.tv_question)
-        TextView tvQuestion;
-        @BindView(R.id.tv_answer_a)
-        TextView tvAnswerA;
-        @BindView(R.id.tv_answer_b)
-        TextView tvAnswerB;
-        @BindView(R.id.tv_answer_c)
-        TextView tvAnswerC;
-        @BindView(R.id.tv_answer_d)
-        TextView tvAnswerD;
-        public ViewHolder(View view){
-            ButterKnife.bind(this,view);
+    @Override
+    public void OnOptionSelected(int position, int optionId) {
+        ChoiceQuestion choiceQuestion = choiceQuestionList.get(position);
+        List<Option> optionList = choiceQuestion.getOptionList();
+        for (Option option : optionList){
+            option.setSelected(false);
         }
-
-        public void updateData(Question question, int postion){
-            tvQuestionNumber.setText(String.valueOf(postion+1));
-            tvQuestion.setText(question.getQuestion());
-            List<Answer> answers = question.getAnswers();
-            tvAnswerA.setSelected(answers.get(0).isSelected());
-            tvAnswerA.setText(answers.get(0).getAnswer());
-            tvAnswerB.setSelected(answers.get(1).isSelected());
-            tvAnswerB.setText(answers.get(1).getAnswer());
-            tvAnswerC.setSelected(answers.get(2).isSelected());
-            tvAnswerC.setText(answers.get(2).getAnswer());
-            tvAnswerD.setSelected(answers.get(3).isSelected());
-            tvAnswerD.setText(answers.get(3).getAnswer());
-        }
+        Option option = optionList.get(optionId);
+        option.setSelected(true);
+        selectedOptionMap.put(choiceQuestion.getQuestion(), option);
+        MiscUtil.toast(choiceQuestion.getQuestion()+"  "+ option.getAnswer());
+        notifyDataSetChanged();
     }
 }
 
+class ViewHolder implements View.OnClickListener {
+    @BindView(R.id.tv_question_number)
+    TextView tvQuestionNumber;
+    @BindView(R.id.tv_question)
+    TextView tvQuestion;
+    @BindViews({R.id.tv_option_a,R.id.tv_option_b,R.id.tv_option_c,R.id.tv_option_d})
+    List<TextView> tvOptionList;
+    private OnOptionSelectedListener listener;
+
+    interface OnOptionSelectedListener {
+        void OnOptionSelected(int position, int optionId);
+    }
+
+    ViewHolder(View view){
+        ButterKnife.bind(this,view);
+    }
+
+    void updateData(ChoiceQuestion choiceQuestion, int postion, OnOptionSelectedListener listener){
+        this.listener = listener;
+        tvQuestionNumber.setText(String.valueOf(postion+1));
+        tvQuestion.setText(choiceQuestion.getQuestion());
+        for (TextView tvOption: tvOptionList){
+            tvOption.setSelected(false);
+            tvOption.setText("");
+            tvOption.setTag(null);
+            tvOption.setOnClickListener(null);
+        }
+        //赋值
+        TextView tvOption;
+        Option option;
+        List<Option> options = choiceQuestion.getOptionList();
+        for (int i = 0; options !=null&&i< options.size()&&i< tvOptionList.size(); i++){
+            tvOption = tvOptionList.get(i);
+            option = options.get(i);
+            tvOption.setSelected(option.isSelected());
+            tvOption.setText(option.getAnswer());
+            tvOption.setTag(postion);
+            tvOption.setOnClickListener(this);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        int position = (int) v.getTag();
+        switch (v.getId()){
+            case R.id.tv_option_a:
+                setOptionSelected(position,0);
+                break;
+            case R.id.tv_option_b:
+                setOptionSelected(position,1);
+                break;
+            case R.id.tv_option_c:
+                setOptionSelected(position,2);
+                break;
+            case R.id.tv_option_d:
+                setOptionSelected(position,3);
+                break;
+        }
+    }
+
+    private void setOptionSelected(int position, int optionId){
+        if (listener!=null){
+            listener.OnOptionSelected(position, optionId);
+        }
+    }
+
+}

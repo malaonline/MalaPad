@@ -1,8 +1,8 @@
 package com.malalaoshi.android.malapad.classexercises;
 
-import com.malalaoshi.android.malapad.data.entity.Question;
+import com.malalaoshi.android.malapad.data.entity.Option;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * Created by kang on 16/12/26.
@@ -13,6 +13,7 @@ public class ExercisesPresenter implements ExercisesContract.Presenter {
 
     public ExercisesPresenter(ExercisesContract.View view) {
         this.mExercisesView = view;
+        mExercisesView.setPresenter(this);
     }
 
     @Override
@@ -21,7 +22,7 @@ public class ExercisesPresenter implements ExercisesContract.Presenter {
     }
 
     @Override
-    public void submitAnswerTask(List<Question> questionList) {
+    public void submitAnswerTask(Map<String, Option> questionList) {
 
     }
 

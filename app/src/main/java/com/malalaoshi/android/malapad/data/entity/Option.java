@@ -4,12 +4,12 @@ package com.malalaoshi.android.malapad.data.entity;
  * Created by kang on 16/12/28.
  */
 
-public class Answer {
+public class Option {
     private String id;
     private String answer;
     private boolean isSelected;
 
-    public Answer(String id, String answer, boolean isSelected) {
+    public Option(String id, String answer, boolean isSelected) {
         this.id = id;
         this.answer = answer;
         this.isSelected = isSelected;

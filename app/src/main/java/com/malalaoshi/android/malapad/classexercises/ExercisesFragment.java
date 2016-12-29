@@ -6,21 +6,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.malalaoshi.android.core.base.BaseFragment;
+import com.malalaoshi.android.core.utils.MiscUtil;
 import com.malalaoshi.android.malapad.R;
 import com.malalaoshi.android.malapad.classexercises.adapter.QuestionAdapter;
-import com.malalaoshi.android.malapad.data.entity.Answer;
-import com.malalaoshi.android.malapad.data.entity.Question;
+import com.malalaoshi.android.malapad.data.entity.Option;
+import com.malalaoshi.android.malapad.data.entity.ChoiceQuestion;
 import com.malalaoshi.android.malapad.usercenter.UserManager;
 import com.malalaoshi.android.malapad.usercenter.login.LoginActivity;
 import com.malalaoshi.comm.views.ScrollListView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -58,6 +59,8 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
     String strUserInfo;
 
     private QuestionAdapter mQuestionAdapter;
+
+    private List<ChoiceQuestion> choiceQuestionList;
 
     private ExercisesContract.Presenter mPresenter;
 
@@ -105,54 +108,49 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
         rlQuestions.setVisibility(View.VISIBLE);
         subStatusView.setVisibility(View.GONE);
         tvQuestionsTitle.setText("这是一组英语题");
-        List<Question> list = new ArrayList<>();
-        List<Answer> answers = new ArrayList<Answer>();
-        answers.add(new Answer("001","Both",true));
-        answers.add(new Answer("002","Neither",false));
-        answers.add(new Answer("003","None",false));
-        answers.add(new Answer("004","Either",false));
-        list.add(new Question("--Which would you like, a cup of tea or a glass of milk?\n" + "--- ______. I think I’ll just have a glass of water.",answers));
+        choiceQuestionList = new ArrayList<>();
+        List<Option> options = new ArrayList<Option>();
+        options.add(new Option("001","Both",false));
+        options.add(new Option("002","Neither",false));
+        options.add(new Option("003","None",false));
+        options.add(new Option("004","Either",false));
+        choiceQuestionList.add(new ChoiceQuestion("--Which would you like, a cup of tea or a glass of milk?\n" + "--- ______. I think I’ll just have a glass of water.", options));
 
-        answers = null;
-        answers = new ArrayList<Answer>();
-        answers.add(new Answer("001","such an exciting",true));
-        answers.add(new Answer("002","so an exciting",false));
-        answers.add(new Answer("003","such an excited",false));
-        answers.add(new Answer("004","so an excited",false));
-        list.add(new Question("I’ve never seen ______ match before.",answers));
+        options = new ArrayList<Option>();
+        options.add(new Option("001","such an exciting",false));
+        options.add(new Option("002","so an exciting",false));
+        options.add(new Option("003","such an excited",false));
+        options.add(new Option("004","so an excited",false));
+        choiceQuestionList.add(new ChoiceQuestion("I’ve never seen ______ match before.", options));
 
-        answers = null;
-        answers = new ArrayList<Answer>();
-        answers.add(new Answer("001","tell",true));
-        answers.add(new Answer("002","talk",false));
-        answers.add(new Answer("003","speak",false));
-        answers.add(new Answer("004","say",false));
-        list.add(new Question("We usually _____ hello to each other",answers));
+        options = new ArrayList<Option>();
+        options.add(new Option("001","tell",false));
+        options.add(new Option("002","talk",false));
+        options.add(new Option("003","speak",false));
+        options.add(new Option("004","say",false));
+        choiceQuestionList.add(new ChoiceQuestion("We usually _____ hello to each other", options));
 
-        answers = null;
-        answers = new ArrayList<Answer>();
-        answers.add(new Answer("001","are, is",true));
-        answers.add(new Answer("002","are, are",false));
-        answers.add(new Answer("003","is, are",false));
-        answers.add(new Answer("004","is, is",false));
-        list.add(new Question("There _____ a great number of students over there. The number of the students ____ five thousand.",answers));
+        options = new ArrayList<Option>();
+        options.add(new Option("001","are, is",false));
+        options.add(new Option("002","are, are",false));
+        options.add(new Option("003","is, are",false));
+        options.add(new Option("004","is, is",false));
+        choiceQuestionList.add(new ChoiceQuestion("There _____ a great number of students over there. The number of the students ____ five thousand.", options));
 
-        answers = null;
-        answers = new ArrayList<Answer>();
-        answers.add(new Answer("001","are used to take a walk, am used to swim",true));
-        answers.add(new Answer("002","are used to taking a walk, am used to swimming",false));
-        answers.add(new Answer("003","used to take a walk, used to swim",false));
-        answers.add(new Answer("004","used to take a walk, am used to swimming",false));
-        list.add(new Question("—Can you remember this park? We _____ here.—Sure. But now I ______ in that swimming pool.\n",answers));
+        options = new ArrayList<Option>();
+        options.add(new Option("001","are used to take a walk, am used to swim",false));
+        options.add(new Option("002","are used to taking a walk, am used to swimming",false));
+        options.add(new Option("003","used to take a walk, used to swim",false));
+        options.add(new Option("004","used to take a walk, am used to swimming",false));
+        choiceQuestionList.add(new ChoiceQuestion("—Can you remember this park? We _____ here.—Sure. But now I ______ in that swimming pool.\n", options));
 
-        answers = null;
-        answers = new ArrayList<Answer>();
-        answers.add(new Answer("001","wish",true));
-        answers.add(new Answer("002","to wish",false));
-        answers.add(new Answer("003","hope",false));
-        answers.add(new Answer("004","to hope",false));
-        list.add(new Question("The Chinese ping-pong players will join in the match. Let's _____ them success.",answers));
-        mQuestionAdapter = new QuestionAdapter(getContext(),list);
+        options = new ArrayList<Option>();
+        options.add(new Option("001","wish",false));
+        options.add(new Option("002","to wish",false));
+        options.add(new Option("003","hope",false));
+        options.add(new Option("004","to hope",false));
+        choiceQuestionList.add(new ChoiceQuestion("The Chinese ping-pong players will join in the match. Let's _____ them success.", options));
+        mQuestionAdapter = new QuestionAdapter(getContext(), choiceQuestionList);
         listviewQuestions.setAdapter(mQuestionAdapter);
         mQuestionAdapter.notifyDataSetChanged();
     }
@@ -178,7 +176,10 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
 
     @Override
     public void onClick(View v) {
-        List<Question> questionList = mQuestionAdapter.getSelectedItems();
-        mPresenter.submitAnswerTask(questionList);
+        Map<String,Option> mapSelected = mQuestionAdapter.getSelectedOptions();
+        if (choiceQuestionList.size()!=mapSelected.size()){
+            MiscUtil.toast("题目还没有答完");
+        }
+        mPresenter.submitAnswerTask(mapSelected);
     }
 }
