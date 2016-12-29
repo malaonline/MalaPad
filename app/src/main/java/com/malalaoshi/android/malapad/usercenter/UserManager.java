@@ -5,7 +5,8 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.malalaoshi.android.core.AppContext;
-import com.malalaoshi.android.malapad.usercenter.login.LoginActivity;
+import com.malalaoshi.android.core.entity.AuthUser;
+import com.malalaoshi.android.malapad.data.entity.User;
 
 /**
  * Created by kang on 16/12/21.
@@ -28,33 +29,22 @@ public class UserManager {
     private String userId;
     private String phoneNo;
     private String role;
-    private String profileId;
-    private String parentId;
-
-    private String stuName;
-    private String avatorUrl;
+    private String name;
     private String school;
-    private Long schoolId;
-    private String gradeId;
-    private String city;
-    private Long cityId;
+    private String schoolId;
+    private String lessonId;
 
     private UserManager() {
         SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
         token = userInfo.getString("token", "");
         userId = userInfo.getString("userId", "");
         phoneNo = userInfo.getString("phoneNo", "");
-        profileId = userInfo.getString("profileId", "");
-        parentId = userInfo.getString("parentId", "");
         role = userInfo.getString("role", "");
 
-        stuName = userInfo.getString("studname", "");
-        avatorUrl = userInfo.getString("avatorUrl", "");
+        name = userInfo.getString("name", "");
         school = userInfo.getString("school", "");
-        schoolId = userInfo.getLong("schoolId", -1);
-        gradeId = userInfo.getString("gradeId", "");
-        city = userInfo.getString("city", "");
-        cityId = userInfo.getLong("cityId", -1);
+        schoolId = userInfo.getString("schoolId", "");
+        lessonId = userInfo.getString("lessonId", "");
     }
 
     public static UserManager getInstance() {
@@ -105,44 +95,14 @@ public class UserManager {
         this.role = role;
     }
 
-    public String getProfileId() {
-        return profileId;
+    public String getName() {
+        return name;
     }
 
-    public void setProfileId(String profileId) {
+    public void setName(String name) {
         SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
-        userInfo.edit().putString("profileId", profileId).apply();
-        this.profileId = profileId;
-    }
-
-    public String getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(String parentId) {
-        SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
-        userInfo.edit().putString("parentId", parentId).apply();
-        this.parentId = parentId;
-    }
-
-    public String getStuName() {
-        return stuName;
-    }
-
-    public void setStuName(String stuName) {
-        SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
-        userInfo.edit().putString("studname", stuName).apply();
-        this.stuName = stuName;
-    }
-
-    public String getAvatorUrl() {
-        return avatorUrl;
-    }
-
-    public void setAvatorUrl(String avatorUrl) {
-        SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
-        userInfo.edit().putString("avatorUrl", avatorUrl).apply();
-        this.avatorUrl = avatorUrl;
+        userInfo.edit().putString("name", name).apply();
+        this.name = name;
     }
 
     public String getSchool() {
@@ -155,44 +115,24 @@ public class UserManager {
         this.school = school;
     }
 
-    public Long getSchoolId() {
+    public String getSchoolId() {
         return schoolId;
     }
 
-    public void setSchoolId(Long schoolId) {
+    public void setSchoolId(String schoolId) {
         SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
-        userInfo.edit().putLong("schoolId", schoolId).apply();
+        userInfo.edit().putString("schoolId", schoolId).apply();
         this.schoolId = schoolId;
     }
 
-    public String getGradeId() {
-        return gradeId;
+    public String getLessonId() {
+        return lessonId;
     }
 
-    public void setGradeId(String gradeId) {
+    public void setLessonId(String lessonId) {
         SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
-        userInfo.edit().putString("gradeId", gradeId).apply();
-        this.gradeId = gradeId;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
-        userInfo.edit().putString("city", city).apply();
-        this.city = city;
-    }
-
-    public Long getCityId() {
-        return cityId;
-    }
-
-    public void setCityId(Long cityId) {
-        SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
-        userInfo.edit().putLong("cityId", cityId).apply();
-        this.cityId = cityId;
+        userInfo.edit().putString("lessonId", lessonId).apply();
+        this.lessonId = lessonId;
     }
 
     public void logout() {
@@ -203,22 +143,16 @@ public class UserManager {
         userInfo.edit().putString("userId", "").apply();
         phoneNo = "";
         userInfo.edit().putString("phoneNo", "").apply();
-        profileId = "";
-        userInfo.edit().putString("profileId", "").apply();
-        parentId = "";
-        userInfo.edit().putString("parentId", "").apply();
         role = "";
         userInfo.edit().putString("role", "").apply();
-
-        stuName = "";
+        name = "";
         userInfo.edit().putString("studname", "").apply();
-        avatorUrl = "";
-        userInfo.edit().putString("avatorUrl", "").apply();
-        gradeId = "";
-        userInfo.edit().putString("gradeId", "").apply();
-        //city = "";
-        //userInfo.edit().putString("city", "").apply();
-
+        school = "";
+        userInfo.edit().putString("school", school).apply();
+        schoolId = "";
+        userInfo.edit().putString("schoolId", schoolId).apply();
+        lessonId = "";
+        userInfo.edit().putString("lessonId", lessonId).apply();
         //Login success broadcast
         Intent intent = new Intent(ACTION_LOGOUT);
         AppContext.getLocalBroadcastManager().sendBroadcast(intent);
@@ -231,22 +165,20 @@ public class UserManager {
      *
      * @param user Login user
      */
-   /* public void login(AuthUser user) {
+    public void login(User user) {
         setToken(user.getToken());
-        setParentId(user.getParent_id());
-        setProfileId(user.getProfile_id());
-        setUserId(user.getUser_id());
-
+        setUserId(user.getUserId()+"");
+        setName(user.getName());
+        setPhoneNo(user.getPhone());
+        setRole(user.getRole());
+        setSchool(user.getSchool());
+        setSchoolId(user.getSchoolId()+"");
+        setLessonId(user.getLessonId()+"");
         //Login success broadcast
         Intent intent = new Intent(ACTION_LOGINED);
         AppContext.getLocalBroadcastManager().sendBroadcast(intent);
         //发送登录成功通知
        // EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_LOGIN_SUCCESS));
-    }*/
-
-    public void startLoginActivity() {
-        Intent intent = new Intent(AppContext.getContext(), LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        AppContext.getContext().startActivity(intent);
     }
+
 }

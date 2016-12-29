@@ -82,7 +82,6 @@ android {
             versionNameSuffix "-dev"
             buildConfigField("String", "API_HOST", "\"" + DEV_SERVER + "\"")
             resValue("string", "api_host", "\"" + DEV_SERVER + "\"")
-
         }
         prd{
             buildConfigField("String", "API_HOST", "\"" + PRD_SERVER + "\"")

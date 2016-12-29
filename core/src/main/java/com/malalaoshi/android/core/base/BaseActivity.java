@@ -7,8 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
-/*
-import io.reactivex.android.schedulers.AndroidSchedulers;*/
 
 /**
  * Created by kang on 16/12/7.
