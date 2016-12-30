@@ -198,11 +198,20 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
     public void onFailureLogin(int code , String msg) {
         mAnimationDrawable.stop();
         ivLoginLogo.setImageDrawable(drawableFailedLogin);
-
         tvLoginTip.setBackground(null);
         tvLoginTip.setTextColor(colorRed);
+        if (code== LoginApi.ErrorCode.ERROR_CODE_BAD_NET){
+            msg = "网络请求失败";
+        }else if(code== LoginApi.ErrorCode.ERROR_CODE_ILLEGAL_PHONE){
+            msg = "手机号码有误 请重新输入";
+        }else if(code== LoginApi.ErrorCode.ERROR_CODE_ILLEGAL_USER){
+            msg = "此用户没有注册 ";
+        }else if(code== LoginApi.ErrorCode.ERROR_CODE_NO_LESSON){
+            msg = "此用户当前时间段没有课程";
+        }else{
+            msg = "未知错误";
+        }
         tvLoginTip.setText(msg);
-        Log.e("LoginFragment",msg);
         MiscUtil.toast(msg);
     }
 

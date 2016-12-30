@@ -1,5 +1,6 @@
 package com.malalaoshi.android.malapad.data.entity;
 
+import com.google.gson.annotations.SerializedName;
 import com.malalaoshi.android.core.entity.AuthUser;
 
 /**
@@ -8,16 +9,18 @@ import com.malalaoshi.android.core.entity.AuthUser;
 
 public class User extends AuthUser {
     private String school;
+    @SerializedName("school_id")
     private Long schoolId;
-    private Long lessonId;
+    @SerializedName("live_course")
+    private Lesson lesson;
     public User() {
     }
 
-    public User(String token, String phone, String name, String userId, String role, String school, Long schoolId, Long lessonId) {
+    public User(String token, String phone, String name, String userId, String role, String school, Long schoolId, Lesson lesson) {
         super(token, phone, name, userId, role);
         this.school = school;
         this.schoolId = schoolId;
-        this.lessonId = lessonId;
+        this.lesson = lesson;
     }
 
     public String getSchool() {
@@ -36,11 +39,11 @@ public class User extends AuthUser {
         this.schoolId = schoolId;
     }
 
-    public Long getLessonId() {
-        return lessonId;
+    public Lesson getLesson() {
+        return lesson;
     }
 
-    public void setLessonId(Long lessonId) {
-        this.lessonId = lessonId;
+    public void setLesson(Lesson lesson) {
+        this.lesson = lesson;
     }
 }

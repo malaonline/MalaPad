@@ -5,20 +5,10 @@ package com.malalaoshi.android.malapad.data.api.param;
  */
 
 public class LoginParam {
-    String action;
-    String phone;
+    private String phone;
 
-    public LoginParam(String action, String phone) {
-        this.action = action;
+    public LoginParam(String phone) {
         this.phone = phone;
-    }
-
-    public String getAction() {
-        return action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
     }
 
     public String getPhone() {
