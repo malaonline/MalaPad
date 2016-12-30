@@ -1,5 +1,7 @@
 package com.malalaoshi.android.core.network;
 
+import android.util.Log;
+
 import com.malalaoshi.android.core.AppContext;
 import com.malalaoshi.android.core.network.Interceptors.AuthInterceptor;
 import com.malalaoshi.android.core.network.api.BaseApiCallback;
@@ -49,6 +51,7 @@ public class NetworkClient {
                            //设置OKHttpClient为网络客户端
                            .client(okHttpClient)
                            .build();
+                   Log.e("base url",BaseApiCallback.getHost());
                }
             }
         }

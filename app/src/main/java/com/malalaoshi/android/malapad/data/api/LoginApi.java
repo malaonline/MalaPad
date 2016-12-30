@@ -1,5 +1,7 @@
 package com.malalaoshi.android.malapad.data.api;
 
+import android.util.Log;
+
 import com.malalaoshi.android.core.entity.AuthUser;
 import com.malalaoshi.android.core.network.NetworkClient;
 import com.malalaoshi.android.malapad.data.api.param.LoginParam;
@@ -30,6 +32,7 @@ public class LoginApi {
     protected static final LoginService service  = NetworkClient.retrofit().create(LoginService.class);
 
     public static Observable<LoginResponse> login(LoginParam param){
+        Log.e("api","param:"+param.getPhone());
         return service.login(param);
     }
 }
