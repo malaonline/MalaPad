@@ -16,9 +16,9 @@ import rx.Observable;
 
 public class LoginApi {
     public static class ErrorCode{
-        public static int ERROR_CODE_ILLEGAL_PHONE = -1;
-        public static int ERROR_CODE_ILLEGAL_USER = -2;
-        public static int ERROR_CODE_NO_LESSON = -3;
+        public static int ERROR_CODE_ILLEGAL_USER = -1;
+        public static int ERROR_CODE_NO_LESSON = -2;
+        public static int ERROR_CODE_ILLEGAL_PHONE = -3;
         public static int ERROR_CODE_BAD_NET = -4;
     }
 
