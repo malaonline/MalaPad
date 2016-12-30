@@ -19,7 +19,13 @@
 -keep class android.support.design.widget.** { *; }
 -keep interface android.support.design.widget.** { *; }
 
-#Retrofit
+-dontwarn javax.annotation.**
+-dontwarn javax.inject.**
+# OkHttp3
+-dontwarn okhttp3.logging.**
+-keep class okhttp3.internal.**{*;}
+-dontwarn okio.**
+# Retrofit
 # Platform calls Class.forName on types which do not exist on Android to determine platform.
 -dontnote retrofit2.Platform
 # Platform used when running on RoboVM on iOS. Will not be used at runtime.
@@ -30,8 +36,12 @@
 -keepattributes Signature
 # Retain declared checked exceptions for use by a Proxy instance.
 -keepattributes Exceptions
-
-
-#entity和result
--keep class com.malalaoshi.android.entity.** {*;}
--keep class com.malalaoshi.android.network.result.** {*;}
+# Gson
+-keep class com.google.gson.stream.** { *; }
+-keepattributes EnclosingMethod
+################entity和result
+-keep class com.malalaoshi.android.malapad..data.entity.** {*;}
+-keep class com.malalaoshi.android.malapad..data.api.param.** {*;}
+-keep class com.malalaoshi.android.malapad..data.api.response.** {*;}
+-keep class com.malalaoshi.android.core.entity.** {*;}
+-keep class com.malalaoshi.android.core.network.response.**{*;}
