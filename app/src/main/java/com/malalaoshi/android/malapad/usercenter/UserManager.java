@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.malalaoshi.android.core.AppContext;
-import com.malalaoshi.android.core.entity.AuthUser;
+import com.malalaoshi.android.malapad.data.entity.Lesson;
 import com.malalaoshi.android.malapad.data.entity.User;
 
 /**
@@ -32,7 +32,7 @@ public class UserManager {
     private String name;
     private String school;
     private String schoolId;
-    private String lessonId;
+    private Lesson lesson;
 
     private UserManager() {
         SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
@@ -44,7 +44,43 @@ public class UserManager {
         name = userInfo.getString("name", "");
         school = userInfo.getString("school", "");
         schoolId = userInfo.getString("schoolId", "");
-        lessonId = userInfo.getString("lessonId", "");
+        lesson = getLessonInfo();//userInfo.getString("lesson", "");
+    }
+
+    private Lesson getLessonInfo() {
+        SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
+        Lesson lesson = new Lesson();
+        lesson.setId(userInfo.getLong("lessonId", -1L));
+        lesson.setLessonNo(userInfo.getString("lessonNo", ""));
+        lesson.setName(userInfo.getString("lessonName", ""));
+        lesson.setLecturer(userInfo.getString("lessonLecturer", ""));
+        lesson.setGrade(userInfo.getString("lessonGrade", ""));
+        lesson.setSubject(userInfo.getString("lessonSubject", ""));
+        return lesson;
+    }
+
+    private void setLessonInfo(Lesson lesson) {
+        SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
+        if (lesson!=null){
+            userInfo.edit().putLong("lessonId", lesson.getId()).apply();
+            userInfo.edit().putString("lessonNo", lesson.getLessonNo()).apply();
+            userInfo.edit().putString("lessonName", lesson.getName()).apply();
+            userInfo.edit().putString("lessonLecturer", lesson.getLecturer()).apply();
+            userInfo.edit().putString("lessonGrade", lesson.getGrade()).apply();
+            userInfo.edit().putString("lessonSubject", lesson.getSubject()).apply();
+        }else{
+            clearLessonInfo();
+        }
+    }
+
+    private void clearLessonInfo(){
+        SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
+        userInfo.edit().putLong("lessonId", -1L).apply();
+        userInfo.edit().putString("lessonNo", "").apply();
+        userInfo.edit().putString("lessonName", "").apply();
+        userInfo.edit().putString("lessonLecturer", "").apply();
+        userInfo.edit().putString("lessonGrade", "").apply();
+        userInfo.edit().putString("lessonSubject", "").apply();
     }
 
     public static UserManager getInstance() {
@@ -125,14 +161,13 @@ public class UserManager {
         this.schoolId = schoolId;
     }
 
-    public String getLessonId() {
-        return lessonId;
+    public Lesson getLesson() {
+        return lesson;
     }
 
-    public void setLessonId(String lessonId) {
-        SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
-        userInfo.edit().putString("lessonId", lessonId).apply();
-        this.lessonId = lessonId;
+    public void setLesson(Lesson lesson) {
+        setLessonInfo(lesson);
+        this.lesson = lesson;
     }
 
     public void logout() {
@@ -151,14 +186,16 @@ public class UserManager {
         userInfo.edit().putString("school", school).apply();
         schoolId = "";
         userInfo.edit().putString("schoolId", schoolId).apply();
-        lessonId = "";
-        userInfo.edit().putString("lessonId", lessonId).apply();
+        lesson = null;
+        clearLessonInfo();
         //Login success broadcast
         Intent intent = new Intent(ACTION_LOGOUT);
         AppContext.getLocalBroadcastManager().sendBroadcast(intent);
         //发送退出通知
         //EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_LOGOUT_SUCCESS));
     }
+
+
 
     /**
      * Success login, Update login info
@@ -173,7 +210,7 @@ public class UserManager {
         setRole(user.getRole());
         setSchool(user.getSchool());
         setSchoolId(user.getSchoolId()+"");
-        setLessonId(user.getLessonId()+"");
+        setLesson(user.getLesson());
         //Login success broadcast
         Intent intent = new Intent(ACTION_LOGINED);
         AppContext.getLocalBroadcastManager().sendBroadcast(intent);

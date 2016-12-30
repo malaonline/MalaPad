@@ -53,7 +53,7 @@ public class LoginPresenter implements LoginContract.Presenter {
             mLoginView.onFinishedLogin();
             return;
         }
-        mSubscriptions.add(LoginApi.login(new LoginParam("send",phone))
+        mSubscriptions.add(LoginApi.login(new LoginParam(phone))
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(
                         ()->{
@@ -63,17 +63,18 @@ public class LoginPresenter implements LoginContract.Presenter {
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        user -> {
-                            user.setToken("token");
-                            user.setUserId("u007");
-                            user.setSchool("清华大学");
-                            user.setRole("stuRole");
-                            user.setName("张小龙");
-                            user.setPhone("110");
-                            user.setSchoolId(001L);
-                            UserManager userManager = UserManager.getInstance();
-                            userManager.login(user);
-                            mLoginView.onSuccessLogin();
+                        response -> {
+                            if (response.getCode()==0){
+                                mLoginView.onSuccessLogin();
+                                User user = response.getData();
+                                UserManager userManager = UserManager.getInstance();
+                                userManager.login(user);
+                            }else{
+                                mLoginView.onFailureLogin(response.getCode(),response.getMsg());
+                            }
+
+
+
                         },
                         throwable -> {
                             mLoginView.onFailureLogin(LoginApi.ErrorCode.ERROR_CODE_BAD_NET,"网络请求失败");
