@@ -66,14 +66,9 @@ public class LoginPresenter implements LoginContract.Presenter {
                 .subscribe(
                         response -> {
                             Log.e("api",response.getCode()+"  "+response.getMsg());
-                            if (response.getCode()<=0){
+                            if (response.getCode()==0){
                                 mLoginView.onSuccessLogin();
                                 User user = response.getData();
-                                user = new User();
-                                user.setPhone("18813023710");
-                                user.setSchool("洛阳1区店");
-                                user.setToken("tokenxxxxxxxxxxxx");
-                                user.setName("张小龙");
                                 UserManager userManager = UserManager.getInstance();
                                 userManager.login(user);
                             }else{
