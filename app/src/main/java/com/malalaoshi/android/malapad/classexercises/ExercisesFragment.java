@@ -17,7 +17,9 @@ import com.malalaoshi.android.malapad.data.entity.Option;
 import com.malalaoshi.android.malapad.data.entity.ChoiceQuestion;
 import com.malalaoshi.android.malapad.usercenter.UserManager;
 import com.malalaoshi.android.malapad.usercenter.login.LoginActivity;
+import com.malalaoshi.comm.utils.DialogUtils;
 import com.malalaoshi.comm.views.ScrollListView;
+import com.malalaoshi.comm.views.dialogs.PromptDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -167,12 +169,39 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
 
     @OnClick(R.id.iv_logout)
     public void onClickLogout(View view){
+        //有内存泄漏风险
+        PromptDialog dialog = DialogUtils.createDoubleButtonPromptDialog(R.drawable.ic_logout
+                , "是否确定退出账号~",
+                "取消",
+                "确定",
+                new PromptDialog.OnCloseListener() {
+                    @Override
+                    public void onLeftClick() {
+                        deleteDialog();
+                    }
+
+                    @Override
+                    public void onRightClick() {
+                        logout();
+                        deleteDialog();
+                    }
+                }
+                , false, false);
+        if (isResumed()) {
+            showDialog(dialog);
+        } else {
+            addDialog(dialog);
+        }
+    }
+
+    private void logout() {
         //1、清除本地认证信息
         //2、跳转至登录页面
         UserManager.getInstance().logout();
         LoginActivity.launch(getContext());
         getActivity().finish();
     }
+
 
     @Override
     public void onClick(View v) {

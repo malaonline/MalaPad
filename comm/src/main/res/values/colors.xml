@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="comm_white">#fff</color>
+    <color name="comm_blue_light">#bcddf5</color>
+    <color name="comm_blue">#a5ccea</color>
+    <color name="comm_blue_deep">#7fb2d8</color>
+    <color name="comm_gray">#b9c1c7</color>
+    <color name="comm_gray_light">#EFEFEF</color>
+    <color name="comm_grey_black_deep">#333333</color>
+    <color name="comm_grey_black">#636363</color>
+    <color name="comm_grey_black_light">#939393</color>
+</resources>
