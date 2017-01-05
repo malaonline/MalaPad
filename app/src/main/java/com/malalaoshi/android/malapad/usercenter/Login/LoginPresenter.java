@@ -74,9 +74,6 @@ public class LoginPresenter implements LoginContract.Presenter {
                             }else{
                                 mLoginView.onFailureLogin(response.getCode(),response.getMsg());
                             }
-
-
-
                         },
                         throwable -> {
                             mLoginView.onFailureLogin(LoginApi.ErrorCode.ERROR_CODE_BAD_NET,"网络请求失败");

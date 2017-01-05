@@ -3,9 +3,9 @@
     android:oneshot="false" >
 
     <item
-        android:drawable="@drawable/ic_login_loading_1"
+        android:drawable="@drawable/ic_login_loading_2"
         android:duration="100"/>
     <item
-        android:drawable="@drawable/ic_login_loading_2"
+        android:drawable="@drawable/ic_login_loading_1"
         android:duration="100"/>
 </animation-list>

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.malalaoshi.android.core.AppContext;
+import com.malalaoshi.android.malapad.data.entity.ClassRoom;
 import com.malalaoshi.android.malapad.data.entity.Lesson;
 import com.malalaoshi.android.malapad.data.entity.User;
 
@@ -32,7 +33,7 @@ public class UserManager {
     private String name;
     private String school;
     private String schoolId;
-    private Lesson lesson;
+    private ClassRoom classRoom;
 
     private UserManager() {
         SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
@@ -44,10 +45,40 @@ public class UserManager {
         name = userInfo.getString("name", "");
         school = userInfo.getString("school", "");
         schoolId = userInfo.getString("schoolId", "");
-        lesson = getLessonInfo();//userInfo.getString("lesson", "");
+        classRoom = getClassRoomInfo();//userInfo.getString("lesson", "");
     }
 
-    private Lesson getLessonInfo() {
+    private ClassRoom getClassRoomInfo() {
+        SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
+        ClassRoom classRoom = new ClassRoom();
+        classRoom.setId(userInfo.getLong("classRoomId", -1L));
+        classRoom.setAssistant(userInfo.getString("classRoomAssistant", ""));
+        classRoom.setClassRoom(userInfo.getString("classRoom", ""));
+        classRoom.setLesson(getLessonInfo());
+        return classRoom;
+    }
+
+
+    private void setClassRoomInfo(ClassRoom classRoom) {
+        SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
+        if (classRoom!=null){
+            userInfo.edit().putLong("classRoomId", classRoom.getId()).apply();
+            userInfo.edit().putString("classRoomAssistant", classRoom.getAssistant()).apply();
+            userInfo.edit().putString("classRoom", classRoom.getClassRoom()).apply();
+            setLessonInfo(classRoom.getLesson());
+        }else{
+            clearClassRoomInfo();
+        }
+    }
+
+    private void clearClassRoomInfo(){
+        SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
+        userInfo.edit().putLong("classRoomId", -1L).apply();
+        userInfo.edit().putString("classRoomAssistant", "").apply();
+        userInfo.edit().putString("classRoom", "").apply();
+        clearLessonInfo();
+    }
+    private Lesson getLessonInfo(){
         SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
         Lesson lesson = new Lesson();
         lesson.setId(userInfo.getLong("lessonId", -1L));
@@ -61,7 +92,7 @@ public class UserManager {
 
     private void setLessonInfo(Lesson lesson) {
         SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
-        if (lesson!=null){
+        if (classRoom!=null){
             userInfo.edit().putLong("lessonId", lesson.getId()).apply();
             userInfo.edit().putString("lessonNo", lesson.getLessonNo()).apply();
             userInfo.edit().putString("lessonName", lesson.getName()).apply();
@@ -161,13 +192,13 @@ public class UserManager {
         this.schoolId = schoolId;
     }
 
-    public Lesson getLesson() {
-        return lesson;
+    public ClassRoom getClassRoom() {
+        return classRoom;
     }
 
-    public void setLesson(Lesson lesson) {
-        setLessonInfo(lesson);
-        this.lesson = lesson;
+    public void setClassRoom(ClassRoom classRoom) {
+        setClassRoomInfo(classRoom);
+        this.classRoom = classRoom;
     }
 
     public void logout() {
@@ -186,8 +217,8 @@ public class UserManager {
         userInfo.edit().putString("school", school).apply();
         schoolId = "";
         userInfo.edit().putString("schoolId", schoolId).apply();
-        lesson = null;
-        clearLessonInfo();
+        classRoom = null;
+        clearClassRoomInfo();
         //Login success broadcast
         Intent intent = new Intent(ACTION_LOGOUT);
         AppContext.getLocalBroadcastManager().sendBroadcast(intent);
@@ -210,7 +241,7 @@ public class UserManager {
         setRole(user.getRole());
         setSchool(user.getSchool());
         setSchoolId(user.getSchoolId()+"");
-        setLesson(user.getLesson());
+        setClassRoom(user.getClassRoom());
         //Login success broadcast
         Intent intent = new Intent(ACTION_LOGINED);
         AppContext.getLocalBroadcastManager().sendBroadcast(intent);
