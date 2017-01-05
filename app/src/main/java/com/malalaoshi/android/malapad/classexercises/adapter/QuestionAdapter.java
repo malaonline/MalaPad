@@ -63,7 +63,7 @@ public class QuestionAdapter extends BaseAdapter implements ViewHolder.OnOptionS
         }
 
         ChoiceQuestion choiceQuestion = choiceQuestionList.get(position);
-        viewHolder.updateData(choiceQuestion,position, this);
+        viewHolder.updateData(choiceQuestion, position, this);
         return convertView;
     }
 

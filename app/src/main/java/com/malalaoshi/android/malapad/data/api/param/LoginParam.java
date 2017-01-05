@@ -6,6 +6,7 @@ package com.malalaoshi.android.malapad.data.api.param;
 
 public class LoginParam {
     private String phone;
+    boolean test;
 
     public LoginParam(String phone) {
         this.phone = phone;
@@ -17,5 +18,13 @@ public class LoginParam {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public boolean isTest() {
+        return test;
+    }
+
+    public void setTest(boolean test) {
+        this.test = test;
     }
 }

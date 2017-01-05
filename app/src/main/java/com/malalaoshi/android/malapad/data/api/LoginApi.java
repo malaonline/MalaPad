@@ -2,6 +2,7 @@ package com.malalaoshi.android.malapad.data.api;
 
 import android.util.Log;
 
+import com.malalaoshi.android.core.AppContext;
 import com.malalaoshi.android.core.entity.AuthUser;
 import com.malalaoshi.android.core.network.NetworkClient;
 import com.malalaoshi.android.malapad.data.api.param.LoginParam;
@@ -33,6 +34,9 @@ public class LoginApi {
 
     public static Observable<LoginResponse> login(LoginParam param){
         Log.e("api","param:"+param.getPhone());
+        if (AppContext.isDebug()){
+            param.setTest(true);
+        }
         return service.login(param);
     }
 }

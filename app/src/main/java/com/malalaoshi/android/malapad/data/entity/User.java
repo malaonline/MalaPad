@@ -11,16 +11,16 @@ public class User extends AuthUser {
     private String school;
     @SerializedName("school_id")
     private Long schoolId;
-    @SerializedName("live_course")
-    private Lesson lesson;
+    @SerializedName("live_class")
+    private ClassRoom classRoom;
     public User() {
     }
 
-    public User(String token, String phone, String name, String userId, String role, String school, Long schoolId, Lesson lesson) {
+    public User(String token, String phone, String name, String userId, String role, String school, Long schoolId, ClassRoom classRoom) {
         super(token, phone, name, userId, role);
         this.school = school;
         this.schoolId = schoolId;
-        this.lesson = lesson;
+        this.classRoom = classRoom;
     }
 
     public String getSchool() {
@@ -39,11 +39,11 @@ public class User extends AuthUser {
         this.schoolId = schoolId;
     }
 
-    public Lesson getLesson() {
-        return lesson;
+    public ClassRoom getClassRoom() {
+        return classRoom;
     }
 
-    public void setLesson(Lesson lesson) {
-        this.lesson = lesson;
+    public void setClassRoom(ClassRoom classRoom) {
+        this.classRoom = classRoom;
     }
 }
