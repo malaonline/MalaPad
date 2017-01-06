@@ -5,9 +5,15 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.malalaoshi.android.core.AppContext;
+import com.malalaoshi.android.core.event.BusEvent;
+import com.malalaoshi.android.core.event.BusEventDef;
+import com.malalaoshi.android.core.event.EventDispatcher;
 import com.malalaoshi.android.malapad.data.entity.ClassRoom;
 import com.malalaoshi.android.malapad.data.entity.Lesson;
 import com.malalaoshi.android.malapad.data.entity.User;
+import com.malalaoshi.android.malapad.data.heartbeat.HeartbeatThread;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by kang on 16/12/21.
@@ -34,7 +40,7 @@ public class UserManager {
     private String school;
     private String schoolId;
     private ClassRoom classRoom;
-
+    HeartbeatThread heartbeatThread;
     private UserManager() {
         SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
         token = userInfo.getString("token", "");
@@ -201,7 +207,7 @@ public class UserManager {
         this.classRoom = classRoom;
     }
 
-    public void logout() {
+    private void logout() {
         SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
         token = "";
         userInfo.edit().putString("token", "").apply();
@@ -222,10 +228,24 @@ public class UserManager {
         //Login success broadcast
         Intent intent = new Intent(ACTION_LOGOUT);
         AppContext.getLocalBroadcastManager().sendBroadcast(intent);
-        //发送退出通知
-        //EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_LOGOUT_SUCCESS));
+        if (heartbeatThread!=null){
+            heartbeatThread.stopThread();
+        }
     }
 
+    //正常登出
+    public void userLogout(){
+        logout();
+        //发送退出通知
+        EventDispatcher.getInstance().post(new BusEvent(BusEventDef.BUS_EVENT_LOGOUT_SUCCESS));
+    }
+
+    //token失效
+    public void tokenInvalid(){
+        logout();
+        //发送退出通知
+        EventDispatcher.getInstance().post(new BusEvent(BusEventDef.BUS_EVENT_TOKEN_INVALID));
+    }
 
 
     /**
@@ -246,7 +266,11 @@ public class UserManager {
         Intent intent = new Intent(ACTION_LOGINED);
         AppContext.getLocalBroadcastManager().sendBroadcast(intent);
         //发送登录成功通知
-       // EventBus.getDefault().post(new BusEvent(BusEvent.BUS_EVENT_LOGIN_SUCCESS));
+        EventBus.getDefault().post(new BusEvent(BusEventDef.BUS_EVENT_LOGOUT_SUCCESS));
+        if (heartbeatThread!=null){
+            heartbeatThread.stopThread();
+        }
+        heartbeatThread = new HeartbeatThread(user.getClassRoom().getId()+"");
     }
 
 }

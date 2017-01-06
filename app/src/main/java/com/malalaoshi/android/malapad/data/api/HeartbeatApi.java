@@ -1,8 +1,10 @@
 package com.malalaoshi.android.malapad.data.api;
 
 import com.malalaoshi.android.core.network.NetworkClient;
+import com.malalaoshi.android.malapad.data.api.param.HeartbeatParam;
 import com.malalaoshi.android.malapad.data.api.response.HeartbeatResponse;
 
+import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 import rx.Observable;
@@ -14,12 +16,12 @@ import rx.Observable;
 public class HeartbeatApi {
 
     private interface HeartbeatService {
-        @POST("/api/v1/pad/heartbeat")
-        public HeartbeatResponse heartbeat();
+        @POST("/api/v1/pad/status")
+        public Call<HeartbeatResponse> heartbeat(HeartbeatParam param);
     }
     protected static final HeartbeatApi.HeartbeatService service  = NetworkClient.retrofit().create(HeartbeatApi.HeartbeatService.class);
 
-    public static HeartbeatResponse heartbeat(){
-        return service.heartbeat();
+    public static Call<HeartbeatResponse> heartbeat(HeartbeatParam param){
+        return service.heartbeat(param);
     }
 }

@@ -5,14 +5,12 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
-import java.lang.ref.WeakReference;
-
 /**
  * Created by kang on 16/12/8.
  */
 
 public class BaseFragment extends Fragment {
-    private WeakReference<DialogFragment> dialogFragment;
+    private DialogFragment dialogFragment;
     protected void showDialog(DialogFragment dialog) {
         final String FLAG = "dialogFragment";
         FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -28,14 +26,13 @@ public class BaseFragment extends Fragment {
         dialogFragment = null;
     }
     protected void addDialog(DialogFragment dialog) {
-        dialogFragment = new WeakReference<DialogFragment>(dialog);
+        dialogFragment = dialog;
     }
 
     protected void deleteDialog(){
-        DialogFragment dialog = dialogFragment.get();
-        if (dialog!=null){
-            dialog.dismiss();
-            dialogFragment.clear();
+        if (dialogFragment!=null){
+            dialogFragment.dismiss();
+            dialogFragment = null;
         }
     }
 
@@ -43,9 +40,8 @@ public class BaseFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        DialogFragment dialog = dialogFragment.get();
-        if (dialog != null) {
-            showDialog(dialog);
+        if (dialogFragment != null) {
+            showDialog(dialogFragment);
         }
     }
 }

@@ -4,10 +4,13 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -119,6 +122,21 @@ public class PromptDialog extends BaseDialog implements View.OnClickListener {
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        Window window;
+        if (getDialog() != null) {
+            window = getDialog().getWindow();
+        } else {
+            // This DialogFragment is used as a normal fragment, not a dialog
+            window = getActivity().getWindow();
+        }
+        if (window != null) {
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+        }
+    }
+
     private void initViews(View view) {
         this.ivIcon = (ImageView) view.findViewById(R.id.iv_icon);
         this.tvBtn = (TextView) view.findViewById(R.id.tv_btn);
@@ -166,5 +184,6 @@ public class PromptDialog extends BaseDialog implements View.OnClickListener {
                 closeListener.onLeftClick();
             }
         }
+        dismiss();
     }
 }

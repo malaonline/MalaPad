@@ -10,7 +10,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.malalaoshi.android.core.base.BaseFragment;
-import com.malalaoshi.android.core.utils.MiscUtil;
+import com.malalaoshi.android.core.event.BusEvent;
+import com.malalaoshi.android.core.event.BusEventDef;
+import com.malalaoshi.android.core.event.EventDispatcher;
 import com.malalaoshi.android.malapad.R;
 import com.malalaoshi.android.malapad.classexercises.adapter.QuestionAdapter;
 import com.malalaoshi.android.malapad.data.entity.Option;
@@ -20,6 +22,9 @@ import com.malalaoshi.android.malapad.usercenter.login.LoginActivity;
 import com.malalaoshi.comm.utils.DialogUtils;
 import com.malalaoshi.comm.views.ScrollListView;
 import com.malalaoshi.comm.views.dialogs.PromptDialog;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -186,7 +191,7 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
                         deleteDialog();
                     }
                 }
-                , false, false);
+                , true, true);
         if (isResumed()) {
             showDialog(dialog);
         } else {
@@ -197,18 +202,90 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
     private void logout() {
         //1、清除本地认证信息
         //2、跳转至登录页面
-        UserManager.getInstance().logout();
+        UserManager.getInstance().userLogout();
+        redirectLogout();
+    }
+
+    private void redirectLogout(){
         LoginActivity.launch(getContext());
         getActivity().finish();
     }
+
 
 
     @Override
     public void onClick(View v) {
         Map<String,Option> mapSelected = mQuestionAdapter.getSelectedOptions();
         if (choiceQuestionList.size()!=mapSelected.size()){
-            MiscUtil.toast("题目还没有答完");
+            showPromptDialog("题目还没有答完");
         }
         mPresenter.submitAnswerTask(mapSelected);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventDispatcher.getInstance().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventDispatcher.getInstance().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(BusEvent busEvent) {
+        if (busEvent.getEventType()== BusEventDef.BUS_EVENT_LOGOUT_SUCCESS){
+            //自动退出
+            redirectLogout();
+        }else if (busEvent.getEventType()== BusEventDef.BUS_EVENT_LOGOUT_SUCCESS){
+            //账号被踢下线//自动退出
+            showLogoutDialog("当前账号已在别处登录~");
+        }
+    }
+
+    /*@Subscribe(threadMode = ThreadMode.MAIN)
+    public void onQuestionEvent(QuestionBusEvent busEvent) {
+
+    }*/
+
+    private void showPromptDialog(String message) {
+        //
+        PromptDialog dialog = DialogUtils.createPromptDialog(R.drawable.ic_unanswer
+                , message,
+                "确 定",
+                new PromptDialog.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        deleteDialog();
+                    }
+                }
+                , true, true);
+        if (isResumed()) {
+            showDialog(dialog);
+        } else {
+            addDialog(dialog);
+        }
+    }
+
+    private void showLogoutDialog(String message) {
+        //
+        PromptDialog dialog = DialogUtils.createPromptDialog(R.drawable.ic_offline
+                , message,
+                "确 定",
+                new PromptDialog.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        deleteDialog();
+                        redirectLogout();
+                    }
+                }
+                , false, false);
+        if (isResumed()) {
+            showDialog(dialog);
+        } else {
+            addDialog(dialog);
+        }
     }
 }
