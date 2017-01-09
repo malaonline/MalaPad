@@ -17,7 +17,7 @@ public class HeartbeatApi {
 
     private interface HeartbeatService {
         @POST("/api/v1/pad/status")
-        public Call<HeartbeatResponse> heartbeat(HeartbeatParam param);
+        Call<HeartbeatResponse> heartbeat(@Body HeartbeatParam param);
     }
     protected static final HeartbeatApi.HeartbeatService service  = NetworkClient.retrofit().create(HeartbeatApi.HeartbeatService.class);
 

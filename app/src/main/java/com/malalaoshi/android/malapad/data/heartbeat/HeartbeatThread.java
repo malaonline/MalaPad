@@ -6,10 +6,12 @@ import android.util.Log;
 
 import com.malalaoshi.android.core.event.BusEvent;
 import com.malalaoshi.android.core.event.BusEventDef;
+import com.malalaoshi.android.core.event.EventDispatcher;
 import com.malalaoshi.android.malapad.data.api.HeartbeatApi;
 import com.malalaoshi.android.malapad.data.api.param.HeartbeatParam;
 import com.malalaoshi.android.malapad.data.api.response.HeartbeatResponse;
 import com.malalaoshi.android.malapad.data.entity.Heartbeat;
+import com.malalaoshi.android.malapad.event.QuestionBusEvent;
 import com.malalaoshi.android.malapad.usercenter.UserManager;
 
 import java.io.IOException;
@@ -25,13 +27,8 @@ import rx.schedulers.Schedulers;
  */
 
 public class HeartbeatThread extends Thread {
-
-    private String questionsId;
-    private String classRoomId;
     private boolean flag;
-
-    public HeartbeatThread(String classRoomId) {
-        this.classRoomId = classRoomId;
+    public HeartbeatThread() {
         this.flag = true;
     }
 
@@ -40,35 +37,65 @@ public class HeartbeatThread extends Thread {
         super.run();
         UserManager userManager = UserManager.getInstance();
         while (flag){
-            Call<HeartbeatResponse> call = HeartbeatApi.heartbeat(new HeartbeatParam(classRoomId));
-            try {
-                Response<HeartbeatResponse> response = call.execute();
-                if (response.isSuccessful()) {
-                    HeartbeatResponse heartbeat = response.body();
-                    if (heartbeat.getCode()==0){
-
-                    }else if (heartbeat.getCode()==-1){
-                        userManager.userLogout();
-                        break;
-                    }else if (heartbeat.getCode()==-2){
-                        userManager.tokenInvalid();
-                        break;
-                    }
-                } else {
-                    int statusCode = response.code();
-                    // handle request errors yourself
-                    ResponseBody errorBody = response.errorBody();
+            if (!userManager.isLogin()){
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+                continue;
             }
+            sendHeartbeatMessage(userManager.getClassRoom().getId()+"");
             try {
-                Thread.sleep(2000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
 
+    }
+
+    private void sendHeartbeatMessage(String classRoomId) {
+
+        Log.e("Heartbeat message","Heartbeat time:"+System.currentTimeMillis());
+        Call<HeartbeatResponse> call = HeartbeatApi.heartbeat(new HeartbeatParam(classRoomId));
+        try {
+            Response<HeartbeatResponse> response = call.execute();
+            if (response.isSuccessful()) {
+                HeartbeatResponse heartbeat = response.body();
+                dealHearbeatMessage(heartbeat);
+            } else {
+                int statusCode = response.code();
+                // handle request errors yourself
+                ResponseBody errorBody = response.errorBody();
+                Log.e("Heartbeat message","status Code:"+statusCode);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e("Heartbeat message","Heartbeat IOException:"+e.getMessage());
+        }
+
+    }
+
+    private void dealHearbeatMessage(HeartbeatResponse heartbeat) {
+        Log.e("Heartbeat message","Heartbeat Response:"+heartbeat.getCode()+" "+heartbeat.getMsg());
+        switch (heartbeat.getCode()){
+            case 0:
+                sendQuestionMessage(heartbeat);
+                break;
+            case -1:
+                UserManager.getInstance().userLogout();
+                break;
+            case -2:
+                UserManager.getInstance().tokenInvalid();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void sendQuestionMessage(HeartbeatResponse heartbeat) {
+        EventDispatcher.getInstance().post(new QuestionBusEvent(401,"groupId"));
     }
 
     public void stopThread(){

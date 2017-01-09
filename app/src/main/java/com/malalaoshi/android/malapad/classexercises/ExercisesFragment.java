@@ -2,6 +2,7 @@ package com.malalaoshi.android.malapad.classexercises;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.malalaoshi.android.malapad.R;
 import com.malalaoshi.android.malapad.classexercises.adapter.QuestionAdapter;
 import com.malalaoshi.android.malapad.data.entity.Option;
 import com.malalaoshi.android.malapad.data.entity.ChoiceQuestion;
+import com.malalaoshi.android.malapad.event.QuestionBusEvent;
 import com.malalaoshi.android.malapad.usercenter.UserManager;
 import com.malalaoshi.android.malapad.usercenter.login.LoginActivity;
 import com.malalaoshi.comm.utils.DialogUtils;
@@ -236,19 +238,20 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(BusEvent busEvent) {
+        Log.e("event",busEvent.toString());
         if (busEvent.getEventType()== BusEventDef.BUS_EVENT_LOGOUT_SUCCESS){
             //自动退出
             redirectLogout();
-        }else if (busEvent.getEventType()== BusEventDef.BUS_EVENT_LOGOUT_SUCCESS){
+        }else if (busEvent.getEventType()== BusEventDef.BUS_EVENT_TOKEN_INVALID){
             //账号被踢下线//自动退出
             showLogoutDialog("当前账号已在别处登录~");
         }
     }
 
-    /*@Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onQuestionEvent(QuestionBusEvent busEvent) {
-
-    }*/
+        Log.e("event",busEvent.toString());
+    }
 
     private void showPromptDialog(String message) {
         //

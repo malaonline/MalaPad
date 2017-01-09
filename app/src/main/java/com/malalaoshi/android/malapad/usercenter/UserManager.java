@@ -40,7 +40,7 @@ public class UserManager {
     private String school;
     private String schoolId;
     private ClassRoom classRoom;
-    HeartbeatThread heartbeatThread;
+    private HeartbeatThread heartbeatThread;
     private UserManager() {
         SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
         token = userInfo.getString("token", "");
@@ -124,11 +124,11 @@ public class UserManager {
         return instance;
     }
 
-    public String getToken() {
+    public synchronized String getToken() {
         return token;
     }
 
-    public void setToken(String token) {
+    public synchronized void setToken(String token) {
         SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
         userInfo.edit().putString("token", token).apply();
         this.token = token;
@@ -154,7 +154,7 @@ public class UserManager {
         this.phoneNo = phoneNo;
     }
 
-    public boolean isLogin() {
+    public synchronized boolean isLogin() {
         return !TextUtils.isEmpty(token);
     }
 
@@ -207,7 +207,7 @@ public class UserManager {
         this.classRoom = classRoom;
     }
 
-    private void logout() {
+    private synchronized void logout() {
         SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
         token = "";
         userInfo.edit().putString("token", "").apply();
@@ -228,9 +228,7 @@ public class UserManager {
         //Login success broadcast
         Intent intent = new Intent(ACTION_LOGOUT);
         AppContext.getLocalBroadcastManager().sendBroadcast(intent);
-        if (heartbeatThread!=null){
-            heartbeatThread.stopThread();
-        }
+        //stopHeartbeatThread();
     }
 
     //正常登出
@@ -267,10 +265,19 @@ public class UserManager {
         AppContext.getLocalBroadcastManager().sendBroadcast(intent);
         //发送登录成功通知
         EventBus.getDefault().post(new BusEvent(BusEventDef.BUS_EVENT_LOGOUT_SUCCESS));
-        if (heartbeatThread!=null){
-            heartbeatThread.stopThread();
-        }
-        heartbeatThread = new HeartbeatThread(user.getClassRoom().getId()+"");
     }
 
+    public void startHeartbeatThread(){
+        stopHeartbeatThread();
+        heartbeatThread = new HeartbeatThread();
+        heartbeatThread.setName("heart beat thread");
+        heartbeatThread.start();
+    }
+
+    public void stopHeartbeatThread(){
+        if (heartbeatThread!=null){
+            heartbeatThread.stopThread();
+            heartbeatThread = null;
+        }
+    }
 }

@@ -71,6 +71,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                                 User user = response.getData();
                                 UserManager userManager = UserManager.getInstance();
                                 userManager.login(user);
+                                //userManager.startHeartbeatThread();
                             }else{
                                 mLoginView.onFailureLogin(response.getCode(),response.getMsg());
                             }
