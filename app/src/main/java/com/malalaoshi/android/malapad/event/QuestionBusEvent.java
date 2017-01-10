@@ -7,20 +7,20 @@ import com.malalaoshi.android.core.event.BusEvent;
  */
 
 public class QuestionBusEvent extends BusEvent {
-    private String groudId;
+    private Long groudId;
     public QuestionBusEvent() {
     }
 
-    public QuestionBusEvent(int eventType, String groudId) {
+    public QuestionBusEvent(int eventType, Long groudId) {
         super(eventType);
         this.groudId = groudId;
     }
 
-    public String getGroudId() {
+    public Long getGroudId() {
         return groudId;
     }
 
-    public void setGroudId(String groudId) {
+    public void setGroudId(Long groudId) {
         this.groudId = groudId;
     }
 

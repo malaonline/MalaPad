@@ -1,5 +1,7 @@
 package com.malalaoshi.android.malapad.data.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -7,21 +9,22 @@ import java.util.List;
  */
 
 public class ChoiceQuestion {
+    @SerializedName("title")
     private String question;
     private Long answerId;
     private String answerDesc;
-    private List<Option> optionList;
+    private List<Option> options;
 
-    public ChoiceQuestion(String question, Long answerId, String answerDesc, List<Option> optionList) {
+    public ChoiceQuestion(String question, Long answerId, String answerDesc, List<Option> options) {
         this.question = question;
         this.answerId = answerId;
         this.answerDesc = answerDesc;
-        this.optionList = optionList;
+        this.options = options;
     }
 
-    public ChoiceQuestion(String question, List<Option> optionList) {
+    public ChoiceQuestion(String question, List<Option> options) {
         this.question = question;
-        this.optionList = optionList;
+        this.options = options;
     }
     public String getQuestion() {
         return question;
@@ -31,12 +34,12 @@ public class ChoiceQuestion {
         this.question = question;
     }
 
-    public List<Option> getOptionList() {
-        return optionList;
+    public List<Option> getOptions() {
+        return options;
     }
 
-    public void setOptionList(List<Option> optionList) {
-        this.optionList = optionList;
+    public void setOptions(List<Option> options) {
+        this.options = options;
     }
 
     public Long getAnswerId() {

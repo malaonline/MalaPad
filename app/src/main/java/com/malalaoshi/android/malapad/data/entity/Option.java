@@ -1,26 +1,29 @@
 package com.malalaoshi.android.malapad.data.entity;
 
+import com.google.gson.annotations.SerializedName;
+import com.malalaoshi.android.core.entity.BaseEntity;
+
 /**
  * Created by kang on 16/12/28.
  */
 
-public class Option {
-    private String id;
+public class Option extends BaseEntity{
+    @SerializedName("text")
     private String answer;
     private boolean isSelected;
 
-    public Option(String id, String answer, boolean isSelected) {
-        this.id = id;
+    public Option() {
+    }
+
+    public Option(Long id, String answer) {
+        super(id, null);
+        this.answer = answer;
+    }
+
+    public Option(Long id, String answer, boolean isSelected) {
+        super(id, null);
         this.answer = answer;
         this.isSelected = isSelected;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getAnswer() {

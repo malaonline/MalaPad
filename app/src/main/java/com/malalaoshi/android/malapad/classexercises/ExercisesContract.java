@@ -3,6 +3,7 @@ package com.malalaoshi.android.malapad.classexercises;
 import com.malalaoshi.android.core.base.BasePresenter;
 import com.malalaoshi.android.core.base.BaseView;
 import com.malalaoshi.android.malapad.data.entity.Option;
+import com.malalaoshi.android.malapad.data.entity.QuestionGroup;
 
 import java.util.Map;
 
@@ -12,14 +13,18 @@ import java.util.Map;
 
 public class ExercisesContract {
     interface View extends BaseView<ExercisesContract.Presenter> {
-        void onStarted();
-        void onFailure();
-        void onSuccess();
-        void onFinished();
+
+        void onLoadingQuestions();
+
+        void onQuestionsLoadSuccess(QuestionGroup questionGroup);
+
+        void onQuestionsLoadFailed(Integer code, String msg);
+
+        void onLoadQuestionComplete();
     }
 
     interface Presenter extends BasePresenter {
-        void loadQuestionsTask(String questionsId);
+        void loadQuestionsTask(Long questionsId);
 
         void submitAnswerTask(Map<String, Option> mapSelected);
     }

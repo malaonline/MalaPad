@@ -11,6 +11,7 @@ import com.malalaoshi.android.malapad.data.api.HeartbeatApi;
 import com.malalaoshi.android.malapad.data.api.param.HeartbeatParam;
 import com.malalaoshi.android.malapad.data.api.response.HeartbeatResponse;
 import com.malalaoshi.android.malapad.data.entity.Heartbeat;
+import com.malalaoshi.android.malapad.data.entity.QuestionGroup;
 import com.malalaoshi.android.malapad.event.QuestionBusEvent;
 import com.malalaoshi.android.malapad.usercenter.UserManager;
 
@@ -27,6 +28,7 @@ import rx.schedulers.Schedulers;
  */
 
 public class HeartbeatThread extends Thread {
+    private static String TAG="HeartbeatThread";
     private boolean flag;
     public HeartbeatThread() {
         this.flag = true;
@@ -39,7 +41,7 @@ public class HeartbeatThread extends Thread {
         while (flag){
             if (!userManager.isLogin()){
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(6000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -57,28 +59,32 @@ public class HeartbeatThread extends Thread {
 
     private void sendHeartbeatMessage(String classRoomId) {
 
-        Log.e("Heartbeat message","Heartbeat time:"+System.currentTimeMillis());
+        Log.d(TAG,"send heartbeat message time:"+System.currentTimeMillis());
         Call<HeartbeatResponse> call = HeartbeatApi.heartbeat(new HeartbeatParam(classRoomId));
         try {
             Response<HeartbeatResponse> response = call.execute();
             if (response.isSuccessful()) {
                 HeartbeatResponse heartbeat = response.body();
+                if (heartbeat==null){
+                    Log.e(TAG,"repose is null");
+                    return;
+                }
                 dealHearbeatMessage(heartbeat);
             } else {
                 int statusCode = response.code();
                 // handle request errors yourself
                 ResponseBody errorBody = response.errorBody();
-                Log.e("Heartbeat message","status Code:"+statusCode);
+                Log.e(TAG,"response failed, status Code:"+statusCode);
             }
         } catch (IOException e) {
             e.printStackTrace();
-            Log.e("Heartbeat message","Heartbeat IOException:"+e.getMessage());
+            Log.e(TAG,"response IOException:"+e.getMessage());
         }
 
     }
 
     private void dealHearbeatMessage(HeartbeatResponse heartbeat) {
-        Log.e("Heartbeat message","Heartbeat Response:"+heartbeat.getCode()+" "+heartbeat.getMsg());
+        Log.e(TAG,"response:code->"+heartbeat.getCode()+" msg->"+heartbeat.getMsg());
         switch (heartbeat.getCode()){
             case 0:
                 sendQuestionMessage(heartbeat);
@@ -94,14 +100,18 @@ public class HeartbeatThread extends Thread {
         }
     }
 
-    private void sendQuestionMessage(HeartbeatResponse heartbeat) {
-        EventDispatcher.getInstance().post(new QuestionBusEvent(401,"groupId"));
+    private void sendQuestionMessage(HeartbeatResponse response) {
+        Heartbeat heartbeat = response.getData();
+        if (heartbeat!=null&&heartbeat.getQuestionGroup()!=null&&heartbeat.getQuestionGroup().getId()!=null){
+            QuestionGroup group = heartbeat.getQuestionGroup();
+            EventDispatcher.getInstance().post(new QuestionBusEvent(response.getType(),group.getId()));
+        }else {
+            Log.e(TAG,"repose is null");
+        }
     }
 
     public void stopThread(){
         flag= false;
         interrupt();
     }
-
-
 }

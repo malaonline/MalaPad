@@ -20,4 +20,11 @@ public class BusEvent {
     public void setEventType(int eventType) {
         this.eventType = eventType;
     }
+
+    @Override
+    public String toString() {
+        return "BusEvent{" +
+                "eventType=" + eventType +
+                '}';
+    }
 }

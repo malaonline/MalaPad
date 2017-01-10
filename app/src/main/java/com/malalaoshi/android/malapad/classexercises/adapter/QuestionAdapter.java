@@ -75,7 +75,7 @@ public class QuestionAdapter extends BaseAdapter implements ViewHolder.OnOptionS
     @Override
     public void OnOptionSelected(int position, int optionId) {
         ChoiceQuestion choiceQuestion = choiceQuestionList.get(position);
-        List<Option> optionList = choiceQuestion.getOptionList();
+        List<Option> optionList = choiceQuestion.getOptions();
         for (Option option : optionList){
             option.setSelected(false);
         }
@@ -117,7 +117,7 @@ class ViewHolder implements View.OnClickListener {
         //赋值
         TextView tvOption;
         Option option;
-        List<Option> options = choiceQuestion.getOptionList();
+        List<Option> options = choiceQuestion.getOptions();
         for (int i = 0; options !=null&&i< options.size()&&i< tvOptionList.size(); i++){
             tvOption = tvOptionList.get(i);
             option = options.get(i);
