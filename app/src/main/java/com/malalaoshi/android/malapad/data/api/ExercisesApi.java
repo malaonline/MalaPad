@@ -1,14 +1,13 @@
 package com.malalaoshi.android.malapad.data.api;
 
 import com.malalaoshi.android.core.network.NetworkClient;
+import com.malalaoshi.android.malapad.data.api.param.AnswersParam;
 import com.malalaoshi.android.malapad.data.api.param.QuestionsParam;
+import com.malalaoshi.android.malapad.data.api.response.AnswerResponse;
 import com.malalaoshi.android.malapad.data.api.response.QuestionsResponse;
-import com.malalaoshi.android.malapad.data.entity.ChoiceQuestion;
-
-import java.util.List;
 
 import retrofit2.http.Body;
-import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import rx.Observable;
 
@@ -16,23 +15,23 @@ import rx.Observable;
  * Created by kang on 16/12/28.
  */
 
-public class ExercisesApi {
+public class ExercisesApi extends BaseApi {
     private interface ExercisesService {
         @POST("/api/v1/pad/question")
-        public Observable<QuestionsResponse> getQuestions(@Body QuestionsParam param);
+        public Observable<QuestionsResponse> getQuestions(@Header("token") String token,@Body QuestionsParam param);
 
         @POST("/api/v1/pad/answer")
-        public Observable<List<ChoiceQuestion>> submitAnswers(@Body QuestionsParam param);
+        public Observable<AnswerResponse> submitAnswers(@Header("token") String token, @Body AnswersParam param);
     }
 
     protected static final ExercisesService service  = NetworkClient.retrofit().create(ExercisesService.class);
 
     public static Observable<QuestionsResponse> loadQuestions(QuestionsParam param){
-        return service.getQuestions(param);
+        return service.getQuestions(getToken(),param);
     }
 
-    public static Observable<List<ChoiceQuestion>> submitAnswers(QuestionsParam param){
-        return service.submitAnswers(param);
+    public static Observable<AnswerResponse> submitAnswers(AnswersParam param){
+        return service.submitAnswers(getToken(),param);
     }
 
 }

@@ -10,9 +10,9 @@ import com.malalaoshi.android.core.base.BaseView;
 public class LoginContract {
     interface View extends BaseView<Presenter> {
         void onStartedLogin();
-        void onFailureLogin(int code , String msg);
-        void onSuccessLogin();
-        void onFinishedLogin();
+        void onLoginFailed(int code , String msg);
+        void onLoginSuccess();
+        void onLoginComplete();
     }
 
     interface Presenter extends BasePresenter {

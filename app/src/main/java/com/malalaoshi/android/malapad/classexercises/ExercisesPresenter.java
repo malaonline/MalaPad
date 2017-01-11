@@ -4,12 +4,15 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.malalaoshi.android.malapad.data.api.ExercisesApi;
+import com.malalaoshi.android.malapad.data.api.entity.Answer;
+import com.malalaoshi.android.malapad.data.api.entity.Ok;
+import com.malalaoshi.android.malapad.data.api.param.AnswersParam;
 import com.malalaoshi.android.malapad.data.api.param.QuestionsParam;
+import com.malalaoshi.android.malapad.data.api.response.AnswerResponse;
 import com.malalaoshi.android.malapad.data.api.response.QuestionsResponse;
-import com.malalaoshi.android.malapad.data.entity.Option;
 import com.malalaoshi.android.malapad.data.entity.QuestionGroup;
 
-import java.util.Map;
+import java.util.List;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -40,7 +43,7 @@ public class ExercisesPresenter implements ExercisesContract.Presenter {
                 observable.subscribeOn(Schedulers.io())
                 .doOnSubscribe(
                         ()->{
-                            mView.onLoadingQuestions();
+                            mView.onStartFetchQuestions();
                         }
                 )
                 .subscribeOn(AndroidSchedulers.mainThread())
@@ -50,60 +53,56 @@ public class ExercisesPresenter implements ExercisesContract.Presenter {
                             Log.e("api",response.getCode()+"  "+response.getMsg());
                             if (response.getCode()==0){
                                 QuestionGroup questionGroup = response.getData();
-                                mView.onQuestionsLoadSuccess(questionGroup);
+                                mView.onFetchQuestionsSuccess(questionGroup);
                             }else{
-                                mView.onQuestionsLoadFailed(response.getCode(),response.getMsg());
+                                mView.onFetchQuestionsFailed(response.getCode(),response.getMsg());
                             }
                         },
                         throwable -> {
-                            mView.onQuestionsLoadFailed(1,"网络请求失败");
-                            mView.onLoadQuestionComplete();
+                            mView.onFetchQuestionsFailed(1,"网络请求失败");
+                            mView.onFetchQuestionComplete();
                         }
                         ,
                         () -> {
-                            mView.onLoadQuestionComplete();
+                            mView.onFetchQuestionComplete();
                         }
                 ));
     }
 
     @Override
-    public void submitAnswerTask(Map<String, Option> questionList) {
-        /*if (EmptyUtils.isEmpty(phone)||!MiscUtil.isMobilePhone(phone)) {
-            mLoginView.onFailureLogin(LoginApi.ErrorCode.ERROR_CODE_ILLEGAL_PHONE,"手机号有误，请重新输入");
-            mLoginView.onFinishedLogin();
+    public void submitAnswerTask(Long groupId, List<Answer> answers) {
+        if (groupId==null&&answers!=null) {
             return;
         }
-        mSubscriptions.add(LoginApi.login(new LoginParam(phone))
-                .subscribeOn(Schedulers.io())
-                .doOnSubscribe(
-                        ()->{
-                            mLoginView.onStartedLogin();
-                        }
-                )
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        response -> {
-                            Log.e("api",response.getCode()+"  "+response.getMsg());
-                            if (response.getCode()==0){
-                                mLoginView.onSuccessLogin();
-                                User user = response.getData();
-                                UserManager userManager = UserManager.getInstance();
-                                userManager.login(user);
-                                //userManager.startHeartbeatThread();
-                            }else{
-                                mLoginView.onFailureLogin(response.getCode(),response.getMsg());
-                            }
-                        },
-                        throwable -> {
-                            mLoginView.onFailureLogin(LoginApi.ErrorCode.ERROR_CODE_BAD_NET,"网络请求失败");
-                            mLoginView.onFinishedLogin();
-                        }
-                        ,
-                        () -> {
-                            mLoginView.onFinishedLogin();
-                        }
-                ));*/
+        Observable<AnswerResponse> observable = ExercisesApi.submitAnswers(new AnswersParam(groupId,answers));
+        mSubscriptions.add(/*ExercisesApi.loadQuestions(new QuestionsParam(questionsId))*/
+                observable.subscribeOn(Schedulers.io())
+                        .doOnSubscribe(
+                                ()->{
+                                    mView.onStartPostAnswers();
+                                }
+                        )
+                        .subscribeOn(AndroidSchedulers.mainThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                response -> {
+                                    Log.e("api",response.getCode()+"  "+response.getMsg());
+                                    if (response.getCode()==0){
+                                        Ok ok = response.getData();
+                                        mView.onPostAnswersSuccess(ok);
+                                    }else{
+                                        mView.onPostAnswersFailed(response.getCode(),response.getMsg());
+                                    }
+                                },
+                                throwable -> {
+                                    mView.onPostAnswersFailed(1,"网络请求失败");
+                                    mView.onPostAnswersComplete();
+                                }
+                                ,
+                                () -> {
+                                    mView.onPostAnswersComplete();
+                                }
+                        ));
     }
 
     @Override

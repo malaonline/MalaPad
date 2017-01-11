@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 
 public class QuestionAdapter extends BaseAdapter implements ViewHolder.OnOptionSelectedListener {
     private List<ChoiceQuestion> choiceQuestionList;
-    private Map<String, Option> selectedOptionMap;
+    private Map<Long, Option> selectedOptionMap;
     private LayoutInflater layoutInflater;
 
     public QuestionAdapter(Context context, List<ChoiceQuestion> list){
@@ -67,7 +67,7 @@ public class QuestionAdapter extends BaseAdapter implements ViewHolder.OnOptionS
         return convertView;
     }
 
-    public Map<String, Option> getSelectedOptions()
+    public Map<Long, Option> getSelectedOptions()
     {
         return selectedOptionMap;
     }
@@ -81,7 +81,7 @@ public class QuestionAdapter extends BaseAdapter implements ViewHolder.OnOptionS
         }
         Option option = optionList.get(optionId);
         option.setSelected(true);
-        selectedOptionMap.put(choiceQuestion.getQuestion(), option);
+        selectedOptionMap.put(choiceQuestion.getId(), option);
         MiscUtil.toast(choiceQuestion.getQuestion()+"  "+ option.getAnswer());
         notifyDataSetChanged();
     }

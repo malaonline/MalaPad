@@ -12,8 +12,11 @@ import android.widget.TextView;
 
 import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.utils.EmptyUtils;
+import com.malalaoshi.android.core.utils.MiscUtil;
 import com.malalaoshi.android.malapad.R;
 import com.malalaoshi.android.malapad.classexercises.adapter.QuestionAdapter;
+import com.malalaoshi.android.malapad.data.api.entity.Answer;
+import com.malalaoshi.android.malapad.data.api.entity.Ok;
 import com.malalaoshi.android.malapad.data.entity.Option;
 import com.malalaoshi.android.malapad.data.entity.ChoiceQuestion;
 import com.malalaoshi.android.malapad.data.entity.QuestionGroup;
@@ -30,6 +33,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -69,9 +73,12 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
 
     private QuestionAdapter mQuestionAdapter;
 
-    private List<ChoiceQuestion> currentQuestions;
+    private QuestionGroup currentQuestions;
 
     private ExercisesContract.Presenter mPresenter;
+
+    //标识题目拉取状态 0：拉取成功 1：正在拉取 -1：拉取失败
+    private int loadStatus = 1;
 
     private Long currentGroupId = null;
 
@@ -144,11 +151,16 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
 
     @Override
     public void onClick(View v) {
-       /* Map<String,Option> mapSelected = mQuestionAdapter.getSelectedOptions();
-        if (currentQuestions.size()!=mapSelected.size()){
+        Map<Long, Option> mapSelected = mQuestionAdapter.getSelectedOptions();
+        if (currentQuestions.getQuestions().size()!=mapSelected.size()){
             showPromptDialog("题目还没有答完");
         }
-        mPresenter.submitAnswerTask(mapSelected);*/
+        List<Answer> answers = new ArrayList<>();
+        Set<Long> keySet = mapSelected.keySet();
+        for(Long key : keySet){
+            answers.add(new Answer(key,mapSelected.get(key).getId()));
+        }
+        mPresenter.submitAnswerTask(currentQuestions.getId(),answers);
     }
 
     private void showPromptDialog(String message) {
@@ -193,10 +205,10 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onQuestionEvent(QuestionBusEvent busEvent) {
         Log.e(TAG,busEvent.toString());
-        //if (currentGroupId==null&&currentGroupId!=busEvent.getGroudId()){
+        if (currentGroupId==null||currentGroupId!=busEvent.getGroudId()||loadStatus==-1){
             currentGroupId = busEvent.getGroudId();
             mPresenter.loadQuestionsTask(currentGroupId);
-       // }
+        }
     }
 
     //自动退出
@@ -214,28 +226,56 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
     }
 
     @Override
-    public void onLoadingQuestions() {
-
+    public void onStartFetchQuestions() {
+        MiscUtil.toast("开始拉取题组~");
+        loadStatus = 1;
     }
 
     @Override
-    public void onQuestionsLoadSuccess(QuestionGroup questionGroup) {
+    public void onFetchQuestionsSuccess(QuestionGroup questionGroup) {
         rlQuestions.setVisibility(View.VISIBLE);
         subStatusView.setVisibility(View.GONE);
-        tvQuestionsTitle.setText(questionGroup.getTitle());
-        List<ChoiceQuestion> choiceQuestions = questionGroup.getQuestions();
+        this.currentQuestions = questionGroup;
+        tvQuestionsTitle.setText(currentQuestions.getTitle());
+        List<ChoiceQuestion> choiceQuestions = currentQuestions.getQuestions();
         mQuestionAdapter = new QuestionAdapter(getContext(), choiceQuestions);
         listviewQuestions.setAdapter(mQuestionAdapter);
         mQuestionAdapter.notifyDataSetChanged();
+        loadStatus = 0;
+        MiscUtil.toast("题组拉取成功~");
     }
 
     @Override
-    public void onQuestionsLoadFailed(Integer code, String msg) {
+    public void onFetchQuestionsFailed(Integer code, String msg) {
+        loadStatus = -1;
+        MiscUtil.toast("题组拉取失败~");
+    }
+
+    @Override
+    public void onFetchQuestionComplete() {
 
     }
 
     @Override
-    public void onLoadQuestionComplete() {
+    public void onStartPostAnswers() {
+        //除去监听
+        tvSubmit.setOnClickListener(null);
+        MiscUtil.toast("开始提交答案~");
+    }
 
+    @Override
+    public void onPostAnswersSuccess(Ok ok) {
+        MiscUtil.toast("答案提交成功~");
+    }
+
+    @Override
+    public void onPostAnswersFailed(Integer code, String msg) {
+        MiscUtil.toast("答案提交失败，请检查网络~");
+    }
+
+    @Override
+    public void onPostAnswersComplete() {
+        //添加监听
+        tvSubmit.setOnClickListener(this);
     }
 }
