@@ -34,9 +34,6 @@ public class LoginApi {
 
     public static Observable<LoginResponse> login(LoginParam param){
         Log.e("api","param:"+param.getPhone());
-        if (AppContext.isDebug()){
-            param.setTest(true);
-        }
         return service.login(param);
     }
 }

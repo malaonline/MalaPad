@@ -4,6 +4,13 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.malalaoshi.android.core.event.EventDispatcher;
+import com.malalaoshi.android.core.event.BusEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 

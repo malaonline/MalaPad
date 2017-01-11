@@ -50,8 +50,8 @@ public class LoginPresenter implements LoginContract.Presenter {
     @Override
     public void loginTask(String phone) {
         if (EmptyUtils.isEmpty(phone)||!MiscUtil.isMobilePhone(phone)) {
-            mLoginView.onFailureLogin(LoginApi.ErrorCode.ERROR_CODE_ILLEGAL_PHONE,"手机号有误，请重新输入");
-            mLoginView.onFinishedLogin();
+            mLoginView.onLoginFailed(LoginApi.ErrorCode.ERROR_CODE_ILLEGAL_PHONE,"手机号有误，请重新输入");
+            mLoginView.onLoginComplete();
             return;
         }
         mSubscriptions.add(LoginApi.login(new LoginParam(phone))
@@ -67,21 +67,22 @@ public class LoginPresenter implements LoginContract.Presenter {
                         response -> {
                             Log.e("api",response.getCode()+"  "+response.getMsg());
                             if (response.getCode()==0){
-                                mLoginView.onSuccessLogin();
+                                mLoginView.onLoginSuccess();
                                 User user = response.getData();
                                 UserManager userManager = UserManager.getInstance();
                                 userManager.login(user);
+                                //userManager.startHeartbeatThread();
                             }else{
-                                mLoginView.onFailureLogin(response.getCode(),response.getMsg());
+                                mLoginView.onLoginFailed(response.getCode(),response.getMsg());
                             }
                         },
                         throwable -> {
-                            mLoginView.onFailureLogin(LoginApi.ErrorCode.ERROR_CODE_BAD_NET,"网络请求失败");
-                            mLoginView.onFinishedLogin();
+                            mLoginView.onLoginFailed(LoginApi.ErrorCode.ERROR_CODE_BAD_NET,"网络请求失败");
+                            mLoginView.onLoginComplete();
                         }
                         ,
                         () -> {
-                            mLoginView.onFinishedLogin();
+                            mLoginView.onLoginComplete();
                         }
                 ));
     }

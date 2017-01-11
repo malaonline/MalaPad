@@ -195,7 +195,7 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
     }
 
     @Override
-    public void onFailureLogin(int code , String msg) {
+    public void onLoginFailed(int code , String msg) {
         mAnimationDrawable.stop();
         ivLoginLogo.setImageDrawable(drawableFailedLogin);
         tvLoginTip.setBackground(null);
@@ -216,7 +216,7 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
     }
 
     @Override
-    public void onSuccessLogin() {
+    public void onLoginSuccess() {
         mAnimationDrawable.stop();
         ivLoginLogo.setImageDrawable(drawableNormalLogin);
 
@@ -227,7 +227,7 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
     }
 
     @Override
-    public void onFinishedLogin() {
+    public void onLoginComplete() {
         setLoginEnabled(true);
         editPhone.setEnabled(true);
     }

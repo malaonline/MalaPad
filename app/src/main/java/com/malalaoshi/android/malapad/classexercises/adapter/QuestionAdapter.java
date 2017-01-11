@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 
 public class QuestionAdapter extends BaseAdapter implements ViewHolder.OnOptionSelectedListener {
     private List<ChoiceQuestion> choiceQuestionList;
-    private Map<String, Option> selectedOptionMap;
+    private Map<Long, Option> selectedOptionMap;
     private LayoutInflater layoutInflater;
 
     public QuestionAdapter(Context context, List<ChoiceQuestion> list){
@@ -67,7 +67,7 @@ public class QuestionAdapter extends BaseAdapter implements ViewHolder.OnOptionS
         return convertView;
     }
 
-    public Map<String, Option> getSelectedOptions()
+    public Map<Long, Option> getSelectedOptions()
     {
         return selectedOptionMap;
     }
@@ -75,13 +75,13 @@ public class QuestionAdapter extends BaseAdapter implements ViewHolder.OnOptionS
     @Override
     public void OnOptionSelected(int position, int optionId) {
         ChoiceQuestion choiceQuestion = choiceQuestionList.get(position);
-        List<Option> optionList = choiceQuestion.getOptionList();
+        List<Option> optionList = choiceQuestion.getOptions();
         for (Option option : optionList){
             option.setSelected(false);
         }
         Option option = optionList.get(optionId);
         option.setSelected(true);
-        selectedOptionMap.put(choiceQuestion.getQuestion(), option);
+        selectedOptionMap.put(choiceQuestion.getId(), option);
         MiscUtil.toast(choiceQuestion.getQuestion()+"  "+ option.getAnswer());
         notifyDataSetChanged();
     }
@@ -117,7 +117,7 @@ class ViewHolder implements View.OnClickListener {
         //赋值
         TextView tvOption;
         Option option;
-        List<Option> options = choiceQuestion.getOptionList();
+        List<Option> options = choiceQuestion.getOptions();
         for (int i = 0; options !=null&&i< options.size()&&i< tvOptionList.size(); i++){
             tvOption = tvOptionList.get(i);
             option = options.get(i);

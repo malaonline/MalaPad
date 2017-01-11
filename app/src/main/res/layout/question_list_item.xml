@@ -35,7 +35,7 @@
             android:layout_marginRight="@dimen/exercises_item_margin"
             android:layout_marginLeft="@dimen/exercises_item_margin"
             android:drawableLeft="@drawable/bg_answer_a_btn"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
              />
 
@@ -47,7 +47,7 @@
             android:layout_marginRight="@dimen/exercises_item_margin"
             android:layout_marginLeft="@dimen/exercises_item_margin"
             android:drawableLeft="@drawable/bg_answer_b_btn"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
              />
         <TextView
@@ -58,7 +58,7 @@
             android:layout_marginRight="@dimen/exercises_item_margin"
             android:layout_marginLeft="@dimen/exercises_item_margin"
             android:drawableLeft="@drawable/bg_answer_c_btn"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
              />
         <TextView
@@ -69,7 +69,7 @@
             android:layout_marginRight="@dimen/exercises_item_margin"
             android:layout_marginLeft="@dimen/exercises_item_margin"
             android:drawableLeft="@drawable/bg_answer_d_btn"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
              />
     </LinearLayout>
