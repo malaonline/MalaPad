@@ -6,15 +6,11 @@ import com.malalaoshi.android.core.AppContext;
  * Created by kang on 16/12/27.
  */
 
-public class LoginParam {
+public class LoginParam extends BaseParam{
     private String phone;
-    boolean test;
 
     public LoginParam(String phone) {
         this.phone = phone;
-        if (AppContext.isDebug()){
-            test = true;
-        }
     }
 
     public String getPhone() {
@@ -25,11 +21,4 @@ public class LoginParam {
         this.phone = phone;
     }
 
-    public boolean isTest() {
-        return test;
-    }
-
-    public void setTest(boolean test) {
-        this.test = test;
-    }
 }

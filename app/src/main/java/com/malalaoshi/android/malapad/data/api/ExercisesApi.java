@@ -18,10 +18,10 @@ import rx.Observable;
 public class ExercisesApi extends BaseApi {
     private interface ExercisesService {
         @POST("/api/v1/pad/question")
-        public Observable<QuestionsResponse> getQuestions(@Header("token") String token,@Body QuestionsParam param);
+        public Observable<QuestionsResponse> getQuestions(@Header("Pad-Token") String token,@Body QuestionsParam param);
 
         @POST("/api/v1/pad/answer")
-        public Observable<AnswerResponse> submitAnswers(@Header("token") String token, @Body AnswersParam param);
+        public Observable<AnswerResponse> submitAnswers(@Header("Pad-Token") String token, @Body AnswersParam param);
     }
 
     protected static final ExercisesService service  = NetworkClient.retrofit().create(ExercisesService.class);

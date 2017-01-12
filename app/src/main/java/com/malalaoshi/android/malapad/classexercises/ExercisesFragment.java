@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.malalaoshi.android.core.base.BaseFragment;
-import com.malalaoshi.android.core.utils.EmptyUtils;
 import com.malalaoshi.android.core.utils.MiscUtil;
 import com.malalaoshi.android.malapad.R;
 import com.malalaoshi.android.malapad.classexercises.adapter.QuestionAdapter;
@@ -210,19 +209,19 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
             mPresenter.loadQuestionsTask(currentGroupId);
         }
     }
-
-    //自动退出
+    
+    //账号被踢下线
     @Override
     protected void onTokenInvalid() {
         super.onTokenInvalid();
-        launchLogoutActivity();
+        showLogoutDialog("当前账号已在别处登录~");
     }
 
-    //账号被踢下线
+    //自动退出
     @Override
     protected void onLogoutSuccess() {
         super.onLogoutSuccess();
-        showLogoutDialog("当前账号已在别处登录~");
+        launchLogoutActivity();
     }
 
     @Override
