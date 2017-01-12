@@ -5,6 +5,7 @@ import android.util.Log;
 import com.malalaoshi.android.core.AppContext;
 import com.malalaoshi.android.core.entity.AuthUser;
 import com.malalaoshi.android.core.network.NetworkClient;
+import com.malalaoshi.android.malapad.data.api.param.BaseParam;
 import com.malalaoshi.android.malapad.data.api.param.LoginParam;
 import com.malalaoshi.android.malapad.data.api.response.LoginResponse;
 import com.malalaoshi.android.malapad.data.entity.User;
@@ -17,7 +18,7 @@ import rx.Observable;
  * Created by kang on 16/12/27.
  */
 
-public class LoginApi {
+public class LoginApi extends BaseParam{
     public static class ErrorCode{
         public static int ERROR_CODE_ILLEGAL_USER = -1;
         public static int ERROR_CODE_NO_LESSON = -2;

@@ -1,11 +1,7 @@
 package com.malalaoshi.android.malapad.data.heartbeat;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 
-import com.malalaoshi.android.core.event.BusEvent;
-import com.malalaoshi.android.core.event.BusEventDef;
 import com.malalaoshi.android.core.event.EventDispatcher;
 import com.malalaoshi.android.malapad.data.api.HeartbeatApi;
 import com.malalaoshi.android.malapad.data.api.param.HeartbeatParam;
@@ -20,8 +16,6 @@ import java.io.IOException;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by kang on 17/1/5.

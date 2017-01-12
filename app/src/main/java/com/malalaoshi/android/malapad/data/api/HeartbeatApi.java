@@ -17,7 +17,7 @@ public class HeartbeatApi extends BaseApi {
 
     private interface HeartbeatService {
         @POST("/api/v1/pad/status")
-        Call<HeartbeatResponse> heartbeat(@Header("token") String token, @Body HeartbeatParam param);
+        Call<HeartbeatResponse> heartbeat(@Header("Pad-Token") String token, @Body HeartbeatParam param);
     }
     protected static final HeartbeatApi.HeartbeatService service  = NetworkClient.retrofit().create(HeartbeatApi.HeartbeatService.class);
 

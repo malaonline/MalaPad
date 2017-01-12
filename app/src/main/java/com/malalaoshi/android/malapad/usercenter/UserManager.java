@@ -231,7 +231,6 @@ public class UserManager {
         //stopHeartbeatThread();
     }
 
-    //正常登出
     public void userLogout(){
         logout();
         //发送退出通知
@@ -264,7 +263,7 @@ public class UserManager {
         Intent intent = new Intent(ACTION_LOGINED);
         AppContext.getLocalBroadcastManager().sendBroadcast(intent);
         //发送登录成功通知
-        EventBus.getDefault().post(new BusEvent(BusEventDef.BUS_EVENT_LOGOUT_SUCCESS));
+        EventBus.getDefault().post(new BusEvent(BusEventDef.BUS_EVENT_LOGIN_SUCCESS));
     }
 
     public void startHeartbeatThread(){

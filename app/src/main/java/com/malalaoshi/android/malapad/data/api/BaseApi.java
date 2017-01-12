@@ -6,7 +6,7 @@ import com.malalaoshi.android.malapad.usercenter.UserManager;
  * Created by kang on 17/1/11.
  */
 
-public class BaseApi {
+public abstract class BaseApi {
     protected static String getToken(){
         return UserManager.getInstance().getToken();
     }
