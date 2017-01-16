@@ -12,7 +12,7 @@
         android:text="@string/empty_questions"
         android:layout_marginTop="@dimen/tip_margin_top"
         android:textColor="@color/white"
-        android:textSize="@dimen/tablet_text_size_normal_x"
+        android:textSize="@dimen/tablet_text_size_large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

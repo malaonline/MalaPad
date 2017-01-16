@@ -2,6 +2,8 @@ package com.malalaoshi.android.malapad.classexercises;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.jorgecastilloprz.FABProgressCircle;
+import com.github.jorgecastilloprz.listeners.FABProgressListener;
 import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.utils.MiscUtil;
 import com.malalaoshi.android.malapad.R;
@@ -43,7 +47,7 @@ import butterknife.OnClick;
  * Created by kang on 16/12/26.
  */
 
-public class ExercisesFragment extends BaseFragment implements ExercisesContract.View, View.OnClickListener {
+public class ExercisesFragment extends BaseFragment implements ExercisesContract.View, View.OnClickListener, FABProgressListener {
     private static String TAG = "ExercisesFragment";
 
     @BindView(R.id.sub_status_view)
@@ -64,8 +68,11 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
     @BindView(R.id.tv_questions_title)
     TextView tvQuestionsTitle;
 
-    @BindView(R.id.tv_submit)
-    TextView tvSubmit;
+    @BindView(R.id.fabSubmit)
+    FloatingActionButton fabSubmit;
+
+    @BindView(R.id.fabProgressCircle)
+    FABProgressCircle fabProgressCircle;
 
     @BindString(R.string.user_info)
     String strUserInfo;
@@ -101,7 +108,9 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
     }
 
     private void setEvent() {
-        tvSubmit.setOnClickListener(this);
+        fabSubmit.setOnClickListener(this);
+        fabProgressCircle.attachListener(this);
+        //fabSubmit.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),R.color.comm_blue_light));
     }
 
     @Override
@@ -150,9 +159,11 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
 
     @Override
     public void onClick(View v) {
+
         Map<Long, Option> mapSelected = mQuestionAdapter.getSelectedOptions();
         if (currentQuestions.getQuestions().size()!=mapSelected.size()){
             showPromptDialog("题目还没有答完");
+            return;
         }
         List<Answer> answers = new ArrayList<>();
         Set<Long> keySet = mapSelected.keySet();
@@ -257,24 +268,51 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
 
     @Override
     public void onStartPostAnswers() {
-        //除去监听
-        tvSubmit.setOnClickListener(null);
+        fabProgressCircle.show();
+        setSubmitTaskStart();
         MiscUtil.toast("开始提交答案~");
+    }
+
+    private void setSubmitTaskStart() {
+        //除去监听
+        fabProgressCircle.setEnabled(false);
+        fabSubmit.setEnabled(false);
+        fabSubmit.setOnClickListener(null);
+        fabSubmit.setImageResource(R.drawable.ic_start_idle);
+        fabSubmit.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),R.color.comm_blue));
     }
 
     @Override
     public void onPostAnswersSuccess(Ok ok) {
+        Log.e("FAB","onPostAnswersSuccess");
+        fabProgressCircle.beginFinalAnimation();
+        fabSubmit.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),R.color.comm_blue_deep));
         MiscUtil.toast("答案提交成功~");
     }
 
     @Override
     public void onPostAnswersFailed(Integer code, String msg) {
+        fabProgressCircle.hide();
+        setSubmitTaskEnd();
         MiscUtil.toast("答案提交失败，请检查网络~");
     }
 
     @Override
     public void onPostAnswersComplete() {
+
+    }
+
+    @Override
+    public void onFABProgressAnimationEnd() {
+        setSubmitTaskEnd();
+    }
+
+    private void setSubmitTaskEnd() {
         //添加监听
-        tvSubmit.setOnClickListener(this);
+        fabSubmit.setEnabled(true);
+        fabProgressCircle.setEnabled(true);
+        fabSubmit.setOnClickListener(this);
+        fabSubmit.setImageResource(R.drawable.ic_submit_normal);
+        fabSubmit.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),R.color.white));
     }
 }
