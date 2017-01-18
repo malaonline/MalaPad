@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.malalaoshi.android.core.base.BaseFragment;
+import com.malalaoshi.android.core.base.BasePresenter;
 import com.malalaoshi.android.core.utils.MiscUtil;
 import com.malalaoshi.android.malapad.R;
 import com.malalaoshi.android.malapad.classexercises.ExercisesActivity;
@@ -230,5 +231,10 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
     public void onLoginComplete() {
         setLoginEnabled(true);
         editPhone.setEnabled(true);
+    }
+
+    @Override
+    protected BasePresenter getPresent() {
+        return mPresenter;
     }
 }

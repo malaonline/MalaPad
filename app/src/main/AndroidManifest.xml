@@ -24,6 +24,7 @@
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan"
+            android:launchMode="singleTop"
             />
         <activity android:name=".classexercises.ExercisesActivity"
             android:screenOrientation="landscape"

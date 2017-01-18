@@ -133,6 +133,9 @@ public class PromptDialog extends BaseDialog implements View.OnClickListener {
             window = getActivity().getWindow();
         }
         if (window != null) {
+            int width = getResources().getDimensionPixelSize(R.dimen.dialog_prompt_width);
+            int height = getResources().getDimensionPixelSize(R.dimen.dialog_prompt_height);
+            window.setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
             window.setBackgroundDrawableResource(android.R.color.transparent);
         }
     }

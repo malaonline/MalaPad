@@ -12,7 +12,7 @@
 
     <RelativeLayout
         android:id="@+id/rl_questions"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_marginLeft="@dimen/layout_spacing_large_high"
         android:layout_marginRight="@dimen/layout_spacing_large_high"
         android:layout_marginTop="@dimen/exercises_questions_margin_top"
@@ -34,8 +34,8 @@
             <!-- You can change it with the fab from the library you want to use -->
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fabSubmit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/exercises_submit_size"
+                android:layout_height="@dimen/exercises_submit_size"
                 app:srcCompat="@drawable/ic_submit_normal"
                 app:elevation="7dp"
                 app:borderWidth="0dp"

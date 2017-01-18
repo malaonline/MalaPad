@@ -17,7 +17,7 @@ import org.greenrobot.eventbus.ThreadMode;
  * Created by kang on 16/12/8.
  */
 
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
     private static String TAG = "BaseFragment";
 
     private DialogFragment dialogFragment;
@@ -44,7 +44,12 @@ public class BaseFragment extends Fragment {
             dialogFragment.dismiss();
             dialogFragment = null;
         }
+        if (getPresent()!=null){
+
+        }
     }
+
+    protected abstract BasePresenter getPresent();
 
 
     @Override
@@ -52,6 +57,17 @@ public class BaseFragment extends Fragment {
         super.onResume();
         if (dialogFragment != null) {
             showDialog(dialogFragment);
+        }
+        if (getPresent()!=null){
+            getPresent().subscribe();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (getPresent()!=null){
+            getPresent().unsubscribe();
         }
     }
 

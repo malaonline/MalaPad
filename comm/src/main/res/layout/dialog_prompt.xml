@@ -3,71 +3,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="#00000000"
     android:orientation="vertical"
-    android:layout_width="520dp"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:background="@drawable/bg_white"
         android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="106dp"
-        android:paddingTop="106dp"
+        android:layout_marginTop="85dp"
+        android:paddingTop="85dp"
         android:orientation="vertical"
       >
         <TextView
             tools:text="您还没有回答哦~"
             android:id="@+id/tv_prompt_content"
-            android:textSize="@dimen/tablet_text_size_large_heigh"
+            android:textSize="@dimen/tablet_text_size_large"
+            android:textColor="@color/comm_grey_black_deep"
             android:gravity="center"
-            android:padding="54dp"
+            android:paddingRight="40dp"
+            android:paddingLeft="40dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="25dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             />
         <LinearLayout
             android:id="@+id/ll_double_btn"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="24dp"
             android:layout_width="wrap_content"
-            android:layout_height="72dp">
+            android:layout_height="48dp">
             <TextView
                 tools:text="取消"
                 android:id="@+id/tv_left"
-                android:textSize="@dimen/tablet_text_size_large_heigh"
+                android:textSize="@dimen/tablet_text_size_large"
                 android:textColor="@color/comm_white"
                 android:background="@drawable/bg_light_blue_angle"
                 android:gravity="center"
                 android:layout_marginRight="24dp"
-                android:layout_width="202dp"
-                android:layout_height="72dp" />
+                android:layout_width="136dp"
+                android:layout_height="match_parent" />
             <TextView
                 tools:text="确定"
                 android:id="@+id/tv_right"
-                android:textSize="@dimen/tablet_text_size_large_heigh"
+                android:textSize="@dimen/tablet_text_size_large"
                 android:textColor="@color/comm_white"
                 android:background="@drawable/bg_blue_angle"
                 android:gravity="center"
-                android:layout_width="202dp"
-                android:layout_height="72dp" />
+                android:layout_width="136dp"
+                android:layout_height="match_parent" />
         </LinearLayout>
 
         <TextView
             tools:text="确定"
             android:visibility="gone"
             android:id="@+id/tv_btn"
-            android:textSize="@dimen/tablet_text_size_large_heigh"
+            android:textSize="@dimen/tablet_text_size_large"
             android:textColor="@color/comm_white"
             android:background="@drawable/bg_blue_angle"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="24dp"
             android:gravity="center"
-            android:layout_width="276dp"
-            android:layout_height="72dp" />
+            android:layout_width="160dp"
+            android:layout_height="48dp" />
     </LinearLayout>
 
     <ImageView
         android:id="@+id/iv_icon"
         android:src="@drawable/ic_unanswer"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="170dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>

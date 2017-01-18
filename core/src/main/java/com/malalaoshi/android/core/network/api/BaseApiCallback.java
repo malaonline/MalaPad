@@ -9,7 +9,12 @@ import com.malalaoshi.android.core.R;
  */
 
 public abstract class BaseApiCallback<T> implements ApiCallback<T> {
-
+    public static final int ERROR_CODE_BAD_NET       = 600;
+    public static final int ERROR_CODE_IO_EXECPTION  = 601;
+    public static final int ERROR_CODE_UNKNOWN_EXECPTION  = 602;
+    public static final int ERROR_CODE_NULL_EXECPTION  = 603;
+    public static final int ERROR_CODE_TOKEN_INVALID = -1;
+    public static final int ERROR_CODE_TOKEN_LOGOUT  = -2;
     public static String getHost() {
         return AppContext.getContext().getString(R.string.api_host);
     }
@@ -21,11 +26,6 @@ public abstract class BaseApiCallback<T> implements ApiCallback<T> {
 
     @Override
     public void onFailure(int code, String msg) {
-
-    }
-
-    @Override
-    public void onThrowable(Throwable t) {
 
     }
 

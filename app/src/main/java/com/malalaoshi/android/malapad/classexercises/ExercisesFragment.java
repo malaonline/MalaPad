@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.github.jorgecastilloprz.FABProgressCircle;
 import com.github.jorgecastilloprz.listeners.FABProgressListener;
 import com.malalaoshi.android.core.base.BaseFragment;
+import com.malalaoshi.android.core.base.BasePresenter;
 import com.malalaoshi.android.core.utils.MiscUtil;
 import com.malalaoshi.android.malapad.R;
 import com.malalaoshi.android.malapad.classexercises.adapter.QuestionAdapter;
@@ -226,6 +227,11 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
     protected void onTokenInvalid() {
         super.onTokenInvalid();
         showLogoutDialog("当前账号已在别处登录~");
+    }
+
+    @Override
+    protected BasePresenter getPresent() {
+        return mPresenter;
     }
 
     //自动退出
