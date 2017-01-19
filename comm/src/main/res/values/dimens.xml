@@ -40,4 +40,6 @@
     <dimen name="layout_spacing_xxlarge">42dp</dimen>
     <dimen name="layout_spacing_xxlarge_high">48dp</dimen>
 
+    <dimen name="dialog_prompt_width">372dp</dimen>
+    <dimen name="dialog_prompt_height">276dp</dimen>
 </resources>

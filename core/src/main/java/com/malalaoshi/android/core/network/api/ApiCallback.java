@@ -15,7 +15,5 @@ public interface ApiCallback<T> {
 
     public abstract void onFailure(int code, String msg);
 
-    public abstract void onThrowable(Throwable t);
-
     public abstract void onFinish();
 }

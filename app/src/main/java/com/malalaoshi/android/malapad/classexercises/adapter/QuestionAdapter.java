@@ -12,6 +12,7 @@ import com.malalaoshi.android.malapad.R;
 import com.malalaoshi.android.malapad.data.entity.Option;
 import com.malalaoshi.android.malapad.data.entity.ChoiceQuestion;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,13 +26,13 @@ import butterknife.ButterKnife;
  */
 
 public class QuestionAdapter extends BaseAdapter implements ViewHolder.OnOptionSelectedListener {
-    private List<ChoiceQuestion> choiceQuestionList;
+    private List<ChoiceQuestion> choiceQuestionList = new ArrayList<>();
     private Map<Long, Option> selectedOptionMap;
     private LayoutInflater layoutInflater;
 
     public QuestionAdapter(Context context, List<ChoiceQuestion> list){
         layoutInflater = LayoutInflater.from(context);
-        this.choiceQuestionList = list;
+        this.choiceQuestionList.addAll(list);
         selectedOptionMap = new HashMap<>();
     }
 

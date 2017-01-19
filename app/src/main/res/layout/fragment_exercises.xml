@@ -1,56 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:background="@color/gray_light"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/gray_light"
+    android:orientation="vertical">
 
-    <include layout="@layout/sub_status_view"
-        android:id="@+id/sub_status_view" />
+    <include
+        android:id="@+id/sub_status_view"
+        layout="@layout/sub_status_view" />
 
     <RelativeLayout
         android:id="@+id/rl_questions"
-        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/layout_spacing_large_high"
         android:layout_marginRight="@dimen/layout_spacing_large_high"
         android:layout_marginTop="@dimen/exercises_questions_margin_top"
         android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <include layout="@layout/sub_exercises_view"
-            />
-        <TextView
-            android:id="@+id/tv_submit"
-            android:background="@drawable/bg_submit_btn"
+        android:visibility="visible">
+
+        <include layout="@layout/sub_exercises_view" />
+
+        <com.github.jorgecastilloprz.FABProgressCircle
+            android:id="@+id/fabProgressCircle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="@dimen/layout_spacing_xlarge_high"
             android:layout_marginRight="@dimen/exercises_submit_margin_right"
-            android:layout_width="@dimen/exercises_submit_size"
-            android:layout_height="@dimen/exercises_submit_size" />
+            android:background="@color/white"
+            app:arcWidth="6dp"
+            app:circleSize="normal"
+            app:reusable="true">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fabSubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/fab_margin"
+                app:backgroundTint="@color/white"
+                app:borderWidth="0dp"
+                app:useCompatPadding="false"
+                app:elevation="4dp"
+                app:fabSize="normal"
+                app:pressedTranslationZ="8dp"
+                app:rippleColor="@color/white_alpha"
+                app:srcCompat="@drawable/ic_submit_normal" />
+            <!-- You can change it with the fab from the library you want to use -->
+            <!--  <android.support.design.widget.FloatingActionButton
+                 android:id="@+id/fabSubmit"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 app:fabSize="normal"
+                 app:srcCompat="@drawable/ic_submit_normal"
+                 app:borderWidth="0dp"
+                 app:backgroundTint="@color/white"
+                 android:layout_margin="@dimen/fab_margin"/>-->
+        </com.github.jorgecastilloprz.FABProgressCircle>
+
     </RelativeLayout>
+
     <LinearLayout
-        android:paddingLeft="@dimen/layout_spacing_large_high"
-        android:paddingRight="@dimen/layout_spacing_normal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/exercises_title_height"
         android:background="@color/white_alpha"
         android:gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/exercises_title_height">
+        android:paddingLeft="@dimen/layout_spacing_large_high"
+        android:paddingRight="@dimen/layout_spacing_normal">
+
         <TextView
-            tools:text="@string/user_info"
             android:id="@+id/tv_user_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:textColor="@color/grey_black_light"
             android:textSize="@dimen/tablet_text_size_normal_x"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" />
+            tools:text="@string/user_info" />
 
         <ImageView
             android:id="@+id/iv_logout"
-            android:src="@drawable/bg_logout_btn"
-            android:scaleType="center"
             android:layout_width="@dimen/exercises_title_height"
-            android:layout_height="@dimen/exercises_title_height" />
+            android:layout_height="@dimen/exercises_title_height"
+            android:scaleType="center"
+            android:src="@drawable/bg_logout_btn" />
     </LinearLayout>
 </RelativeLayout>

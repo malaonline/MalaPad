@@ -3,6 +3,8 @@ package com.malalaoshi.android.malapad.classexercises;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.malalaoshi.android.core.network.api.BaseApiCallback;
+import com.malalaoshi.android.malapad.data.TasksRepository;
 import com.malalaoshi.android.malapad.data.api.ExercisesApi;
 import com.malalaoshi.android.malapad.data.api.entity.Answer;
 import com.malalaoshi.android.malapad.data.api.entity.Ok;
@@ -23,11 +25,11 @@ import rx.subscriptions.CompositeSubscription;
  * Created by kang on 16/12/26.
  */
 
-public class ExercisesPresenter implements ExercisesContract.Presenter {
+class ExercisesPresenter implements ExercisesContract.Presenter {
     private ExercisesContract.View mView;
     @NonNull
     private CompositeSubscription mSubscriptions;
-    public ExercisesPresenter(ExercisesContract.View view) {
+    ExercisesPresenter(ExercisesContract.View view) {
         this.mView = view;
         mView.setPresenter(this);
         mSubscriptions = new CompositeSubscription();
@@ -39,7 +41,36 @@ public class ExercisesPresenter implements ExercisesContract.Presenter {
             return;
         }
         Observable<QuestionsResponse> observable = ExercisesApi.loadQuestions(new QuestionsParam(questionsId));
-        mSubscriptions.add(/*ExercisesApi.loadQuestions(new QuestionsParam(questionsId))*/
+        mSubscriptions.add(new TasksRepository<QuestionsResponse>(new BaseApiCallback<QuestionsResponse>() {
+            @Override
+            public void onApiStarted() {
+                super.onApiStarted();
+                mView.onStartFetchQuestions();
+            }
+
+            @Override
+            public void onSuccess(QuestionsResponse response) {
+                QuestionGroup questionGroup = response.getData();
+                mView.onFetchQuestionsSuccess(questionGroup);
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                super.onFailure(code, msg);
+                mView.onFetchQuestionsFailed(code,msg);
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                mView.onFetchQuestionComplete();
+            }
+        },true).addTask(observable));
+
+      /*
+
+
+        mSubscriptions.add(*//*ExercisesApi.loadQuestions(new QuestionsParam(questionsId))*//*
                 observable.subscribeOn(Schedulers.io())
                 .doOnSubscribe(
                         ()->{
@@ -66,7 +97,7 @@ public class ExercisesPresenter implements ExercisesContract.Presenter {
                         () -> {
                             mView.onFetchQuestionComplete();
                         }
-                ));
+                ));*/
     }
 
     @Override
@@ -75,7 +106,33 @@ public class ExercisesPresenter implements ExercisesContract.Presenter {
             return;
         }
         Observable<AnswerResponse> observable = ExercisesApi.submitAnswers(new AnswersParam(groupId,answers));
-        mSubscriptions.add(/*ExercisesApi.loadQuestions(new QuestionsParam(questionsId))*/
+        mSubscriptions.add(new TasksRepository<AnswerResponse>(new BaseApiCallback<AnswerResponse>() {
+            @Override
+            public void onApiStarted() {
+                super.onApiStarted();
+                mView.onStartPostAnswers();
+            }
+
+            @Override
+            public void onSuccess(AnswerResponse response) {
+                Ok ok = response.getData();
+                mView.onPostAnswersSuccess(ok);
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                super.onFailure(code, msg);
+                mView.onPostAnswersFailed(code,msg);
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                mView.onPostAnswersComplete();
+            }
+        },true).addTask(observable));
+      /*
+        mSubscriptions.add(*//*ExercisesApi.loadQuestions(new QuestionsParam(questionsId))*//*
                 observable.subscribeOn(Schedulers.io())
                         .doOnSubscribe(
                                 ()->{
@@ -102,7 +159,7 @@ public class ExercisesPresenter implements ExercisesContract.Presenter {
                                 () -> {
                                     mView.onPostAnswersComplete();
                                 }
-                        ));
+                        ));*/
     }
 
     @Override

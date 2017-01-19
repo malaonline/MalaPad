@@ -3,6 +3,8 @@ package com.malalaoshi.android.malapad.data.heartbeat;
 import android.util.Log;
 
 import com.malalaoshi.android.core.event.EventDispatcher;
+import com.malalaoshi.android.core.network.api.BaseApiCallback;
+import com.malalaoshi.android.malapad.data.TasksRepository;
 import com.malalaoshi.android.malapad.data.api.HeartbeatApi;
 import com.malalaoshi.android.malapad.data.api.param.HeartbeatParam;
 import com.malalaoshi.android.malapad.data.api.response.HeartbeatResponse;
@@ -52,47 +54,16 @@ public class HeartbeatThread extends Thread {
     }
 
     private void sendHeartbeatMessage(String classRoomId) {
-
         Log.d(TAG,"send heartbeat message time:"+System.currentTimeMillis());
         Call<HeartbeatResponse> call = HeartbeatApi.heartbeat(new HeartbeatParam(classRoomId));
-        try {
-            Response<HeartbeatResponse> response = call.execute();
-            if (response.isSuccessful()) {
-                HeartbeatResponse heartbeat = response.body();
-                if (heartbeat==null){
-                    Log.e(TAG,"repose is null");
-                    return;
-                }
-                dealHearbeatMessage(heartbeat);
-            } else {
-                int statusCode = response.code();
-                // handle request errors yourself
-                ResponseBody errorBody = response.errorBody();
-                Log.e(TAG,"response failed, status Code:"+statusCode);
+        new TasksRepository<HeartbeatResponse>(new BaseApiCallback<HeartbeatResponse>() {
+            @Override
+            public void onSuccess(HeartbeatResponse response) {
+                sendQuestionMessage(response);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e(TAG,"response IOException:"+e.getMessage());
-        }
-
+        },true).addTask(call);
     }
 
-    private void dealHearbeatMessage(HeartbeatResponse heartbeat) {
-        Log.e(TAG,"response:code->"+heartbeat.getCode()+" msg->"+heartbeat.getMsg());
-        switch (heartbeat.getCode()){
-            case 0:
-                sendQuestionMessage(heartbeat);
-                break;
-            case -1:
-                UserManager.getInstance().userLogout();
-                break;
-            case -2:
-                UserManager.getInstance().tokenInvalid();
-                break;
-            default:
-                break;
-        }
-    }
 
     private void sendQuestionMessage(HeartbeatResponse response) {
         Heartbeat heartbeat = response.getData();
