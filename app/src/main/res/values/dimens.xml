@@ -27,6 +27,7 @@
     <dimen name="exercises_item_margin">56dp</dimen>
 
     <dimen name="fab_margin">0dp</dimen>
-    <dimen name="design_fab_size_normal" tools:ignore="PrivateResource">120dp</dimen>
-    <dimen name="fab_size_normal" tools:ignore="PrivateResource">120dp</dimen>
+    <dimen name="design_fab_image_size" tools:ignore="PrivateResource">50dp</dimen>
+    <dimen name="design_fab_size_normal" tools:ignore="PrivateResource">100dp</dimen>
+    <dimen name="fab_size_normal" tools:ignore="PrivateResource">100dp</dimen>
 </resources>

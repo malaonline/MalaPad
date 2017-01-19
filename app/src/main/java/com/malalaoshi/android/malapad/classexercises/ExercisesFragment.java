@@ -284,21 +284,22 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
         fabProgressCircle.setEnabled(false);
         fabSubmit.setEnabled(false);
         fabSubmit.setOnClickListener(null);
-        fabSubmit.setImageResource(R.drawable.ic_start_idle);
-        fabSubmit.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),R.color.comm_blue));
+        fabSubmit.setImageResource(R.drawable.ic_submit_press);
+        fabSubmit.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),R.color.white_alpha));
     }
 
     @Override
     public void onPostAnswersSuccess(Ok ok) {
-        Log.e("FAB","onPostAnswersSuccess");
         fabProgressCircle.beginFinalAnimation();
-        fabSubmit.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),R.color.comm_blue_deep));
+        //fabSubmit.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),R.color.green));
         MiscUtil.toast("答案提交成功~");
     }
 
     @Override
     public void onPostAnswersFailed(Integer code, String msg) {
         fabProgressCircle.hide();
+        //fabProgressCircle.beginFinalAnimation();
+        //fabSubmit.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),R.color.comm_blue_deep));
         setSubmitTaskEnd();
         MiscUtil.toast("答案提交失败，请检查网络~");
     }

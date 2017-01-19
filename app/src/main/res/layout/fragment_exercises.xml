@@ -19,7 +19,7 @@
         android:layout_marginRight="@dimen/layout_spacing_large_high"
         android:layout_marginTop="@dimen/exercises_questions_margin_top"
         android:background="@color/white"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <include layout="@layout/sub_exercises_view" />
 
@@ -32,7 +32,7 @@
             android:layout_marginBottom="@dimen/layout_spacing_xlarge_high"
             android:layout_marginRight="@dimen/exercises_submit_margin_right"
             android:background="@color/white"
-            app:arcWidth="4dp"
+            app:arcWidth="6dp"
             app:circleSize="normal"
             app:reusable="true">
 
@@ -43,6 +43,7 @@
                 android:layout_margin="@dimen/fab_margin"
                 app:backgroundTint="@color/white"
                 app:borderWidth="0dp"
+                app:useCompatPadding="false"
                 app:elevation="4dp"
                 app:fabSize="normal"
                 app:pressedTranslationZ="8dp"
