@@ -10,4 +10,9 @@
     <string name="empty_questions">老师还未开始出题，请稍后哦~</string>
     <string name="user_info">欢迎您，%1$s&#060;%2$s&#062;同学</string>
 
+    <string name="toast_fetch_question_failed">新题组加载失败~</string>
+    <string name="toast_submit_question_failed">答案提交失败，请检查网络~</string>
+    <string name="toast_token_invalid">当前账号已在别处登录~</string>
+    <string name="toast_lougot">答题时间已经结束，退出登录~</string>
+    <string name="toast_submit_answer_success">答案提交成功~</string>
 </resources>

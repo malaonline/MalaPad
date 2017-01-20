@@ -83,7 +83,7 @@ public class QuestionAdapter extends BaseAdapter implements ViewHolder.OnOptionS
         Option option = optionList.get(optionId);
         option.setSelected(true);
         selectedOptionMap.put(choiceQuestion.getId(), option);
-        MiscUtil.toast(choiceQuestion.getQuestion()+"  "+ option.getAnswer());
+        //MiscUtil.toast(choiceQuestion.getQuestion()+"  "+ option.getAnswer());
         notifyDataSetChanged();
     }
 }

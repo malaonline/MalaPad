@@ -19,7 +19,7 @@
         android:layout_marginRight="@dimen/layout_spacing_large_high"
         android:layout_marginTop="@dimen/exercises_questions_margin_top"
         android:background="@color/white"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <include layout="@layout/sub_exercises_view" />
 
