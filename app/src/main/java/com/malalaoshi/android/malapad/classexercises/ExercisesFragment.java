@@ -226,7 +226,7 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
     @Override
     protected void onTokenInvalid() {
         super.onTokenInvalid();
-        showLogoutDialog("当前账号已在别处登录~");
+        showLogoutDialog(getString(R.string.toast_token_invalid));
     }
 
     @Override
@@ -243,7 +243,6 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
 
     @Override
     public void onStartFetchQuestions() {
-        MiscUtil.toast("开始拉取题组~");
         loadStatus = 1;
     }
 
@@ -258,13 +257,12 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
         listviewQuestions.setAdapter(mQuestionAdapter);
         mQuestionAdapter.notifyDataSetChanged();
         loadStatus = 0;
-        MiscUtil.toast("题组拉取成功~");
     }
 
     @Override
     public void onFetchQuestionsFailed(Integer code, String msg) {
         loadStatus = -1;
-        MiscUtil.toast("题组拉取失败~");
+        MiscUtil.toast(R.string.toast_fetch_question_failed);
     }
 
     @Override
@@ -276,7 +274,7 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
     public void onStartPostAnswers() {
         fabProgressCircle.show();
         setSubmitTaskStart();
-        MiscUtil.toast("开始提交答案~");
+        //MiscUtil.toast("开始提交答案~");
     }
 
     private void setSubmitTaskStart() {
@@ -292,7 +290,7 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
     public void onPostAnswersSuccess(Ok ok) {
         fabProgressCircle.beginFinalAnimation();
         //fabSubmit.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),R.color.green));
-        MiscUtil.toast("答案提交成功~");
+        MiscUtil.toast(R.string.toast_submit_answer_success);
     }
 
     @Override
@@ -301,7 +299,7 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
         //fabProgressCircle.beginFinalAnimation();
         //fabSubmit.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),R.color.comm_blue_deep));
         setSubmitTaskEnd();
-        MiscUtil.toast("答案提交失败，请检查网络~");
+        MiscUtil.toast(R.string.toast_submit_question_failed);
     }
 
     @Override

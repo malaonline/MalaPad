@@ -22,6 +22,4 @@
         <item name="android:drawablePadding">@dimen/layout_spacing_normal</item>
         <item name="android:gravity">center_vertical</item>
     </style>
-
-
 </resources>

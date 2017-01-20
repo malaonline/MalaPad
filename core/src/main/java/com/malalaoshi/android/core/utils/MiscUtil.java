@@ -1,11 +1,17 @@
 package com.malalaoshi.android.core.utils;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.malalaoshi.android.core.AppContext;
+import com.malalaoshi.android.core.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -27,11 +33,26 @@ public class MiscUtil {
     }
 
     public static void toast(int rid) {
-        Toast.makeText(AppContext.getContext(), rid, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(AppContext.getContext(), rid, Toast.LENGTH_SHORT).show();
+        toast((String) AppContext.getContext().getResources().getText(rid));
     }
 
-    public static void toast(String msg) {
+    public static void ctoast(String msg) {
         Toast.makeText(AppContext.getContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public static void toast(String msg){
+        Context context = AppContext.getContext();
+        Toast toast = new Toast(context);
+
+        LayoutInflater inflate = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflate.inflate(R.layout.toast_transient_notification, null);
+        TextView tv = (TextView)v.findViewById(R.id.tv_message);
+        tv.setText(msg);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setView(v);
+        toast.show();
     }
 
     public static void runOnMainThread(Runnable task) {

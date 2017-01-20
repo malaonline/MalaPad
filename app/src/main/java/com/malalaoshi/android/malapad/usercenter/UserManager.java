@@ -8,6 +8,8 @@ import com.malalaoshi.android.core.AppContext;
 import com.malalaoshi.android.core.event.BusEvent;
 import com.malalaoshi.android.core.event.BusEventDef;
 import com.malalaoshi.android.core.event.EventDispatcher;
+import com.malalaoshi.android.core.utils.MiscUtil;
+import com.malalaoshi.android.malapad.R;
 import com.malalaoshi.android.malapad.data.entity.ClassRoom;
 import com.malalaoshi.android.malapad.data.entity.Lesson;
 import com.malalaoshi.android.malapad.data.entity.User;
@@ -235,6 +237,7 @@ public class UserManager {
         logout();
         //发送退出通知
         EventDispatcher.getInstance().post(new BusEvent(BusEventDef.BUS_EVENT_LOGOUT_SUCCESS));
+        MiscUtil.toast(R.string.toast_lougot);
     }
 
     //token失效

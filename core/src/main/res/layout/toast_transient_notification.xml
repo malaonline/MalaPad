@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center"
+    android:background="@drawable/toast_border"
+    android:paddingRight="62dp"
+    android:paddingLeft="62dp"
+    android:orientation="horizontal">
+    <ImageView
+        android:src="@drawable/ic_core_toast"
+        android:scaleType="centerInside"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="52dp" />
+
+    <TextView
+        tools:text="这是toast消息"
+        android:id="@+id/tv_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="20sp"
+        android:textColor="@android:color/white" />
+    <!-- android:textAppearance="@style/android:TextAppearance.Toast"
+    android:shadowColor="#BB000000"
+        android:shadowRadius="2.75"-->
+</LinearLayout>
