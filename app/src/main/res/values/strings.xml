@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MalaPad</string>
+    <string name="app_name">双师直播</string>
 
     <!--login-->
     <string name="signin">登录</string>
