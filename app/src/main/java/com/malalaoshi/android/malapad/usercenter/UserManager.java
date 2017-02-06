@@ -236,7 +236,14 @@ public class UserManager {
     public void userLogout(){
         logout();
         //发送退出通知
-        EventDispatcher.getInstance().post(new BusEvent(BusEventDef.BUS_EVENT_LOGOUT_SUCCESS));
+        EventDispatcher.getInstance().post(new BusEvent(BusEventDef.BUS_EVENT_USER_LOGOUT_SUCCESS));
+        MiscUtil.toast(R.string.toast_user_lougot);
+    }
+
+    public void autoLogout(){
+        logout();
+        //发送退出通知
+        EventDispatcher.getInstance().post(new BusEvent(BusEventDef.BUS_EVENT_AUTO_LOGOUT_SUCCESS));
         MiscUtil.toast(R.string.toast_lougot);
     }
 
