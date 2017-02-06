@@ -37,6 +37,7 @@ import butterknife.OnClick;
 
 public class LoginFragment extends BaseFragment implements LoginContract.View {
 
+    private static final String TAG = "LoginFragment";
     @BindView(R.id.edit_phone)
     EditText editPhone;
 
@@ -201,6 +202,7 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
         ivLoginLogo.setImageDrawable(drawableFailedLogin);
         tvLoginTip.setBackground(null);
         tvLoginTip.setTextColor(colorRed);
+        Log.d(TAG,"login fialed:code="+code+",msg="+msg);
         if (code== LoginApi.ErrorCode.ERROR_CODE_BAD_NET){
             msg = "网络请求失败";
         }else if(code== LoginApi.ErrorCode.ERROR_CODE_ILLEGAL_PHONE){

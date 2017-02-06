@@ -86,16 +86,22 @@ public abstract class BaseFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAuthEvent(BusEvent busEvent) {
         Log.e(TAG,busEvent.toString());
-        if (busEvent.getEventType()== BusEventDef.BUS_EVENT_LOGOUT_SUCCESS){
+        if (busEvent.getEventType()== BusEventDef.BUS_EVENT_AUTO_LOGOUT_SUCCESS){
             //自动退出
-            onLogoutSuccess();
+            onAutoLogout();
         }else if (busEvent.getEventType()== BusEventDef.BUS_EVENT_TOKEN_INVALID){
             //账号被踢下线//自动退出
             onTokenInvalid();
+        } else if (busEvent.getEventType()== BusEventDef.BUS_EVENT_USER_LOGOUT_SUCCESS){
+            //用户主动退出
+            onUserLogout();
         }
     }
 
-    protected void onLogoutSuccess() {
+    private void onUserLogout() {
+    }
+
+    protected void onAutoLogout() {
 
     }
 

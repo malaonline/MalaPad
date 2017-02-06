@@ -236,8 +236,8 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
 
     //自动退出
     @Override
-    protected void onLogoutSuccess() {
-        super.onLogoutSuccess();
+    protected void onAutoLogout() {
+        super.onAutoLogout();
         launchLogoutActivity();
     }
 
