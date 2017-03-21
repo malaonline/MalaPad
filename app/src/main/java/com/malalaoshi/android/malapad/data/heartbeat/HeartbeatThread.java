@@ -67,9 +67,8 @@ public class HeartbeatThread extends Thread {
 
     private void sendQuestionMessage(HeartbeatResponse response) {
         Heartbeat heartbeat = response.getData();
-        if (heartbeat!=null&&heartbeat.getQuestionGroup()!=null&&heartbeat.getQuestionGroup().getId()!=null){
-            QuestionGroup group = heartbeat.getQuestionGroup();
-            EventDispatcher.getInstance().post(new QuestionBusEvent(response.getType(),group.getId()));
+        if (heartbeat!=null&&heartbeat.getQuestionGroup()!=null&&heartbeat.getExerciseSession()!=null){
+            EventDispatcher.getInstance().post(new QuestionBusEvent(response.getType(),heartbeat.getQuestionGroup(),heartbeat.getExerciseSession()));
         }else {
             Log.e(TAG,"repose is null");
         }

@@ -1,7 +1,6 @@
 package com.malalaoshi.android.malapad.classexercises;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.malalaoshi.android.core.network.api.BaseApiCallback;
 import com.malalaoshi.android.malapad.data.TasksRepository;
@@ -17,8 +16,6 @@ import com.malalaoshi.android.malapad.data.entity.QuestionGroup;
 import java.util.List;
 
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -101,11 +98,11 @@ class ExercisesPresenter implements ExercisesContract.Presenter {
     }
 
     @Override
-    public void submitAnswerTask(Long groupId, List<Answer> answers) {
+    public void submitAnswerTask(Long groupId, Long sessionId, List<Answer> answers) {
         if (groupId==null&&answers!=null) {
             return;
         }
-        Observable<AnswerResponse> observable = ExercisesApi.submitAnswers(new AnswersParam(groupId,answers));
+        Observable<AnswerResponse> observable = ExercisesApi.submitAnswers(new AnswersParam(groupId,sessionId, answers));
         mSubscriptions.add(new TasksRepository<AnswerResponse>(new BaseApiCallback<AnswerResponse>() {
             @Override
             public void onApiStarted() {

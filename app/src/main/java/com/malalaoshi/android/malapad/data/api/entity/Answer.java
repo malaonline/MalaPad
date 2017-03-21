@@ -5,27 +5,27 @@ package com.malalaoshi.android.malapad.data.api.entity;
  */
 
 public class Answer {
-    private Long questionId;
-    private Long answerId;
+    private Long question;
+    private Long option;
 
-    public Answer(Long questionId, Long answerId) {
-        this.questionId = questionId;
-        this.answerId = answerId;
+    public Answer(Long question, Long option) {
+        this.question = question;
+        this.option = option;
     }
 
-    public Long getQuestionId() {
-        return questionId;
+    public Long getQuestion() {
+        return question;
     }
 
-    public void setQuestionId(Long questionId) {
-        this.questionId = questionId;
+    public void setQuestion(Long question) {
+        this.question = question;
     }
 
-    public Long getAnswerId() {
-        return answerId;
+    public Long getOption() {
+        return option;
     }
 
-    public void setAnswerId(Long answerId) {
-        this.answerId = answerId;
+    public void setOption(Long option) {
+        this.option = option;
     }
 }

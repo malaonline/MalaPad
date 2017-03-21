@@ -8,12 +8,14 @@ import com.malalaoshi.android.core.event.BusEvent;
 
 public class QuestionBusEvent extends BusEvent {
     private Long groudId;
+    private Long sessionId;
     public QuestionBusEvent() {
     }
 
-    public QuestionBusEvent(int eventType, Long groudId) {
+    public QuestionBusEvent(int eventType, Long groudId, Long sessionId) {
         super(eventType);
         this.groudId = groudId;
+        this.sessionId = sessionId;
     }
 
     public Long getGroudId() {
@@ -22,6 +24,14 @@ public class QuestionBusEvent extends BusEvent {
 
     public void setGroudId(Long groudId) {
         this.groudId = groudId;
+    }
+
+    public Long getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(Long sessionId) {
+        this.sessionId = sessionId;
     }
 
     @Override

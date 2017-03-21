@@ -10,11 +10,13 @@ import java.util.List;
 
 public class AnswersParam extends BaseParam {
     private Long id;
-    private List<Answer> questions;
+    private Long exercise_session;
+    private List<Answer> answers;
 
-    public AnswersParam(Long id, List<Answer> questions) {
+    public AnswersParam(Long id,Long exercise_session, List<Answer> questions) {
         this.id = id;
-        this.questions = questions;
+        this.answers = questions;
+        this.exercise_session = exercise_session;
     }
 
     public Long getId() {
@@ -25,11 +27,19 @@ public class AnswersParam extends BaseParam {
         this.id = id;
     }
 
-    public List<Answer> getQuestions() {
-        return questions;
+    public Long getExercise_session() {
+        return exercise_session;
     }
 
-    public void setQuestions(List<Answer> questions) {
-        this.questions = questions;
+    public void setExercise_session(Long exercise_session) {
+        this.exercise_session = exercise_session;
+    }
+
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
     }
 }
