@@ -38,6 +38,6 @@ public class ExercisesContract {
 
         void loadQuestionsTask(Long questionsId);
 
-        void submitAnswerTask(Long groupId, List<Answer> answers);
+        void submitAnswerTask(Long groupId, Long sessionId, List<Answer> answers);
     }
 }

@@ -8,18 +8,6 @@ import com.malalaoshi.android.malapad.usercenter.UserManager;
  */
 
 public abstract class BaseParam {
-    private boolean test;
     public BaseParam() {
-        if (AppContext.isDebug()){
-            test = true;
-        }
-    }
-
-    public boolean isTest() {
-        return test;
-    }
-
-    public void setTest(boolean test) {
-        this.test = test;
     }
 }

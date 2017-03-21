@@ -16,6 +16,7 @@ import com.github.jorgecastilloprz.FABProgressCircle;
 import com.github.jorgecastilloprz.listeners.FABProgressListener;
 import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.base.BasePresenter;
+import com.malalaoshi.android.core.network.api.BaseApiCallback;
 import com.malalaoshi.android.core.utils.MiscUtil;
 import com.malalaoshi.android.malapad.R;
 import com.malalaoshi.android.malapad.classexercises.adapter.QuestionAdapter;
@@ -88,6 +89,7 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
     private int loadStatus = 1;
 
     private Long currentGroupId = null;
+    private Long currentSessionId = null;
 
     public static ExercisesFragment newInstance() {
         return new ExercisesFragment();
@@ -171,7 +173,7 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
         for(Long key : keySet){
             answers.add(new Answer(key,mapSelected.get(key).getId()));
         }
-        mPresenter.submitAnswerTask(currentQuestions.getId(),answers);
+        mPresenter.submitAnswerTask(currentQuestions.getId(),currentSessionId,answers);
     }
 
     private void showPromptDialog(String message) {
@@ -218,6 +220,7 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
         Log.e(TAG,busEvent.toString());
         if (currentGroupId==null||currentGroupId!=busEvent.getGroudId()||loadStatus==-1){
             currentGroupId = busEvent.getGroudId();
+            currentSessionId = busEvent.getSessionId();
             mPresenter.loadQuestionsTask(currentGroupId);
         }
     }
@@ -262,7 +265,13 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
     @Override
     public void onFetchQuestionsFailed(Integer code, String msg) {
         loadStatus = -1;
-        MiscUtil.toast(R.string.toast_fetch_question_failed);
+        switch (code){
+            case BaseApiCallback.ERROR_CODE_BAD_NET:
+                MiscUtil.toast(R.string.toast_fetch_question_failed);
+                break;
+            default:
+                MiscUtil.toast(msg);
+        }
     }
 
     @Override
@@ -299,7 +308,13 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
         //fabProgressCircle.beginFinalAnimation();
         //fabSubmit.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),R.color.comm_blue_deep));
         setSubmitTaskEnd();
-        MiscUtil.toast(R.string.toast_submit_question_failed);
+        switch (code){
+            case BaseApiCallback.ERROR_CODE_BAD_NET:
+                MiscUtil.toast(R.string.toast_submit_question_failed);
+                break;
+            default:
+                MiscUtil.toast(msg);
+        }
     }
 
     @Override

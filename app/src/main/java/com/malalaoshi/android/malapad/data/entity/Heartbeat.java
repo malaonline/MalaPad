@@ -9,13 +9,24 @@ import com.malalaoshi.android.core.entity.BaseEntity;
 
 public class Heartbeat extends BaseEntity {
     @SerializedName("question_group")
-    private QuestionGroup questionGroup;
+    private Long questionGroup;
 
-    public QuestionGroup getQuestionGroup() {
+    @SerializedName("exercise_session")
+    private Long exerciseSession;
+
+    public Long getQuestionGroup() {
         return questionGroup;
     }
 
-    public void setQuestionGroup(QuestionGroup questionGroup) {
+    public void setQuestionGroup(Long questionGroup) {
         this.questionGroup = questionGroup;
+    }
+
+    public Long getExerciseSession() {
+        return exerciseSession;
+    }
+
+    public void setExerciseSession(Long exerciseSession) {
+        this.exerciseSession = exerciseSession;
     }
 }

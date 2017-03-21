@@ -20,7 +20,7 @@ public class ExercisesApi extends BaseApi {
         @POST("/api/v1/pad/question")
         public Observable<QuestionsResponse> getQuestions(@Header("Pad-Token") String token,@Body QuestionsParam param);
 
-        @POST("/api/v1/pad/answer")
+        @POST("/api/v1/pad/submit")
         public Observable<AnswerResponse> submitAnswers(@Header("Pad-Token") String token, @Body AnswersParam param);
     }
 
