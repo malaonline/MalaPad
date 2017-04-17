@@ -9,15 +9,10 @@ import com.malalaoshi.android.malapad.data.api.HeartbeatApi;
 import com.malalaoshi.android.malapad.data.api.param.HeartbeatParam;
 import com.malalaoshi.android.malapad.data.api.response.HeartbeatResponse;
 import com.malalaoshi.android.malapad.data.entity.Heartbeat;
-import com.malalaoshi.android.malapad.data.entity.QuestionGroup;
 import com.malalaoshi.android.malapad.event.QuestionBusEvent;
 import com.malalaoshi.android.malapad.usercenter.UserManager;
 
-import java.io.IOException;
-
-import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
 
 /**
  * Created by kang on 17/1/5.
@@ -54,7 +49,6 @@ public class HeartbeatThread extends Thread {
     }
 
     private void sendHeartbeatMessage(String classRoomId) {
-        Log.d(TAG,"send heartbeat message time:"+System.currentTimeMillis());
         Call<HeartbeatResponse> call = HeartbeatApi.heartbeat(new HeartbeatParam(classRoomId));
         new TasksRepository<HeartbeatResponse>(new BaseApiCallback<HeartbeatResponse>() {
             @Override

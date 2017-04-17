@@ -22,8 +22,8 @@ import com.malalaoshi.android.malapad.R;
 import com.malalaoshi.android.malapad.classexercises.adapter.QuestionAdapter;
 import com.malalaoshi.android.malapad.data.api.entity.Answer;
 import com.malalaoshi.android.malapad.data.api.entity.Ok;
-import com.malalaoshi.android.malapad.data.entity.Option;
 import com.malalaoshi.android.malapad.data.entity.ChoiceQuestion;
+import com.malalaoshi.android.malapad.data.entity.Option;
 import com.malalaoshi.android.malapad.data.entity.QuestionGroup;
 import com.malalaoshi.android.malapad.event.QuestionBusEvent;
 import com.malalaoshi.android.malapad.usercenter.UserManager;
@@ -162,7 +162,9 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
 
     @Override
     public void onClick(View v) {
-
+        if (mQuestionAdapter == null){
+            return;
+        }
         Map<Long, Option> mapSelected = mQuestionAdapter.getSelectedOptions();
         if (currentQuestions.getQuestions().size()!=mapSelected.size()){
             showPromptDialog("题目还没有答完");
@@ -174,6 +176,7 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
             answers.add(new Answer(key,mapSelected.get(key).getId()));
         }
         mPresenter.submitAnswerTask(currentQuestions.getId(),currentSessionId,answers);
+        fabProgressCircle.show();
     }
 
     private void showPromptDialog(String message) {
@@ -217,7 +220,6 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onQuestionEvent(QuestionBusEvent busEvent) {
-        Log.e(TAG,busEvent.toString());
         if (currentGroupId==null||currentGroupId!=busEvent.getGroudId()||loadStatus==-1){
             currentGroupId = busEvent.getGroudId();
             currentSessionId = busEvent.getSessionId();
@@ -276,12 +278,12 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
 
     @Override
     public void onFetchQuestionComplete() {
-
+        Log.e("ExercisesFragment", "onFetchQuestionComplete: ");
     }
 
     @Override
     public void onStartPostAnswers() {
-        fabProgressCircle.show();
+//        fabProgressCircle.show();
         setSubmitTaskStart();
         //MiscUtil.toast("开始提交答案~");
     }

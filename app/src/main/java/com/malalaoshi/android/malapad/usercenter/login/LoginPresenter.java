@@ -1,7 +1,6 @@
 package com.malalaoshi.android.malapad.usercenter.login;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.malalaoshi.android.core.network.api.BaseApiCallback;
 import com.malalaoshi.android.core.utils.EmptyUtils;
@@ -14,8 +13,6 @@ import com.malalaoshi.android.malapad.data.entity.User;
 import com.malalaoshi.android.malapad.usercenter.UserManager;
 
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**

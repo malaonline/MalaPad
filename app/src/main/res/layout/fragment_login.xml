@@ -12,31 +12,33 @@
         android:layout_gravity="center"
         android:background="@drawable/ic_login_card_bg"
         >
+
         <ImageView
             android:id="@+id/iv_login_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/login_logo_margin_top"
-            android:src="@drawable/anim_login_loading" />
+            android:src="@drawable/anim_login_loading"/>
+
         <TextView
             android:id="@+id/tv_login_tip"
-            android:textColor="@color/white"
-            android:textSize="@dimen/tablet_text_size_large"
-            android:gravity="center"
-            android:background="@drawable/ic_login_tip"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/iv_login_logo"
-            android:layout_marginBottom="@dimen/login_tip_margin_bottom"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/login_tip_height" />
+            android:layout_height="@dimen/login_tip_height"
+            android:layout_below="@+id/iv_login_logo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/login_tip_margin_bottom"
+            android:background="@drawable/ic_login_tip"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/tablet_text_size_large"/>
 
         <EditText
             android:id="@+id/edit_phone"
             android:layout_width="@dimen/login_phone_width"
             android:layout_height="@dimen/login_phone_height"
-            android:layout_centerHorizontal="true"
             android:layout_below="@+id/tv_login_tip"
+            android:layout_centerHorizontal="true"
             android:background="@drawable/bg_white_angle_normal"
             android:drawablePadding="1dp"
             android:gravity="center_vertical"
@@ -46,7 +48,9 @@
             android:paddingRight="@dimen/login_phone_padding_right"
             android:textColor="@color/grey_black_deep"
             android:textColorHint="@color/gray"
-            android:textSize="@dimen/tablet_text_size_large_heigh" />
+            android:textSize="@dimen/tablet_text_size_large_heigh"
+            android:text="17319197202"
+            />
 
         <TextView
             android:id="@+id/tv_login"
@@ -58,6 +62,6 @@
             android:gravity="center"
             android:text="@string/signin"
             android:textColor="@color/sepia_alpha"
-            android:textSize="@dimen/tablet_text_size_large_heigh" />
+            android:textSize="@dimen/tablet_text_size_large_heigh"/>
     </RelativeLayout>
 </FrameLayout>

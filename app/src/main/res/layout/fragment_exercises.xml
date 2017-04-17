@@ -9,7 +9,8 @@
 
     <include
         android:id="@+id/sub_status_view"
-        layout="@layout/sub_status_view" />
+        layout="@layout/sub_status_view"
+        />
 
     <RelativeLayout
         android:id="@+id/rl_questions"
@@ -19,7 +20,8 @@
         android:layout_marginRight="@dimen/layout_spacing_large_high"
         android:layout_marginTop="@dimen/exercises_questions_margin_top"
         android:background="@color/white"
-        android:visibility="gone">
+        android:visibility="gone"
+        >
 
         <include layout="@layout/sub_exercises_view" />
 
@@ -34,7 +36,7 @@
             android:background="@color/white"
             app:arcWidth="6dp"
             app:circleSize="normal"
-            app:reusable="true">
+            app:reusable="false">
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fabSubmit"
@@ -69,7 +71,10 @@
         android:background="@color/white_alpha"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/layout_spacing_large_high"
-        android:paddingRight="@dimen/layout_spacing_normal">
+        android:paddingRight="@dimen/layout_spacing_normal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <TextView
             android:id="@+id/tv_user_info"
