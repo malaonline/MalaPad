@@ -43,6 +43,8 @@ public class UserManager {
     private String schoolId;
     private ClassRoom classRoom;
     private HeartbeatThread heartbeatThread;
+    private int mLcTimeslotId;
+
     private UserManager() {
         SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
         token = userInfo.getString("token", "");
@@ -54,6 +56,7 @@ public class UserManager {
         school = userInfo.getString("school", "");
         schoolId = userInfo.getString("schoolId", "");
         classRoom = getClassRoomInfo();//userInfo.getString("lesson", "");
+        mLcTimeslotId = userInfo.getInt("lcTimeslotId", -1);
     }
 
     private ClassRoom getClassRoomInfo() {
@@ -227,6 +230,8 @@ public class UserManager {
         userInfo.edit().putString("schoolId", schoolId).apply();
         classRoom = null;
         clearClassRoomInfo();
+        mLcTimeslotId = -1;
+        userInfo.edit().putInt("lcTimeslotId", mLcTimeslotId).apply();
         //Login success broadcast
         Intent intent = new Intent(ACTION_LOGOUT);
         AppContext.getLocalBroadcastManager().sendBroadcast(intent);
@@ -262,13 +267,14 @@ public class UserManager {
      */
     public void login(User user) {
         setToken(user.getToken());
-        setUserId(user.getUserId()+"");
+        setUserId(user.getUserId() + "");
         setName(user.getName());
         setPhoneNo(user.getPhone());
         setRole(user.getRole());
         setSchool(user.getSchool());
-        setSchoolId(user.getSchoolId()+"");
+        setSchoolId(user.getSchoolId() + "");
         setClassRoom(user.getClassRoom());
+        setLcTimeslotId(user.getLcTimeslotId());
         //Login success broadcast
         Intent intent = new Intent(ACTION_LOGINED);
         AppContext.getLocalBroadcastManager().sendBroadcast(intent);
@@ -288,5 +294,15 @@ public class UserManager {
             heartbeatThread.stopThread();
             heartbeatThread = null;
         }
+    }
+
+    public void setLcTimeslotId(int lcTimeslotId) {
+        mLcTimeslotId = lcTimeslotId;
+        SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
+        userInfo.edit().putString("lcTimeslotId", schoolId).apply();
+    }
+
+    public int getLcTimeslotId() {
+        return mLcTimeslotId;
     }
 }

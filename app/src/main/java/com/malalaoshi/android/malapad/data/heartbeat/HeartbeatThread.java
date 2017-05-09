@@ -38,7 +38,7 @@ public class HeartbeatThread extends Thread {
                 }
                 continue;
             }
-            sendHeartbeatMessage(userManager.getClassRoom().getId()+"");
+            sendHeartbeatMessage(userManager.getLcTimeslotId()+"");
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
@@ -48,8 +48,8 @@ public class HeartbeatThread extends Thread {
 
     }
 
-    private void sendHeartbeatMessage(String classRoomId) {
-        Call<HeartbeatResponse> call = HeartbeatApi.heartbeat(new HeartbeatParam(classRoomId));
+    private void sendHeartbeatMessage(String lc_timeslot) {
+        Call<HeartbeatResponse> call = HeartbeatApi.heartbeat(new HeartbeatParam(lc_timeslot));
         new TasksRepository<HeartbeatResponse>(new BaseApiCallback<HeartbeatResponse>() {
             @Override
             public void onSuccess(HeartbeatResponse response) {

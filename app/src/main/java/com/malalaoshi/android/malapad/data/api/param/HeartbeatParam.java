@@ -1,22 +1,20 @@
 package com.malalaoshi.android.malapad.data.api.param;
 
-import com.malalaoshi.android.core.AppContext;
-
 /**
  * Created by kang on 17/1/6.
  */
 
 public class HeartbeatParam extends BaseParam{
-    private String live_class;
-    public HeartbeatParam(String live_class) {
-        this.live_class = live_class;
+    private String lc_timeslot;
+    public HeartbeatParam(String lc_timeslot) {
+        this.lc_timeslot = lc_timeslot;
     }
 
     public String getLive_class() {
-        return live_class;
+        return lc_timeslot;
     }
 
-    public void setLive_class(String live_class) {
-        this.live_class = live_class;
+    public void setLive_class(String lc_timeslot) {
+        this.lc_timeslot = lc_timeslot;
     }
 }

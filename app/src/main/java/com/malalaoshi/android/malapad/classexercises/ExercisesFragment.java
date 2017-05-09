@@ -301,7 +301,7 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
     public void onPostAnswersSuccess(Ok ok) {
         fabProgressCircle.beginFinalAnimation();
         //fabSubmit.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),R.color.green));
-        MiscUtil.toast(R.string.toast_submit_answer_success);
+
     }
 
     @Override
@@ -327,6 +327,7 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
     @Override
     public void onFABProgressAnimationEnd() {
         setSubmitTaskEnd();
+        MiscUtil.toast(R.string.toast_submit_answer_success);
     }
 
     private void setSubmitTaskEnd() {
