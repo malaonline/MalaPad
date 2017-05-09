@@ -1,7 +1,5 @@
 package com.malalaoshi.android.malapad.data.api;
 
-import android.util.Log;
-
 import com.malalaoshi.android.core.network.NetworkClient;
 import com.malalaoshi.android.malapad.data.api.param.HeartbeatParam;
 import com.malalaoshi.android.malapad.data.api.response.HeartbeatResponse;
@@ -24,7 +22,7 @@ public class HeartbeatApi extends BaseApi {
     protected static final HeartbeatApi.HeartbeatService service  = NetworkClient.retrofit().create(HeartbeatApi.HeartbeatService.class);
 
     public static Call<HeartbeatResponse> heartbeat(HeartbeatParam param){
-        Log.d("pad status","live class:"+param.getLive_class());
+//        Log.d("pad status","live class:"+param.getLive_class());
         return service.heartbeat(getToken(),param);
     }
 }

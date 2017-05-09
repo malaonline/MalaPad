@@ -14,8 +14,6 @@ import com.malalaoshi.android.malapad.data.entity.User;
 import com.malalaoshi.android.malapad.usercenter.UserManager;
 
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -65,6 +63,7 @@ public class LoginPresenter implements LoginContract.Presenter {
             public void onSuccess(LoginResponse response) {
                 mLoginView.onLoginSuccess();
                 User user = response.getData();
+                Log.e("LoginPresenter", "onSuccess: user="+user);
                 UserManager userManager = UserManager.getInstance();
                 userManager.login(user);
             }

@@ -13,6 +13,17 @@ buildscript {
 }
 
 allprojects {
+
+    ext{
+        // Android config
+        androidCompileSdkVersion = 25
+        androidBuildToolsVersion = "25.0.1"
+        androidMinSdkVersion = 11
+        androidTargetSdkVersion = 25
+        androidVersionCode = 3
+        androidVersionName = '1.01'
+    }
+
     repositories {
         jcenter()
     }

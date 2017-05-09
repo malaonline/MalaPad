@@ -29,4 +29,12 @@ public class Heartbeat extends BaseEntity {
     public void setExerciseSession(Long exerciseSession) {
         this.exerciseSession = exerciseSession;
     }
+
+    @Override
+    public String toString() {
+        return "Heartbeat{" +
+                "questionGroup=" + questionGroup +
+                ", exerciseSession=" + exerciseSession +
+                '}';
+    }
 }

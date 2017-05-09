@@ -32,9 +32,18 @@ public class MiscUtil {
         return m.matches();
     }
 
-    public static void toast(int rid) {
+    public static void toast(final int rid) {
         //Toast.makeText(AppContext.getContext(), rid, Toast.LENGTH_SHORT).show();
-        toast((String) AppContext.getContext().getResources().getText(rid));
+        if ("main".equals(Thread.currentThread().getName())){
+            toast((String) AppContext.getContext().getResources().getText(rid));
+        }else {
+            runOnMainThread(new Runnable() {
+                @Override
+                public void run() {
+                    toast(rid);
+                }
+            });
+        }
     }
 
     public static void ctoast(String msg) {

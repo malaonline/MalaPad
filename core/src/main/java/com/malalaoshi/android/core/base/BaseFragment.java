@@ -4,7 +4,6 @@ package com.malalaoshi.android.core.base;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 
 import com.malalaoshi.android.core.event.BusEvent;
 import com.malalaoshi.android.core.event.BusEventDef;
@@ -85,7 +84,7 @@ public abstract class BaseFragment extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAuthEvent(BusEvent busEvent) {
-        Log.e(TAG,busEvent.toString());
+//        Log.e(TAG,busEvent.toString());
         if (busEvent.getEventType()== BusEventDef.BUS_EVENT_AUTO_LOGOUT_SUCCESS){
             //自动退出
             onAutoLogout();
