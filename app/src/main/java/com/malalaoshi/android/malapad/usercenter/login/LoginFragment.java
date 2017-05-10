@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.base.BasePresenter;
 import com.malalaoshi.android.core.utils.MiscUtil;
+import com.malalaoshi.android.malapad.BuildConfig;
 import com.malalaoshi.android.malapad.R;
 import com.malalaoshi.android.malapad.classexercises.ExercisesActivity;
 import com.malalaoshi.android.malapad.data.api.LoginApi;
@@ -95,6 +96,7 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
 
     private void initViews() {
         mAnimationDrawable = (AnimationDrawable) ivLoginLogo.getDrawable();
+        if (BuildConfig.DEBUG) editPhone.setText("17319197202");
     }
 
     private void setEvent() {
