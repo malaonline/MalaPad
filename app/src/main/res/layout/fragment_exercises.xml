@@ -36,7 +36,7 @@
             android:background="@color/white"
             app:arcWidth="6dp"
             app:circleSize="normal"
-            app:reusable="false">
+            app:reusable="true">
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fabSubmit"
