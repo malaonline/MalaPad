@@ -45,3 +45,5 @@
 -keep class com.malalaoshi.android.malapad..data.api.response.** {*;}
 -keep class com.malalaoshi.android.core.entity.** {*;}
 -keep class com.malalaoshi.android.core.network.response.**{*;}
+-dontwarn java.lang.invoke.*
+-dontwarn **$$Lambda$*
