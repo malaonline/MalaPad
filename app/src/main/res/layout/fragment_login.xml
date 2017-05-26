@@ -49,6 +49,7 @@
             android:textColor="@color/grey_black_deep"
             android:textColorHint="@color/gray"
             android:textSize="@dimen/tablet_text_size_large_heigh"
+            android:maxLength="11"
             />
 
         <TextView

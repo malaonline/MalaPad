@@ -299,7 +299,7 @@ public class UserManager {
     public void setLcTimeslotId(int lcTimeslotId) {
         mLcTimeslotId = lcTimeslotId;
         SharedPreferences userInfo = AppContext.getContext().getSharedPreferences("userInfo", 0);
-        userInfo.edit().putString("lcTimeslotId", schoolId).apply();
+        userInfo.edit().putInt("lcTimeslotId", mLcTimeslotId).apply();
     }
 
     public int getLcTimeslotId() {
