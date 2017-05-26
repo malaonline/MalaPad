@@ -2,18 +2,14 @@ package com.malalaoshi.android.malapad.classexercises;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.jorgecastilloprz.FABProgressCircle;
-import com.github.jorgecastilloprz.listeners.FABProgressListener;
 import com.malalaoshi.android.core.base.BaseFragment;
 import com.malalaoshi.android.core.base.BasePresenter;
 import com.malalaoshi.android.core.network.api.BaseApiCallback;
@@ -28,6 +24,7 @@ import com.malalaoshi.android.malapad.data.entity.QuestionGroup;
 import com.malalaoshi.android.malapad.event.QuestionBusEvent;
 import com.malalaoshi.android.malapad.usercenter.UserManager;
 import com.malalaoshi.android.malapad.usercenter.login.LoginActivity;
+import com.malalaoshi.android.malapad.views.LoadingCircleView;
 import com.malalaoshi.comm.utils.DialogUtils;
 import com.malalaoshi.comm.views.ScrollListView;
 import com.malalaoshi.comm.views.dialogs.PromptDialog;
@@ -49,7 +46,7 @@ import butterknife.OnClick;
  * Created by kang on 16/12/26.
  */
 
-public class ExercisesFragment extends BaseFragment implements ExercisesContract.View, View.OnClickListener, FABProgressListener {
+public class ExercisesFragment extends BaseFragment implements ExercisesContract.View, View.OnClickListener{
     private static String TAG = "ExercisesFragment";
 
     @BindView(R.id.sub_status_view)
@@ -61,8 +58,8 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
     @BindView(R.id.iv_logout)
     ImageView ivLogout;
 
-    @BindView(R.id.rl_questions)
-    RelativeLayout rlQuestions;
+    @BindView(R.id.fl_questions)
+    FrameLayout flQuestions;
 
     @BindView(R.id.listview_questions)
     ScrollListView listviewQuestions;
@@ -70,14 +67,18 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
     @BindView(R.id.tv_questions_title)
     TextView tvQuestionsTitle;
 
-    @BindView(R.id.fabSubmit)
-    FloatingActionButton fabSubmit;
-
-    @BindView(R.id.fabProgressCircle)
-    FABProgressCircle fabProgressCircle;
+    //    @BindView(R.id.fabSubmit)
+    //    FloatingActionButton fabSubmit;
+    //
+    //    @BindView(R.id.fabProgressCircle)
+    //        FABProgressCircle fabProgressCircle;
 
     @BindString(R.string.user_info)
     String strUserInfo;
+    @BindView(R.id.lcv_answer_submit)
+    LoadingCircleView mLcvAnswerSubmit;
+    @BindView(R.id.iv_answer_submit)
+    ImageView mIvAnswerSubmit;
 
     private QuestionAdapter mQuestionAdapter;
 
@@ -98,8 +99,8 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_exercises,container,false);
-        ButterKnife.bind(this,root);
+        View root = inflater.inflate(R.layout.fragment_exercises, container, false);
+        ButterKnife.bind(this, root);
         initDate();
         setEvent();
         return root;
@@ -107,13 +108,25 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
 
     private void initDate() {
         UserManager userManager = UserManager.getInstance();
-        tvUserInfo.setText(String.format(strUserInfo,userManager.getSchool(),userManager.getName()));
+        tvUserInfo.setText(String.format(strUserInfo, userManager.getSchool(), userManager.getName()));
     }
 
     private void setEvent() {
-        fabSubmit.setOnClickListener(this);
-        fabProgressCircle.attachListener(this);
+        //        fabSubmit.setOnClickListener(this);
+        //                fabProgressCircle.attachListener(this);
         //fabSubmit.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),R.color.comm_blue_light));
+        mLcvAnswerSubmit.addOnAnimCompletedListener(new LoadingCircleView.OnAnimCompletedListener() {
+            @Override
+            public void onCompletedDelayed() {
+                mIvAnswerSubmit.setEnabled(true);
+                mIvAnswerSubmit.setClickable(true);
+            }
+
+            @Override
+            public void onCompleted() {
+                MiscUtil.toast(R.string.toast_submit_answer_success);
+            }
+        });
     }
 
     @Override
@@ -121,31 +134,59 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
         this.mPresenter = presenter;
     }
 
-    @OnClick(R.id.iv_logout)
-    public void onClickLogout(View view){
+    @OnClick({R.id.iv_logout, R.id.iv_answer_submit})
+    public void onClickLogout(View view) {
         //有内存泄漏风险
-        PromptDialog dialog = DialogUtils.createDoubleButtonPromptDialog(R.drawable.ic_logout
-                , "是否确定退出账号~",
-                "取消",
-                "确定",
-                new PromptDialog.OnCloseListener() {
-                    @Override
-                    public void onLeftClick() {
-                        deleteDialog();
-                    }
+        switch (view.getId()) {
+            case R.id.iv_logout:
+                PromptDialog dialog = DialogUtils.createDoubleButtonPromptDialog(R.drawable.ic_logout
+                        , "是否确定退出账号~",
+                        "取消",
+                        "确定",
+                        new PromptDialog.OnCloseListener() {
+                            @Override
+                            public void onLeftClick() {
+                                deleteDialog();
+                            }
 
-                    @Override
-                    public void onRightClick() {
-                        logout();
-                        deleteDialog();
-                    }
+                            @Override
+                            public void onRightClick() {
+                                logout();
+                                deleteDialog();
+                            }
+                        }
+                        , true, true);
+                if (isResumed()) {
+                    showDialog(dialog);
+                } else {
+                    addDialog(dialog);
                 }
-                , true, true);
-        if (isResumed()) {
-            showDialog(dialog);
-        } else {
-            addDialog(dialog);
+                break;
+            case R.id.iv_answer_submit:
+                if (mQuestionAdapter == null) {
+                    return;
+                }
+                Map<Long, Option> mapSelected = mQuestionAdapter.getSelectedOptions();
+                if (currentQuestions.getQuestions().size() != mapSelected.size()) {
+                    showPromptDialog("题目还没有答完");
+                    return;
+                }
+                List<Answer> answers = new ArrayList<>();
+                Set<Long> keySet = mapSelected.keySet();
+                for (Long key : keySet) {
+                    answers.add(new Answer(key, mapSelected.get(key).getId()));
+                }
+                mPresenter.submitAnswerTask(currentQuestions.getId(), currentSessionId, answers);
+                mIvAnswerSubmit.setEnabled(false);
+                mIvAnswerSubmit.setClickable(false);
+                break;
         }
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     private void logout() {
@@ -155,28 +196,28 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
         launchLogoutActivity();
     }
 
-    private void launchLogoutActivity(){
+    private void launchLogoutActivity() {
         LoginActivity.launch(getContext());
         getActivity().finish();
     }
 
     @Override
     public void onClick(View v) {
-        if (mQuestionAdapter == null){
+        if (mQuestionAdapter == null) {
             return;
         }
         Map<Long, Option> mapSelected = mQuestionAdapter.getSelectedOptions();
-        if (currentQuestions.getQuestions().size()!=mapSelected.size()){
+        if (currentQuestions.getQuestions().size() != mapSelected.size()) {
             showPromptDialog("题目还没有答完");
             return;
         }
         List<Answer> answers = new ArrayList<>();
         Set<Long> keySet = mapSelected.keySet();
-        for(Long key : keySet){
-            answers.add(new Answer(key,mapSelected.get(key).getId()));
+        for (Long key : keySet) {
+            answers.add(new Answer(key, mapSelected.get(key).getId()));
         }
-        mPresenter.submitAnswerTask(currentQuestions.getId(),currentSessionId,answers);
-        fabProgressCircle.show();
+        mPresenter.submitAnswerTask(currentQuestions.getId(), currentSessionId, answers);
+        //        fabProgressCircle.show();
     }
 
     private void showPromptDialog(String message) {
@@ -184,12 +225,7 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
         PromptDialog dialog = DialogUtils.createPromptDialog(R.drawable.ic_unanswer
                 , message,
                 "确 定",
-                new PromptDialog.OnDismissListener() {
-                    @Override
-                    public void onDismiss() {
-                        deleteDialog();
-                    }
-                }
+                () -> deleteDialog()
                 , true, true);
         if (isResumed()) {
             showDialog(dialog);
@@ -220,13 +256,13 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onQuestionEvent(QuestionBusEvent busEvent) {
-        if (currentGroupId==null||currentGroupId!=busEvent.getGroudId()||loadStatus==-1){
+        if (currentGroupId == null || currentGroupId != busEvent.getGroudId() || loadStatus == -1) {
             currentGroupId = busEvent.getGroudId();
             currentSessionId = busEvent.getSessionId();
             mPresenter.loadQuestionsTask(currentGroupId);
         }
     }
-    
+
     //账号被踢下线
     @Override
     protected void onTokenInvalid() {
@@ -253,7 +289,7 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
 
     @Override
     public void onFetchQuestionsSuccess(QuestionGroup questionGroup) {
-        rlQuestions.setVisibility(View.VISIBLE);
+        flQuestions.setVisibility(View.VISIBLE);
         subStatusView.setVisibility(View.GONE);
         this.currentQuestions = questionGroup;
         tvQuestionsTitle.setText(currentQuestions.getTitle());
@@ -267,7 +303,7 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
     @Override
     public void onFetchQuestionsFailed(Integer code, String msg) {
         loadStatus = -1;
-        switch (code){
+        switch (code) {
             case BaseApiCallback.ERROR_CODE_BAD_NET:
                 MiscUtil.toast(R.string.toast_fetch_question_failed);
                 break;
@@ -283,34 +319,34 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
 
     @Override
     public void onStartPostAnswers() {
-//        fabProgressCircle.show();
+        //        fabProgressCircle.show();
         setSubmitTaskStart();
         //MiscUtil.toast("开始提交答案~");
     }
 
     private void setSubmitTaskStart() {
         //除去监听
-        fabProgressCircle.setEnabled(false);
-        fabSubmit.setEnabled(false);
-        fabSubmit.setOnClickListener(null);
-        fabSubmit.setImageResource(R.drawable.ic_submit_press);
-        fabSubmit.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),R.color.white_alpha));
+        //        fabProgressCircle.setEnabled(false);
+        //        fabSubmit.setEnabled(false);
+        //        fabSubmit.setOnClickListener(null);
+        //        fabSubmit.setImageResource(R.drawable.ic_submit_press);
+        //        fabSubmit.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.white_alpha));
     }
 
     @Override
     public void onPostAnswersSuccess(Ok ok) {
-        fabProgressCircle.beginFinalAnimation();
+        //        fabProgressCircle.beginFinalAnimation();
         //fabSubmit.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),R.color.green));
 
     }
 
     @Override
     public void onPostAnswersFailed(Integer code, String msg) {
-        fabProgressCircle.hide();
+        //        fabProgressCircle.hide();
         //fabProgressCircle.beginFinalAnimation();
         //fabSubmit.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),R.color.comm_blue_deep));
         setSubmitTaskEnd();
-        switch (code){
+        switch (code) {
             case BaseApiCallback.ERROR_CODE_BAD_NET:
                 MiscUtil.toast(R.string.toast_submit_question_failed);
                 break;
@@ -321,21 +357,22 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
 
     @Override
     public void onPostAnswersComplete() {
-
-    }
-
-    @Override
-    public void onFABProgressAnimationEnd() {
         setSubmitTaskEnd();
-        MiscUtil.toast(R.string.toast_submit_answer_success);
     }
+
+//    @Override
+//    public void onFABProgressAnimationEnd() {
+//        setSubmitTaskEnd();
+//        MiscUtil.toast(R.string.toast_submit_answer_success);
+//    }
 
     private void setSubmitTaskEnd() {
         //添加监听
-        fabSubmit.setEnabled(true);
-        fabProgressCircle.setEnabled(true);
-        fabSubmit.setOnClickListener(this);
-        fabSubmit.setImageResource(R.drawable.ic_submit_normal);
-        fabSubmit.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),R.color.white));
+        //        fabSubmit.setEnabled(true);
+        //        fabProgressCircle.setEnabled(true);
+        //        fabSubmit.setOnClickListener(this);
+        //        fabSubmit.setImageResource(R.drawable.ic_submit_normal);
+        //        fabSubmit.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.white));
+        mLcvAnswerSubmit.loadCircle();
     }
 }

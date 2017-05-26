@@ -40,7 +40,7 @@ public class MiscUtil {
             runOnMainThread(new Runnable() {
                 @Override
                 public void run() {
-                    toast(rid);
+                    toast((String) AppContext.getContext().getResources().getText(rid));
                 }
             });
         }

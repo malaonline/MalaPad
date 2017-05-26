@@ -100,12 +100,13 @@ public class LoginFragment extends BaseFragment implements LoginContract.View {
     }
 
     private void setEvent() {
-        setLoginEnabled(false);
+        if (editPhone.getText().length() < 11){
+            setLoginEnabled(false);
+        }
 
         editPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override

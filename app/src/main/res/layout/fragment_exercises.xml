@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/gray_light"
-    android:orientation="vertical">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/gray_light"
+                android:orientation="vertical">
 
     <include
         android:id="@+id/sub_status_view"
         layout="@layout/sub_status_view"
         />
 
-    <RelativeLayout
-        android:id="@+id/rl_questions"
+    <FrameLayout
+        android:id="@+id/fl_questions"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/layout_spacing_large_high"
@@ -23,58 +23,86 @@
         android:visibility="gone"
         >
 
-        <include layout="@layout/sub_exercises_view" />
+        <include layout="@layout/sub_exercises_view"/>
 
-        <com.github.jorgecastilloprz.FABProgressCircle
-            android:id="@+id/fabProgressCircle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+        <!--<com.github.jorgecastilloprz.FABProgressCircle-->
+        <!--android:id="@+id/fabProgressCircle"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_marginBottom="@dimen/layout_spacing_xlarge_high"-->
+        <!--android:layout_marginRight="@dimen/exercises_submit_margin_right"-->
+        <!--android:background="@color/white"-->
+        <!--app:arcWidth="6dp"-->
+        <!--app:circleSize="normal"-->
+        <!--app:reusable="true">-->
+
+        <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fabSubmit"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="@dimen/fab_margin"-->
+        <!--app:backgroundTint="@color/white"-->
+        <!--app:borderWidth="0dp"-->
+        <!--app:useCompatPadding="false"-->
+        <!--app:elevation="4dp"-->
+        <!--app:fabSize="normal"-->
+        <!--app:pressedTranslationZ="8dp"-->
+        <!--app:rippleColor="@color/white_alpha"-->
+        <!--app:srcCompat="@drawable/ic_submit_normal" />-->
+        <!--&lt;!&ndash; You can change it with the fab from the library you want to use &ndash;&gt;-->
+        <!--&lt;!&ndash;  <android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fabSubmit"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:fabSize="normal"-->
+        <!--app:srcCompat="@drawable/ic_submit_normal"-->
+        <!--app:borderWidth="0dp"-->
+        <!--app:backgroundTint="@color/white"-->
+        <!--android:layout_margin="@dimen/fab_margin"/>&ndash;&gt;-->
+        <!--</com.github.jorgecastilloprz.FABProgressCircle>-->
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/iv_answer_submit"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="bottom|right"
             android:layout_marginBottom="@dimen/layout_spacing_xlarge_high"
             android:layout_marginRight="@dimen/exercises_submit_margin_right"
-            android:background="@color/white"
-            app:arcWidth="6dp"
-            app:circleSize="normal"
-            app:reusable="true">
+            android:src="@drawable/selector_answer_submit_bg"
+            android:scaleType="centerCrop"
+            android:clickable="true"
+            app:borderWidth="0dp"
+            app:backgroundTint="@color/white"
+            app:elevation="4dp"
+            />
+        <com.malalaoshi.android.malapad.views.LoadingCircleView
+            android:id="@+id/lcv_answer_submit"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="@dimen/layout_spacing_xlarge_high"
+            android:layout_marginRight="@dimen/exercises_submit_margin_right"
+            app:border_size="6dp"
+            app:circle_color="@color/green"
+            app:delay_time="2000"
+            app:reusable="true"
+            />
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fabSubmit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/fab_margin"
-                app:backgroundTint="@color/white"
-                app:borderWidth="0dp"
-                app:useCompatPadding="false"
-                app:elevation="4dp"
-                app:fabSize="normal"
-                app:pressedTranslationZ="8dp"
-                app:rippleColor="@color/white_alpha"
-                app:srcCompat="@drawable/ic_submit_normal" />
-            <!-- You can change it with the fab from the library you want to use -->
-            <!--  <android.support.design.widget.FloatingActionButton
-                 android:id="@+id/fabSubmit"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 app:fabSize="normal"
-                 app:srcCompat="@drawable/ic_submit_normal"
-                 app:borderWidth="0dp"
-                 app:backgroundTint="@color/white"
-                 android:layout_margin="@dimen/fab_margin"/>-->
-        </com.github.jorgecastilloprz.FABProgressCircle>
 
-    </RelativeLayout>
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/exercises_title_height"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:background="@color/white_alpha"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/layout_spacing_large_high"
-        android:paddingRight="@dimen/layout_spacing_normal"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:paddingRight="@dimen/layout_spacing_normal">
 
         <TextView
             android:id="@+id/tv_user_info"
@@ -83,13 +111,13 @@
             android:layout_weight="1"
             android:textColor="@color/grey_black_light"
             android:textSize="@dimen/tablet_text_size_normal_x"
-            tools:text="@string/user_info" />
+            tools:text="@string/user_info"/>
 
         <ImageView
             android:id="@+id/iv_logout"
             android:layout_width="@dimen/exercises_title_height"
             android:layout_height="@dimen/exercises_title_height"
             android:scaleType="center"
-            android:src="@drawable/bg_logout_btn" />
+            android:src="@drawable/bg_logout_btn"/>
     </LinearLayout>
 </RelativeLayout>

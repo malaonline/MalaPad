@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LoadingCircleView">
+        <attr name="circle_color" format="color"/>
+        <attr name="circle_size" format="dimension"/>
+        <attr name="border_size" format="dimension"/>
+        <attr name="reusable" format="boolean"/>
+        <attr name="delay_time" format="integer"/>
+        
+    </declare-styleable>
+</resources>
