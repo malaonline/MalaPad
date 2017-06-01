@@ -91,6 +91,7 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
 
     private Long currentGroupId = null;
     private Long currentSessionId = null;
+    private boolean isPostAnswersSuccess = false;
 
     public static ExercisesFragment newInstance() {
         return new ExercisesFragment();
@@ -124,7 +125,10 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
 
             @Override
             public void onCompleted() {
-                MiscUtil.toast(R.string.toast_submit_answer_success);
+                if (isPostAnswersSuccess){
+                    MiscUtil.toast("答案提交成功~");
+                    isPostAnswersSuccess = false;
+                }
             }
         });
     }
@@ -337,7 +341,7 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
     public void onPostAnswersSuccess(Ok ok) {
         //        fabProgressCircle.beginFinalAnimation();
         //fabSubmit.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),R.color.green));
-
+        isPostAnswersSuccess = true;
     }
 
     @Override
@@ -345,7 +349,7 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
         //        fabProgressCircle.hide();
         //fabProgressCircle.beginFinalAnimation();
         //fabSubmit.setBackgroundTintList(ContextCompat.getColorStateList(getContext(),R.color.comm_blue_deep));
-        setSubmitTaskEnd();
+//        setSubmitTaskEnd();
         switch (code) {
             case BaseApiCallback.ERROR_CODE_BAD_NET:
                 MiscUtil.toast(R.string.toast_submit_question_failed);
@@ -353,6 +357,7 @@ public class ExercisesFragment extends BaseFragment implements ExercisesContract
             default:
                 MiscUtil.toast(msg);
         }
+        isPostAnswersSuccess = false;
     }
 
     @Override
