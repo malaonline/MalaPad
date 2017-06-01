@@ -1,7 +1,6 @@
 package com.malalaoshi.android.malapad.usercenter.login;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.malalaoshi.android.core.network.api.BaseApiCallback;
 import com.malalaoshi.android.core.utils.EmptyUtils;
@@ -63,7 +62,6 @@ public class LoginPresenter implements LoginContract.Presenter {
             public void onSuccess(LoginResponse response) {
                 mLoginView.onLoginSuccess();
                 User user = response.getData();
-                Log.e("LoginPresenter", "onSuccess: user="+user);
                 UserManager userManager = UserManager.getInstance();
                 userManager.login(user);
             }
